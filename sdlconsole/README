@@ -1,16 +1,14 @@
 SDL Console
-	A console and text output routine written for SDL.
+	A quake-like drop-down console for SDL.
 
 Original Version by
 Garrett Banuk
 (mongoose@mongeese.org)
 
 Maintainer and responsible for future releases:
-Boris Lesner
-(talanthyr@tuxfamily.org)
-Clemens Wacha
-(reflex-2000@gmx.net)
+Clemens Wacha (reflex-2000@gmx.net)
+Boris Lesner (talanthyr@tuxfamily.org)
 
-http://sdlconsole.tuxfamily.org/
+http://sdlconsole.sourceforge.net/
 
 Please see the index.html file for info.
