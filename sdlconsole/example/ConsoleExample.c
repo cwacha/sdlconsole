@@ -11,9 +11,9 @@
 
 */
 
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 #include <GL/glut.h>
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 #include <stdlib.h>
 #include <string.h>
@@ -85,7 +85,7 @@ int main(int argc, char **argv) {
 		ProcessEvents();
 
 		/* wipe the screen clean with a blue fill and draw the console if its down */
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glMatrixMode(GL_MODELVIEW);
@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 #else
 
 		SDL_FillRect(Screen, NULL, 255);
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 		HelpText(Screen);
 		if(TextDemo)
@@ -116,13 +116,13 @@ int main(int argc, char **argv) {
 		}
 		DT_DrawText(framerate, Screen, 1, 1, Screen->h - 40);
 		
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 
 		SDL_GL_SwapBuffers();
 #else
 
 		SDL_Flip(Screen);
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 	}
 
@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
 	return 0;
 }
 
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 /* SETUP_OPENGL -- initializes assorted OpenGL parameters */
 void setup_opengl(int width, int height) {
 	float ratio = (float)width / (float)height;
@@ -166,18 +166,18 @@ void setup_opengl(int width, int height) {
 	glLoadIdentity();
 	gluPerspective(60.0, ratio, 1.0, 1024.0);
 }
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 /* Initialise the graphics */
 int Init(SDL_Surface **Screen, int argc, char **argv) {
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 	int SetVideoFlags = SDL_HWSURFACE | SDL_ASYNCBLIT | SDL_OPENGLBLIT;
 	int width = 640, height = 480, depth = 24;
 #else
 
 	int SetVideoFlags = SDL_HWSURFACE | SDL_DOUBLEBUF;
 	int width = 640, height = 480, depth = 16;
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 	int loop;
 
@@ -200,13 +200,13 @@ int Init(SDL_Surface **Screen, int argc, char **argv) {
 		return 1;
 	}
 
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
 	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 	if((*Screen = SDL_SetVideoMode(width, height, depth, SetVideoFlags)) == NULL) {
 		fprintf(stderr, "*Error* Couldn't set %dx%dx%d video mode: %s\n", width, height, depth, SDL_GetError());
@@ -214,9 +214,9 @@ int Init(SDL_Surface **Screen, int argc, char **argv) {
 		return 1;
 	}
 
-#ifdef GL_DEMO
+#ifdef HAVE_OPENGL
 	setup_opengl(width, height);
-#endif /* GL_DEMO */
+#endif /* HAVE_OPENGL */
 
 	atexit(SDL_Quit);
 	return 0;
@@ -370,7 +370,7 @@ void HelpText(SDL_Surface *Screen) {
 /* This function demonstrates the text drawing routines that
  * come with this console */
 void RandText(SDL_Surface *Screen) {
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 40, Screen->h - 20);
+	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 40, Screen->h - 50);
 	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 100, 300);
 	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 200, 400);
 	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 20, 20);

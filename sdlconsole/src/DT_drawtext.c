@@ -32,7 +32,7 @@
 #include "DT_drawtext.h"
 #include "internal.h"
 
-#ifdef HAVE_LIBSDL_IMAGE
+#ifdef HAVE_SDLIMAGE
   #include "SDL_image.h"
 #endif
 
@@ -99,7 +99,7 @@ int DT_LoadFont(const char *BitmapName, int flags) {
 
 	/* load the font bitmap */
 
-#ifdef HAVE_LIBSDL_IMAGE
+#ifdef HAVE_SDLIMAGE
 	Temp = IMG_Load(BitmapName);
 #else
 	Temp = SDL_LoadBMP(BitmapName);

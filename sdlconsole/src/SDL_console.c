@@ -34,7 +34,7 @@
 #include "DT_drawtext.h"
 #include "internal.h"
 
-#ifdef HAVE_LIBSDL_IMAGE
+#ifdef HAVE_SDLIMAGE
 #include "SDL_image.h"
 #endif
 
@@ -740,7 +740,7 @@ int CON_Background(ConsoleInformation *console, const char *image, int x, int y)
 	}
 
 	/* Load a new background */
-#ifdef HAVE_LIBSDL_IMAGE
+#ifdef HAVE_SDLIMAGE
 	temp = IMG_Load(image);
 #else
 	temp = SDL_LoadBMP(image);
