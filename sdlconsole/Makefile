@@ -9,7 +9,7 @@ CC=gcc
 all: libSDL_console.a libSDL_console.so
 
 libSDL_console.so:
-	$(LD) -shared $(OBJS) -soname libSDL_console.so.2 -o libSDL_console.so
+	$(LD) -shared $(OBJS) -soname libSDL_console.so.2 -o libSDL_console.so.2
 
 libSDL_console.a: $(OBJS)
 	ar cru libSDL_console.a $(OBJS)
@@ -18,12 +18,16 @@ libSDL_console.a: $(OBJS)
 	$(CC) $(FLAGS) $(INCDIR) -fPIC -c $< -o $@
 
 install:
-	cp libSDL_console.so /usr/local/lib
-	cp libSDL_console.a /usr/local/lib
-	cp SDL_console.h /usr/local/include
-	cp DT_drawtext.h /usr/local/include
+	install -d /usr/local/lib
+	install -d /usr/local/include
+	install libSDL_console.so.2 /usr/local/lib
+	ln -sf libSDL_console.so.2 /usr/local/lib/libSDL_console.so
+	install libSDL_console.a /usr/local/lib
+	install SDL_console.h /usr/local/include
+	install DT_drawtext.h /usr/local/include
 
 uninstall:
+	rm -f /usr/local/lib/libSDL_console.so.2
 	rm -f /usr/local/lib/libSDL_console.so
 	rm -f /usr/local/lib/libSDL_console.a
 	rm -f /usr/local/include/SDL_console.h
