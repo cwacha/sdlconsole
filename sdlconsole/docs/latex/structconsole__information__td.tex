@@ -1,0 +1,304 @@
+\section{console\_\-information\_\-td Struct Reference}
+\label{structconsole__information__td}\index{console_information_td@{console\_\-information\_\-td}}
+{\tt \#include $<$CON\_\-console.h$>$}
+
+
+
+\subsection{Detailed Description}
+This is a struct for each consoles data 
+
+\subsection*{Public Attributes}
+\begin{CompactItemize}
+\item 
+int {\bf visible}
+\item 
+int {\bf Hide\-Key}
+\item 
+char $\ast$$\ast$ {\bf Console\-Lines}
+\item 
+char $\ast$$\ast$ {\bf Command\-Lines}
+\item 
+int {\bf Total\-Console\-Lines}
+\item 
+int {\bf Console\-Scroll\-Back}
+\item 
+int {\bf Total\-Commands}
+\item 
+int {\bf Font\-Number}
+\item 
+int {\bf Line\-Buffer}
+\item 
+int {\bf VChars}
+\item 
+int {\bf Back\-X}
+\item 
+int {\bf Back\-Y}
+\item 
+char $\ast$ {\bf Prompt}
+\item 
+char {\bf Command} [CON\_\-CHARS\_\-PER\_\-LINE]
+\item 
+char {\bf RCommand} [CON\_\-CHARS\_\-PER\_\-LINE]
+\item 
+char {\bf LCommand} [CON\_\-CHARS\_\-PER\_\-LINE]
+\item 
+char {\bf VCommand} [CON\_\-CHARS\_\-PER\_\-LINE]
+\item 
+int {\bf Cursor\-Pos}
+\item 
+int {\bf Offset}
+\item 
+int {\bf Ins\-Mode}
+\item 
+SDL\_\-Surface $\ast$ {\bf Console\-Surface}
+\item 
+SDL\_\-Surface $\ast$ {\bf Output\-Screen}
+\item 
+SDL\_\-Surface $\ast$ {\bf Background\-Image}
+\item 
+SDL\_\-Surface $\ast$ {\bf Input\-Background}
+\item 
+int {\bf Disp\-X}
+\item 
+int {\bf Disp\-Y}
+\item 
+unsigned char {\bf Console\-Alpha}
+\item 
+int {\bf Command\-Scroll\-Back}
+\item 
+void($\ast$ {\bf Cmd\-Function} )(struct console\_\-information\_\-td $\ast$console, char $\ast$command)
+\item 
+char $\ast$($\ast$ {\bf Tab\-Function} )(char $\ast$command)
+\item 
+int {\bf Font\-Height}
+\item 
+int {\bf Font\-Width}
+\end{CompactItemize}
+
+
+\subsection{Member Data Documentation}
+\index{console_information_td@{console\_\-information\_\-td}!visible@{visible}}
+\index{visible@{visible}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::visible}\label{structconsole__information__td_m0}
+
+
+\index{console_information_td@{console\_\-information\_\-td}!HideKey@{HideKey}}
+\index{HideKey@{HideKey}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Hide\-Key}\label{structconsole__information__td_m1}
+
+
+boolean: true if console is visible (use Show/Hide functions to toggle)
+
+\index{console_information_td@{console\_\-information\_\-td}!ConsoleLines@{ConsoleLines}}
+\index{ConsoleLines@{ConsoleLines}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ console\_\-information\_\-td::Console\-Lines}\label{structconsole__information__td_m2}
+
+
+the key that can hide the console
+
+\index{console_information_td@{console\_\-information\_\-td}!CommandLines@{CommandLines}}
+\index{CommandLines@{CommandLines}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$$\ast$ console\_\-information\_\-td::Command\-Lines}\label{structconsole__information__td_m3}
+
+
+List of all the past lines.
+
+\index{console_information_td@{console\_\-information\_\-td}!TotalConsoleLines@{TotalConsoleLines}}
+\index{TotalConsoleLines@{TotalConsoleLines}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Total\-Console\-Lines}\label{structconsole__information__td_m4}
+
+
+List of all the past commands.
+
+\index{console_information_td@{console\_\-information\_\-td}!ConsoleScrollBack@{ConsoleScrollBack}}
+\index{ConsoleScrollBack@{ConsoleScrollBack}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Console\-Scroll\-Back}\label{structconsole__information__td_m5}
+
+
+Total number of lines in the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!TotalCommands@{TotalCommands}}
+\index{TotalCommands@{TotalCommands}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Total\-Commands}\label{structconsole__information__td_m6}
+
+
+How much the users scrolled back in the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!FontNumber@{FontNumber}}
+\index{FontNumber@{FontNumber}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Font\-Number}\label{structconsole__information__td_m7}
+
+
+Number of commands in the Back Commands.
+
+\index{console_information_td@{console\_\-information\_\-td}!LineBuffer@{LineBuffer}}
+\index{LineBuffer@{LineBuffer}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Line\-Buffer}\label{structconsole__information__td_m8}
+
+
+This is the number of the font for the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!VChars@{VChars}}
+\index{VChars@{VChars}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::VChars}\label{structconsole__information__td_m9}
+
+
+The number of visible lines in the console (autocalculated).
+
+\index{console_information_td@{console\_\-information\_\-td}!BackX@{BackX}}
+\index{BackX@{BackX}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Back\-X}\label{structconsole__information__td_m10}
+
+
+The number of visible characters in one console line (autocalculated).
+
+\index{console_information_td@{console\_\-information\_\-td}!BackY@{BackY}}
+\index{BackY@{BackY}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Back\-Y}\label{structconsole__information__td_m11}
+
+
+The number of visible characters in one console line (autocalculated).
+
+\index{console_information_td@{console\_\-information\_\-td}!Prompt@{Prompt}}
+\index{Prompt@{Prompt}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ console\_\-information\_\-td::Prompt}\label{structconsole__information__td_m12}
+
+
+Background images x and y coords.
+
+\index{console_information_td@{console\_\-information\_\-td}!Command@{Command}}
+\index{Command@{Command}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char console\_\-information\_\-td::Command[CON\_\-CHARS\_\-PER\_\-LINE]}\label{structconsole__information__td_m13}
+
+
+Prompt displayed in command line.
+
+\index{console_information_td@{console\_\-information\_\-td}!RCommand@{RCommand}}
+\index{RCommand@{RCommand}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char console\_\-information\_\-td::RCommand[CON\_\-CHARS\_\-PER\_\-LINE]}\label{structconsole__information__td_m14}
+
+
+current command in command line = lcommand + rcommand
+
+\index{console_information_td@{console\_\-information\_\-td}!LCommand@{LCommand}}
+\index{LCommand@{LCommand}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char console\_\-information\_\-td::LCommand[CON\_\-CHARS\_\-PER\_\-LINE]}\label{structconsole__information__td_m15}
+
+
+left hand side of cursor
+
+\index{console_information_td@{console\_\-information\_\-td}!VCommand@{VCommand}}
+\index{VCommand@{VCommand}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char console\_\-information\_\-td::VCommand[CON\_\-CHARS\_\-PER\_\-LINE]}\label{structconsole__information__td_m16}
+
+
+right hand side of cursor
+
+\index{console_information_td@{console\_\-information\_\-td}!CursorPos@{CursorPos}}
+\index{CursorPos@{CursorPos}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Cursor\-Pos}\label{structconsole__information__td_m17}
+
+
+current visible command line
+
+\index{console_information_td@{console\_\-information\_\-td}!Offset@{Offset}}
+\index{Offset@{Offset}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Offset}\label{structconsole__information__td_m18}
+
+
+Current cursor position in Current\-Command.
+
+\index{console_information_td@{console\_\-information\_\-td}!InsMode@{InsMode}}
+\index{InsMode@{InsMode}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Ins\-Mode}\label{structconsole__information__td_m19}
+
+
+Command\-Offset (first visible char of command) - if command is too long to fit into console.
+
+\index{console_information_td@{console\_\-information\_\-td}!ConsoleSurface@{ConsoleSurface}}
+\index{ConsoleSurface@{ConsoleSurface}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Surface$\ast$ console\_\-information\_\-td::Console\-Surface}\label{structconsole__information__td_m20}
+
+
+Insert or Overwrite characters?
+
+\index{console_information_td@{console\_\-information\_\-td}!OutputScreen@{OutputScreen}}
+\index{OutputScreen@{OutputScreen}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Surface$\ast$ console\_\-information\_\-td::Output\-Screen}\label{structconsole__information__td_m21}
+
+
+Surface of the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!BackgroundImage@{BackgroundImage}}
+\index{BackgroundImage@{BackgroundImage}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Surface$\ast$ console\_\-information\_\-td::Background\-Image}\label{structconsole__information__td_m22}
+
+
+This is the screen to draw the console to.
+
+\index{console_information_td@{console\_\-information\_\-td}!InputBackground@{InputBackground}}
+\index{InputBackground@{InputBackground}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Surface$\ast$ console\_\-information\_\-td::Input\-Background}\label{structconsole__information__td_m23}
+
+
+Background image for the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!DispX@{DispX}}
+\index{DispX@{DispX}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Disp\-X}\label{structconsole__information__td_m24}
+
+
+Dirty rectangle to draw over behind the users background.
+
+\index{console_information_td@{console\_\-information\_\-td}!DispY@{DispY}}
+\index{DispY@{DispY}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Disp\-Y}\label{structconsole__information__td_m25}
+
+
+Dirty rectangle to draw over behind the users background.
+
+\index{console_information_td@{console\_\-information\_\-td}!ConsoleAlpha@{ConsoleAlpha}}
+\index{ConsoleAlpha@{ConsoleAlpha}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}unsigned char console\_\-information\_\-td::Console\-Alpha}\label{structconsole__information__td_m26}
+
+
+The top left x and y coords of the console on the display screen.
+
+\index{console_information_td@{console\_\-information\_\-td}!CommandScrollBack@{CommandScrollBack}}
+\index{CommandScrollBack@{CommandScrollBack}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Command\-Scroll\-Back}\label{structconsole__information__td_m27}
+
+
+The consoles alpha level.
+
+\index{console_information_td@{console\_\-information\_\-td}!CmdFunction@{CmdFunction}}
+\index{CmdFunction@{CmdFunction}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void($\ast$ console\_\-information\_\-td::Cmd\-Function)(struct console\_\-information\_\-td $\ast$console, char$\ast$ command)}\label{structconsole__information__td_m28}
+
+
+How much the users scrolled back in the command lines.
+
+\index{console_information_td@{console\_\-information\_\-td}!TabFunction@{TabFunction}}
+\index{TabFunction@{TabFunction}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$($\ast$ console\_\-information\_\-td::Tab\-Function)(char$\ast$ command)}\label{structconsole__information__td_m29}
+
+
+The Function that is executed if you press $<$Return$>$ in the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!FontHeight@{FontHeight}}
+\index{FontHeight@{FontHeight}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Font\-Height}\label{structconsole__information__td_m30}
+
+
+The Function that is executed if you press $<$Tab$>$ in the console.
+
+\index{console_information_td@{console\_\-information\_\-td}!FontWidth@{FontWidth}}
+\index{FontWidth@{FontWidth}!console_information_td@{console\_\-information\_\-td}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int console\_\-information\_\-td::Font\-Width}\label{structconsole__information__td_m31}
+
+
+
+
+The documentation for this struct was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf CON\_\-console.h}\end{CompactItemize}

@@ -1,0 +1,391 @@
+\section{CON\_\-console.h File Reference}
+\label{CON__console_8h}\index{CON_console.h@{CON\_\-console.h}}
+{\tt \#include \char`\"{}SDL.h\char`\"{}}\par
+\subsection*{Compounds}
+\begin{CompactItemize}
+\item 
+struct {\bf console\_\-information\_\-td}
+\end{CompactItemize}
+\subsection*{Defines}
+\begin{CompactItemize}
+\item 
+\#define {\bf CON\_\-CHARS\_\-PER\_\-LINE}\ 128
+\item 
+\#define {\bf CON\_\-BLINK\_\-RATE}\ 500
+\item 
+\#define {\bf CON\_\-CHAR\_\-BORDER}\ 4
+\item 
+\#define {\bf CON\_\-DEFAULT\_\-PROMPT}\ \char`\"{}]\char`\"{}
+\item 
+\#define {\bf CON\_\-LINE\_\-SCROLL}\ 2
+\item 
+\#define {\bf CON\_\-SCROLL\_\-INDICATOR}\ \char`\"{}$^\wedge$\char`\"{}
+\item 
+\#define {\bf CON\_\-INS\_\-CURSOR}\ \char`\"{}\_\-\char`\"{}
+\item 
+\#define {\bf CON\_\-OVR\_\-CURSOR}\ \char`\"{}$|$\char`\"{}
+\item 
+\#define {\bf CON\_\-DEFAULT\_\-HIDEKEY}\ SDLK\_\-ESCAPE
+\end{CompactItemize}
+\subsection*{Typedefs}
+\begin{CompactItemize}
+\item 
+typedef {\bf console\_\-information\_\-td} {\bf Console\-Information}
+\end{CompactItemize}
+\subsection*{Functions}
+\begin{CompactItemize}
+\item 
+SDL\_\-Event $\ast$ {\bf CON\_\-Events} (SDL\_\-Event $\ast$event)
+\item 
+void {\bf CON\_\-Show} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-Hide} ({\bf Console\-Information} $\ast$console)
+\item 
+int {\bf CON\_\-is\-Visible} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-Draw\-Console} ({\bf Console\-Information} $\ast$console)
+\item 
+{\bf Console\-Information} $\ast$ {\bf CON\_\-Init} (const char $\ast$Font\-Name, SDL\_\-Surface $\ast$Display\-Screen, int lines, SDL\_\-Rect rect)
+\item 
+void {\bf CON\_\-Destroy} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-Free} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-Out} ({\bf Console\-Information} $\ast$console, const char $\ast$str,...)
+\item 
+void {\bf CON\_\-Alpha} ({\bf Console\-Information} $\ast$console, unsigned char alpha)
+\item 
+void {\bf CON\_\-Alpha\-GL} (SDL\_\-Suface $\ast$s, int alpha)
+\item 
+int {\bf CON\_\-Background} ({\bf Console\-Information} $\ast$console, const char $\ast$image, int x, int y)
+\item 
+void {\bf CON\_\-Position} ({\bf Console\-Information} $\ast$console, int x, int y)
+\item 
+int {\bf CON\_\-Resize} ({\bf Console\-Information} $\ast$console, SDL\_\-Rect rect)
+\item 
+void {\bf CON\_\-Topmost} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-Set\-Prompt} ({\bf Console\-Information} $\ast$console, char $\ast$newprompt)
+\item 
+void {\bf CON\_\-Set\-Hide\-Key} ({\bf Console\-Information} $\ast$console, int key)
+\item 
+void {\bf CON\_\-Execute} ({\bf Console\-Information} $\ast$console, char $\ast$command)
+\item 
+void {\bf CON\_\-Set\-Execute\-Function} ({\bf Console\-Information} $\ast$console, void($\ast$Cmd\-Function)({\bf Console\-Information} $\ast$console2, char $\ast$command))
+\item 
+void {\bf CON\_\-Set\-Tab\-Completion} ({\bf Console\-Information} $\ast$console, char $\ast$($\ast$Tab\-Function)(char $\ast$command))
+\item 
+void {\bf CON\_\-Tab\-Completion} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-New\-Line\-Console} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-New\-Line\-Command} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf CON\_\-Update\-Console} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Default\_\-Cmd\-Function} ({\bf Console\-Information} $\ast$console, char $\ast$command)
+\item 
+char $\ast$ {\bf Default\_\-Tab\-Function} (char $\ast$command)
+\item 
+void {\bf Draw\-Command\-Line} ()
+\item 
+void {\bf Cursor\_\-Left} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Cursor\_\-Right} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Cursor\_\-Home} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Cursor\_\-End} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Cursor\_\-Del} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Cursor\_\-BSpace} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Cursor\_\-Add} ({\bf Console\-Information} $\ast$console, SDL\_\-Event $\ast$event)
+\item 
+void {\bf Clear\_\-Command} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Clear\_\-History} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Command\_\-Up} ({\bf Console\-Information} $\ast$console)
+\item 
+void {\bf Command\_\-Down} ({\bf Console\-Information} $\ast$console)
+\end{CompactItemize}
+
+
+\subsection{Define Documentation}
+\index{CON_console.h@{CON\_\-console.h}!CON_CHARS_PER_LINE@{CON\_\-CHARS\_\-PER\_\-LINE}}
+\index{CON_CHARS_PER_LINE@{CON\_\-CHARS\_\-PER\_\-LINE}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-CHARS\_\-PER\_\-LINE\ 128}\label{CON__console_8h_a0}
+
+
+Cut the buffer line if it becomes longer than this.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_BLINK_RATE@{CON\_\-BLINK\_\-RATE}}
+\index{CON_BLINK_RATE@{CON\_\-BLINK\_\-RATE}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-BLINK\_\-RATE\ 500}\label{CON__console_8h_a1}
+
+
+Cursor blink frequency in ms.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_CHAR_BORDER@{CON\_\-CHAR\_\-BORDER}}
+\index{CON_CHAR_BORDER@{CON\_\-CHAR\_\-BORDER}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-CHAR\_\-BORDER\ 4}\label{CON__console_8h_a2}
+
+
+Border in pixels from the most left to the first letter.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_DEFAULT_PROMPT@{CON\_\-DEFAULT\_\-PROMPT}}
+\index{CON_DEFAULT_PROMPT@{CON\_\-DEFAULT\_\-PROMPT}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-DEFAULT\_\-PROMPT\ \char`\"{}]\char`\"{}}\label{CON__console_8h_a3}
+
+
+Default prompt used at the commandline.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_LINE_SCROLL@{CON\_\-LINE\_\-SCROLL}}
+\index{CON_LINE_SCROLL@{CON\_\-LINE\_\-SCROLL}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-LINE\_\-SCROLL\ 2}\label{CON__console_8h_a4}
+
+
+Scroll this many lines at a time (when pressing PGUP or PGDOWN).
+
+\index{CON_console.h@{CON\_\-console.h}!CON_SCROLL_INDICATOR@{CON\_\-SCROLL\_\-INDICATOR}}
+\index{CON_SCROLL_INDICATOR@{CON\_\-SCROLL\_\-INDICATOR}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-SCROLL\_\-INDICATOR\ \char`\"{}$^\wedge$\char`\"{}}\label{CON__console_8h_a5}
+
+
+Indicator showing that you scrolled up the history.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_INS_CURSOR@{CON\_\-INS\_\-CURSOR}}
+\index{CON_INS_CURSOR@{CON\_\-INS\_\-CURSOR}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-INS\_\-CURSOR\ \char`\"{}\_\-\char`\"{}}\label{CON__console_8h_a6}
+
+
+Cursor shown if we are in insert mode.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_OVR_CURSOR@{CON\_\-OVR\_\-CURSOR}}
+\index{CON_OVR_CURSOR@{CON\_\-OVR\_\-CURSOR}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-OVR\_\-CURSOR\ \char`\"{}$|$\char`\"{}}\label{CON__console_8h_a7}
+
+
+Cursor shown if we are in overwrite mode.
+
+\index{CON_console.h@{CON\_\-console.h}!CON_DEFAULT_HIDEKEY@{CON\_\-DEFAULT\_\-HIDEKEY}}
+\index{CON_DEFAULT_HIDEKEY@{CON\_\-DEFAULT\_\-HIDEKEY}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}\#define CON\_\-DEFAULT\_\-HIDEKEY\ SDLK\_\-ESCAPE}\label{CON__console_8h_a8}
+
+
+Defines the default hide key (Hide() the console if pressed).
+
+
+
+\subsection{Typedef Documentation}
+\index{CON_console.h@{CON\_\-console.h}!ConsoleInformation@{ConsoleInformation}}
+\index{ConsoleInformation@{ConsoleInformation}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf console\_\-information\_\-td}
+	 Console\-Information}\label{CON__console_8h_a9}
+
+
+This is a struct for each consoles data 
+
+\subsection{Function Documentation}
+\index{CON_console.h@{CON\_\-console.h}!CON_Events@{CON\_\-Events}}
+\index{CON_Events@{CON\_\-Events}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Event$\ast$ CON\_\-Events (SDL\_\-Event $\ast$ {\em event})}\label{CON__console_8h_a10}
+
+
+Takes keys from the keyboard and inputs them to the console if the console is\-Visible(). If the event was not handled (i.e. WM events or unknown ctrl-shift  sequences) the function returns the event for further processing. \index{CON_console.h@{CON\_\-console.h}!CON_Show@{CON\_\-Show}}
+\index{CON_Show@{CON\_\-Show}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Show ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a11}
+
+
+Makes the console visible \index{CON_console.h@{CON\_\-console.h}!CON_Hide@{CON\_\-Hide}}
+\index{CON_Hide@{CON\_\-Hide}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Hide ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a12}
+
+
+Hides the console \index{CON_console.h@{CON\_\-console.h}!CON_isVisible@{CON\_\-isVisible}}
+\index{CON_isVisible@{CON\_\-isVisible}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int CON\_\-is\-Visible ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a13}
+
+
+Return 1 if the console is visible, 0 else \index{CON_console.h@{CON\_\-console.h}!CON_DrawConsole@{CON\_\-DrawConsole}}
+\index{CON_DrawConsole@{CON\_\-DrawConsole}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Draw\-Console ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a14}
+
+
+Draws the console to the screen if it is\-Visible() \index{CON_console.h@{CON\_\-console.h}!CON_Init@{CON\_\-Init}}
+\index{CON_Init@{CON\_\-Init}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Console\-Information}$\ast$ CON\_\-Init (const char $\ast$ {\em Font\-Name}, SDL\_\-Surface $\ast$ {\em Display\-Screen}, int {\em lines}, SDL\_\-Rect {\em rect})}\label{CON__console_8h_a15}
+
+
+Initializes a new console \index{CON_console.h@{CON\_\-console.h}!CON_Destroy@{CON\_\-Destroy}}
+\index{CON_Destroy@{CON\_\-Destroy}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Destroy ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a16}
+
+
+Frees DT\_\-Draw\-Text and calls CON\_\-Free \index{CON_console.h@{CON\_\-console.h}!CON_Free@{CON\_\-Free}}
+\index{CON_Free@{CON\_\-Free}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Free ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a17}
+
+
+Frees all the memory loaded by the console \index{CON_console.h@{CON\_\-console.h}!CON_Out@{CON\_\-Out}}
+\index{CON_Out@{CON\_\-Out}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Out ({\bf Console\-Information} $\ast$ {\em console}, const char $\ast$ {\em str}, ...)}\label{CON__console_8h_a18}
+
+
+printf for the console \index{CON_console.h@{CON\_\-console.h}!CON_Alpha@{CON\_\-Alpha}}
+\index{CON_Alpha@{CON\_\-Alpha}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Alpha ({\bf Console\-Information} $\ast$ {\em console}, unsigned char {\em alpha})}\label{CON__console_8h_a19}
+
+
+Sets the alpha channel of an SDL\_\-Surface to the specified value (0 - transparend, 255 - opaque) \index{CON_console.h@{CON\_\-console.h}!CON_AlphaGL@{CON\_\-AlphaGL}}
+\index{CON_AlphaGL@{CON\_\-AlphaGL}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Alpha\-GL (SDL\_\-Suface $\ast$ {\em s}, int {\em alpha})}\label{CON__console_8h_a20}
+
+
+Sets the alpha channel of an SDL\_\-Surface to the specified value. Use this for Open\-GL stuff. Preconditions: the surface in question is RGBA. 0 $<$= a $<$= 255, where 0 is transparent and 255 opaque \index{CON_console.h@{CON\_\-console.h}!CON_Background@{CON\_\-Background}}
+\index{CON_Background@{CON\_\-Background}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int CON\_\-Background ({\bf Console\-Information} $\ast$ {\em console}, const char $\ast$ {\em image}, int {\em x}, int {\em y})}\label{CON__console_8h_a21}
+
+
+Sets a background image for the consoel \index{CON_console.h@{CON\_\-console.h}!CON_Position@{CON\_\-Position}}
+\index{CON_Position@{CON\_\-Position}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Position ({\bf Console\-Information} $\ast$ {\em console}, int {\em x}, int {\em y})}\label{CON__console_8h_a22}
+
+
+Changes current position of the console \index{CON_console.h@{CON\_\-console.h}!CON_Resize@{CON\_\-Resize}}
+\index{CON_Resize@{CON\_\-Resize}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int CON\_\-Resize ({\bf Console\-Information} $\ast$ {\em console}, SDL\_\-Rect {\em rect})}\label{CON__console_8h_a23}
+
+
+Changes the size of the console \index{CON_console.h@{CON\_\-console.h}!CON_Topmost@{CON\_\-Topmost}}
+\index{CON_Topmost@{CON\_\-Topmost}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Topmost ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a24}
+
+
+Give focus to a console. Make it the \char`\"{}topmost\char`\"{} console. This console will receive events sent with {\bf CON\_\-Events()} {\rm (p.\,\pageref{CON__console_8h_a10})} \index{CON_console.h@{CON\_\-console.h}!CON_SetPrompt@{CON\_\-SetPrompt}}
+\index{CON_SetPrompt@{CON\_\-SetPrompt}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Set\-Prompt ({\bf Console\-Information} $\ast$ {\em console}, char $\ast$ {\em newprompt})}\label{CON__console_8h_a25}
+
+
+Modify the prompt of the console \index{CON_console.h@{CON\_\-console.h}!CON_SetHideKey@{CON\_\-SetHideKey}}
+\index{CON_SetHideKey@{CON\_\-SetHideKey}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Set\-Hide\-Key ({\bf Console\-Information} $\ast$ {\em console}, int {\em key})}\label{CON__console_8h_a26}
+
+
+Set the key, that invokes a {\bf CON\_\-Hide()} {\rm (p.\,\pageref{CON__console_8h_a12})} after press. default is ESCAPE and you can always hide using ESCAPE and the Hide\-Key. compared against event-$>$key.keysym.sym !! \index{CON_console.h@{CON\_\-console.h}!CON_Execute@{CON\_\-Execute}}
+\index{CON_Execute@{CON\_\-Execute}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Execute ({\bf Console\-Information} $\ast$ {\em console}, char $\ast$ {\em command})}\label{CON__console_8h_a27}
+
+
+Internal: executes the command typed in at the console (called if you press ENTER) \index{CON_console.h@{CON\_\-console.h}!CON_SetExecuteFunction@{CON\_\-SetExecuteFunction}}
+\index{CON_SetExecuteFunction@{CON\_\-SetExecuteFunction}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Set\-Execute\-Function ({\bf Console\-Information} $\ast$ {\em console}, void($\ast$ {\em Cmd\-Function})({\bf Console\-Information} $\ast$console2, char $\ast$command))}\label{CON__console_8h_a28}
+
+
+Sets the callback function that is called if a command was typed in. The function could look like this: void my\_\-command\_\-handler(Console\-Information$\ast$ console, char$\ast$ command). \begin{Desc}
+\item[Parameters: ]\par
+\begin{description}
+\item[{\em 
+console:}]the console the command came from. \item[{\em 
+command:}]the command string that was typed in. \end{description}
+\end{Desc}
+\index{CON_console.h@{CON\_\-console.h}!CON_SetTabCompletion@{CON\_\-SetTabCompletion}}
+\index{CON_SetTabCompletion@{CON\_\-SetTabCompletion}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Set\-Tab\-Completion ({\bf Console\-Information} $\ast$ {\em console}, char $\ast$($\ast$ {\em Tab\-Function})(char $\ast$command))}\label{CON__console_8h_a29}
+
+
+Sets the callback tabulator completion function. char$\ast$ my\_\-tabcompletion(char$\ast$ command). If Tab is pressed, the function gets called with the already typed in command. my\_\-tabcompletion then checks if if can complete the command or if it should display a list of all matching commands (with {\bf CON\_\-Out()} {\rm (p.\,\pageref{CON__console_8h_a18})}). Returns the  completed command or NULL if no completion was made. \index{CON_console.h@{CON\_\-console.h}!CON_TabCompletion@{CON\_\-TabCompletion}}
+\index{CON_TabCompletion@{CON\_\-TabCompletion}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Tab\-Completion ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a30}
+
+
+Internal: Gets called when TAB was pressed \index{CON_console.h@{CON\_\-console.h}!CON_NewLineConsole@{CON\_\-NewLineConsole}}
+\index{CON_NewLineConsole@{CON\_\-NewLineConsole}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-New\-Line\-Console ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a31}
+
+
+Internal: makes newline (same as printf(\char`\"{}\par
+\char`\"{}) or CON\_\-Out(console, \char`\"{}\par
+\char`\"{}) ) \index{CON_console.h@{CON\_\-console.h}!CON_NewLineCommand@{CON\_\-NewLineCommand}}
+\index{CON_NewLineCommand@{CON\_\-NewLineCommand}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-New\-Line\-Command ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a32}
+
+
+Internal: shift command history (the one you can switch with the up/down keys) \index{CON_console.h@{CON\_\-console.h}!CON_UpdateConsole@{CON\_\-UpdateConsole}}
+\index{CON_UpdateConsole@{CON\_\-UpdateConsole}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void CON\_\-Update\-Console ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a33}
+
+
+Internal: updates console after resize etc. \index{CON_console.h@{CON\_\-console.h}!Default_CmdFunction@{Default\_\-CmdFunction}}
+\index{Default_CmdFunction@{Default\_\-CmdFunction}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Default\_\-Cmd\-Function ({\bf Console\-Information} $\ast$ {\em console}, char $\ast$ {\em command})}\label{CON__console_8h_a34}
+
+
+Internal: Default Execute callback \index{CON_console.h@{CON\_\-console.h}!Default_TabFunction@{Default\_\-TabFunction}}
+\index{Default_TabFunction@{Default\_\-TabFunction}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char$\ast$ Default\_\-Tab\-Function (char $\ast$ {\em command})}\label{CON__console_8h_a35}
+
+
+Internal: Default Tab\-Completion callback \index{CON_console.h@{CON\_\-console.h}!DrawCommandLine@{DrawCommandLine}}
+\index{DrawCommandLine@{DrawCommandLine}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Draw\-Command\-Line ()}\label{CON__console_8h_a36}
+
+
+Internal: draws the commandline the user is typing in to the screen. called by update? \index{CON_console.h@{CON\_\-console.h}!Cursor_Left@{Cursor\_\-Left}}
+\index{Cursor_Left@{Cursor\_\-Left}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-Left ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a37}
+
+
+Internal: Gets called if you press the LEFT key (move cursor left) \index{CON_console.h@{CON\_\-console.h}!Cursor_Right@{Cursor\_\-Right}}
+\index{Cursor_Right@{Cursor\_\-Right}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-Right ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a38}
+
+
+Internal: Gets called if you press the RIGHT key (move cursor right) \index{CON_console.h@{CON\_\-console.h}!Cursor_Home@{Cursor\_\-Home}}
+\index{Cursor_Home@{Cursor\_\-Home}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-Home ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a39}
+
+
+Internal: Gets called if you press the HOME key (move cursor to the beginning of the line \index{CON_console.h@{CON\_\-console.h}!Cursor_End@{Cursor\_\-End}}
+\index{Cursor_End@{Cursor\_\-End}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-End ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a40}
+
+
+Internal: Gets called if you press the END key (move cursor to the end of the line \index{CON_console.h@{CON\_\-console.h}!Cursor_Del@{Cursor\_\-Del}}
+\index{Cursor_Del@{Cursor\_\-Del}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-Del ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a41}
+
+
+Internal: Called if you press DELETE (deletes character under the cursor) \index{CON_console.h@{CON\_\-console.h}!Cursor_BSpace@{Cursor\_\-BSpace}}
+\index{Cursor_BSpace@{Cursor\_\-BSpace}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-BSpace ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a42}
+
+
+Internal: Called if you press BACKSPACE (deletes character left of cursor) \index{CON_console.h@{CON\_\-console.h}!Cursor_Add@{Cursor\_\-Add}}
+\index{Cursor_Add@{Cursor\_\-Add}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Cursor\_\-Add ({\bf Console\-Information} $\ast$ {\em console}, SDL\_\-Event $\ast$ {\em event})}\label{CON__console_8h_a43}
+
+
+Internal: Called if you type in a character (add the char to the command) \index{CON_console.h@{CON\_\-console.h}!Clear_Command@{Clear\_\-Command}}
+\index{Clear_Command@{Clear\_\-Command}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Clear\_\-Command ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a44}
+
+
+Internal: Called if you press Ctrl-C (deletes the commandline) \index{CON_console.h@{CON\_\-console.h}!Clear_History@{Clear\_\-History}}
+\index{Clear_History@{Clear\_\-History}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Clear\_\-History ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a45}
+
+
+Internal: Called if you press Ctrl-L (deletes the History) \index{CON_console.h@{CON\_\-console.h}!Command_Up@{Command\_\-Up}}
+\index{Command_Up@{Command\_\-Up}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Command\_\-Up ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a46}
+
+
+Internal: Called if you press UP key (switches through recent typed in commands \index{CON_console.h@{CON\_\-console.h}!Command_Down@{Command\_\-Down}}
+\index{Command_Down@{Command\_\-Down}!CON_console.h@{CON\_\-console.h}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void Command\_\-Down ({\bf Console\-Information} $\ast$ {\em console})}\label{CON__console_8h_a47}
+
+
+Internal: Called if you press DOWN key (switches through recent typed in commands 

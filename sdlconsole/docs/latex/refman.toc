@@ -1,0 +1,115 @@
+\contentsline {chapter}{\numberline {1}SDL Console Main Page}{1}
+\contentsline {subsection}{\numberline {1.0.1}Introduction}{1}
+\contentsline {subsection}{\numberline {1.0.2}Documentation}{1}
+\contentsline {chapter}{\numberline {2}SDL Console Compound Index}{3}
+\contentsline {section}{\numberline {2.1}SDL Console Compound List}{3}
+\contentsline {chapter}{\numberline {3}SDL Console File Index}{5}
+\contentsline {section}{\numberline {3.1}SDL Console File List}{5}
+\contentsline {chapter}{\numberline {4}SDL Console Class Documentation}{7}
+\contentsline {section}{\numberline {4.1}Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td Struct Reference}{7}
+\contentsline {subsection}{\numberline {4.1.1}Member Data Documentation}{7}
+\contentsline {subsubsection}{\numberline {4.1.1.1}\setlength {\rightskip }{0pt plus 5cm}SDL\_\discretionary {-}{}{}Surface$\ast $ Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td::Font\discretionary {-}{}{}Surface}{7}
+\contentsline {subsubsection}{\numberline {4.1.1.2}\setlength {\rightskip }{0pt plus 5cm}int Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td::Char\discretionary {-}{}{}Width}{7}
+\contentsline {subsubsection}{\numberline {4.1.1.3}\setlength {\rightskip }{0pt plus 5cm}int Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td::Char\discretionary {-}{}{}Height}{7}
+\contentsline {subsubsection}{\numberline {4.1.1.4}\setlength {\rightskip }{0pt plus 5cm}int Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td::Font\discretionary {-}{}{}Number}{7}
+\contentsline {subsubsection}{\numberline {4.1.1.5}\setlength {\rightskip }{0pt plus 5cm}struct Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td$\ast $ Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td::Next\discretionary {-}{}{}Font}{7}
+\contentsline {section}{\numberline {4.2}console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td Struct Reference}{8}
+\contentsline {subsection}{\numberline {4.2.1}Detailed Description}{8}
+\contentsline {subsection}{\numberline {4.2.2}Member Data Documentation}{8}
+\contentsline {subsubsection}{\numberline {4.2.2.1}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::visible}{8}
+\contentsline {subsubsection}{\numberline {4.2.2.2}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Hide\discretionary {-}{}{}Key}{8}
+\contentsline {subsubsection}{\numberline {4.2.2.3}\setlength {\rightskip }{0pt plus 5cm}char$\ast $$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Console\discretionary {-}{}{}Lines}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.4}\setlength {\rightskip }{0pt plus 5cm}char$\ast $$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Command\discretionary {-}{}{}Lines}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.5}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Total\discretionary {-}{}{}Console\discretionary {-}{}{}Lines}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.6}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Console\discretionary {-}{}{}Scroll\discretionary {-}{}{}Back}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.7}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Total\discretionary {-}{}{}Commands}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.8}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Font\discretionary {-}{}{}Number}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.9}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Line\discretionary {-}{}{}Buffer}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.10}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::VChars}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.11}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Back\discretionary {-}{}{}X}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.12}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Back\discretionary {-}{}{}Y}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.13}\setlength {\rightskip }{0pt plus 5cm}char$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Prompt}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.14}\setlength {\rightskip }{0pt plus 5cm}char console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Command[CON\_\discretionary {-}{}{}CHARS\_\discretionary {-}{}{}PER\_\discretionary {-}{}{}LINE]}{9}
+\contentsline {subsubsection}{\numberline {4.2.2.15}\setlength {\rightskip }{0pt plus 5cm}char console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::RCommand[CON\_\discretionary {-}{}{}CHARS\_\discretionary {-}{}{}PER\_\discretionary {-}{}{}LINE]}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.16}\setlength {\rightskip }{0pt plus 5cm}char console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::LCommand[CON\_\discretionary {-}{}{}CHARS\_\discretionary {-}{}{}PER\_\discretionary {-}{}{}LINE]}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.17}\setlength {\rightskip }{0pt plus 5cm}char console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::VCommand[CON\_\discretionary {-}{}{}CHARS\_\discretionary {-}{}{}PER\_\discretionary {-}{}{}LINE]}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.18}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Cursor\discretionary {-}{}{}Pos}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.19}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Offset}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.20}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Ins\discretionary {-}{}{}Mode}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.21}\setlength {\rightskip }{0pt plus 5cm}SDL\_\discretionary {-}{}{}Surface$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Console\discretionary {-}{}{}Surface}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.22}\setlength {\rightskip }{0pt plus 5cm}SDL\_\discretionary {-}{}{}Surface$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Output\discretionary {-}{}{}Screen}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.23}\setlength {\rightskip }{0pt plus 5cm}SDL\_\discretionary {-}{}{}Surface$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Background\discretionary {-}{}{}Image}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.24}\setlength {\rightskip }{0pt plus 5cm}SDL\_\discretionary {-}{}{}Surface$\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Input\discretionary {-}{}{}Background}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.25}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Disp\discretionary {-}{}{}X}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.26}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Disp\discretionary {-}{}{}Y}{10}
+\contentsline {subsubsection}{\numberline {4.2.2.27}\setlength {\rightskip }{0pt plus 5cm}unsigned char console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Console\discretionary {-}{}{}Alpha}{11}
+\contentsline {subsubsection}{\numberline {4.2.2.28}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Command\discretionary {-}{}{}Scroll\discretionary {-}{}{}Back}{11}
+\contentsline {subsubsection}{\numberline {4.2.2.29}\setlength {\rightskip }{0pt plus 5cm}void($\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Cmd\discretionary {-}{}{}Function)(struct console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td $\ast $console, char$\ast $ command)}{11}
+\contentsline {subsubsection}{\numberline {4.2.2.30}\setlength {\rightskip }{0pt plus 5cm}char$\ast $($\ast $ console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Tab\discretionary {-}{}{}Function)(char$\ast $ command)}{11}
+\contentsline {subsubsection}{\numberline {4.2.2.31}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Font\discretionary {-}{}{}Height}{11}
+\contentsline {subsubsection}{\numberline {4.2.2.32}\setlength {\rightskip }{0pt plus 5cm}int console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td::Font\discretionary {-}{}{}Width}{11}
+\contentsline {chapter}{\numberline {5}SDL Console File Documentation}{13}
+\contentsline {section}{\numberline {5.1}CON\_\discretionary {-}{}{}console.h File Reference}{13}
+\contentsline {subsection}{\numberline {5.1.1}Define Documentation}{14}
+\contentsline {subsubsection}{\numberline {5.1.1.1}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}CHARS\_\discretionary {-}{}{}PER\_\discretionary {-}{}{}LINE\ 128}{14}
+\contentsline {subsubsection}{\numberline {5.1.1.2}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}BLINK\_\discretionary {-}{}{}RATE\ 500}{14}
+\contentsline {subsubsection}{\numberline {5.1.1.3}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}CHAR\_\discretionary {-}{}{}BORDER\ 4}{14}
+\contentsline {subsubsection}{\numberline {5.1.1.4}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}DEFAULT\_\discretionary {-}{}{}PROMPT\ \char `\"{}]\char `\"{}}{15}
+\contentsline {subsubsection}{\numberline {5.1.1.5}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}LINE\_\discretionary {-}{}{}SCROLL\ 2}{15}
+\contentsline {subsubsection}{\numberline {5.1.1.6}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}SCROLL\_\discretionary {-}{}{}INDICATOR\ \char `\"{}$^\wedge $\char `\"{}}{15}
+\contentsline {subsubsection}{\numberline {5.1.1.7}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}INS\_\discretionary {-}{}{}CURSOR\ \char `\"{}\_\discretionary {-}{}{}\char `\"{}}{15}
+\contentsline {subsubsection}{\numberline {5.1.1.8}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}OVR\_\discretionary {-}{}{}CURSOR\ \char `\"{}$|$\char `\"{}}{15}
+\contentsline {subsubsection}{\numberline {5.1.1.9}\setlength {\rightskip }{0pt plus 5cm}\#define CON\_\discretionary {-}{}{}DEFAULT\_\discretionary {-}{}{}HIDEKEY\ SDLK\_\discretionary {-}{}{}ESCAPE}{15}
+\contentsline {subsection}{\numberline {5.1.2}Typedef Documentation}{15}
+\contentsline {subsubsection}{\numberline {5.1.2.1}\setlength {\rightskip }{0pt plus 5cm}typedef struct {\bf console\_\discretionary {-}{}{}information\_\discretionary {-}{}{}td} Console\discretionary {-}{}{}Information}{15}
+\contentsline {subsection}{\numberline {5.1.3}Function Documentation}{15}
+\contentsline {subsubsection}{\numberline {5.1.3.1}\setlength {\rightskip }{0pt plus 5cm}SDL\_\discretionary {-}{}{}Event$\ast $ CON\_\discretionary {-}{}{}Events (SDL\_\discretionary {-}{}{}Event $\ast $ {\em event})}{15}
+\contentsline {subsubsection}{\numberline {5.1.3.2}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Show ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{15}
+\contentsline {subsubsection}{\numberline {5.1.3.3}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Hide ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{15}
+\contentsline {subsubsection}{\numberline {5.1.3.4}\setlength {\rightskip }{0pt plus 5cm}int CON\_\discretionary {-}{}{}is\discretionary {-}{}{}Visible ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.5}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Draw\discretionary {-}{}{}Console ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.6}\setlength {\rightskip }{0pt plus 5cm}{\bf Console\discretionary {-}{}{}Information}$\ast $ CON\_\discretionary {-}{}{}Init (const char $\ast $ {\em Font\discretionary {-}{}{}Name}, SDL\_\discretionary {-}{}{}Surface $\ast $ {\em Display\discretionary {-}{}{}Screen}, int {\em lines}, SDL\_\discretionary {-}{}{}Rect {\em rect})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.7}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Destroy ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.8}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Free ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.9}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Out ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, const char $\ast $ {\em str}, ...)}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.10}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Alpha ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, unsigned char {\em alpha})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.11}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Alpha\discretionary {-}{}{}GL (SDL\_\discretionary {-}{}{}Suface $\ast $ {\em s}, int {\em alpha})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.12}\setlength {\rightskip }{0pt plus 5cm}int CON\_\discretionary {-}{}{}Background ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, const char $\ast $ {\em image}, int {\em x}, int {\em y})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.13}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Position ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, int {\em x}, int {\em y})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.14}\setlength {\rightskip }{0pt plus 5cm}int CON\_\discretionary {-}{}{}Resize ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, SDL\_\discretionary {-}{}{}Rect {\em rect})}{16}
+\contentsline {subsubsection}{\numberline {5.1.3.15}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Topmost ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.16}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Set\discretionary {-}{}{}Prompt ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, char $\ast $ {\em newprompt})}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.17}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Set\discretionary {-}{}{}Hide\discretionary {-}{}{}Key ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, int {\em key})}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.18}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Execute ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, char $\ast $ {\em command})}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.19}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Set\discretionary {-}{}{}Execute\discretionary {-}{}{}Function ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, void($\ast $ {\em Cmd\discretionary {-}{}{}Function})({\bf Console\discretionary {-}{}{}Information} $\ast $console2, char $\ast $command))}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.20}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Set\discretionary {-}{}{}Tab\discretionary {-}{}{}Completion ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, char $\ast $($\ast $ {\em Tab\discretionary {-}{}{}Function})(char $\ast $command))}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.21}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Tab\discretionary {-}{}{}Completion ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.22}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}New\discretionary {-}{}{}Line\discretionary {-}{}{}Console ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{17}
+\contentsline {subsubsection}{\numberline {5.1.3.23}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}New\discretionary {-}{}{}Line\discretionary {-}{}{}Command ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.24}\setlength {\rightskip }{0pt plus 5cm}void CON\_\discretionary {-}{}{}Update\discretionary {-}{}{}Console ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.25}\setlength {\rightskip }{0pt plus 5cm}void Default\_\discretionary {-}{}{}Cmd\discretionary {-}{}{}Function ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, char $\ast $ {\em command})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.26}\setlength {\rightskip }{0pt plus 5cm}char$\ast $ Default\_\discretionary {-}{}{}Tab\discretionary {-}{}{}Function (char $\ast $ {\em command})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.27}\setlength {\rightskip }{0pt plus 5cm}void Draw\discretionary {-}{}{}Command\discretionary {-}{}{}Line ()}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.28}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}Left ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.29}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}Right ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.30}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}Home ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.31}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}End ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.32}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}Del ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.33}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}BSpace ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{18}
+\contentsline {subsubsection}{\numberline {5.1.3.34}\setlength {\rightskip }{0pt plus 5cm}void Cursor\_\discretionary {-}{}{}Add ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console}, SDL\_\discretionary {-}{}{}Event $\ast $ {\em event})}{19}
+\contentsline {subsubsection}{\numberline {5.1.3.35}\setlength {\rightskip }{0pt plus 5cm}void Clear\_\discretionary {-}{}{}Command ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{19}
+\contentsline {subsubsection}{\numberline {5.1.3.36}\setlength {\rightskip }{0pt plus 5cm}void Clear\_\discretionary {-}{}{}History ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{19}
+\contentsline {subsubsection}{\numberline {5.1.3.37}\setlength {\rightskip }{0pt plus 5cm}void Command\_\discretionary {-}{}{}Up ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{19}
+\contentsline {subsubsection}{\numberline {5.1.3.38}\setlength {\rightskip }{0pt plus 5cm}void Command\_\discretionary {-}{}{}Down ({\bf Console\discretionary {-}{}{}Information} $\ast $ {\em console})}{19}
+\contentsline {section}{\numberline {5.2}DT\_\discretionary {-}{}{}drawtext.h File Reference}{20}
+\contentsline {subsection}{\numberline {5.2.1}Define Documentation}{20}
+\contentsline {subsubsection}{\numberline {5.2.1.1}\setlength {\rightskip }{0pt plus 5cm}\#define TRANS\_\discretionary {-}{}{}FONT\ 1}{20}
+\contentsline {subsection}{\numberline {5.2.2}Typedef Documentation}{20}
+\contentsline {subsubsection}{\numberline {5.2.2.1}\setlength {\rightskip }{0pt plus 5cm}typedef struct {\bf Bit\discretionary {-}{}{}Font\_\discretionary {-}{}{}td} Bit\discretionary {-}{}{}Font}{20}
+\contentsline {subsection}{\numberline {5.2.3}Function Documentation}{20}
+\contentsline {subsubsection}{\numberline {5.2.3.1}\setlength {\rightskip }{0pt plus 5cm}void DT\_\discretionary {-}{}{}Draw\discretionary {-}{}{}Text (const char $\ast $ {\em string}, SDL\_\discretionary {-}{}{}Surface $\ast $ {\em surface}, int {\em Font\discretionary {-}{}{}Type}, int {\em x}, int {\em y})}{20}
+\contentsline {subsubsection}{\numberline {5.2.3.2}\setlength {\rightskip }{0pt plus 5cm}int DT\_\discretionary {-}{}{}Load\discretionary {-}{}{}Font (const char $\ast $ {\em Bitmap\discretionary {-}{}{}Name}, int {\em flags})}{20}
+\contentsline {subsubsection}{\numberline {5.2.3.3}\setlength {\rightskip }{0pt plus 5cm}int DT\_\discretionary {-}{}{}Font\discretionary {-}{}{}Height (int {\em Font\discretionary {-}{}{}Number})}{20}
+\contentsline {subsubsection}{\numberline {5.2.3.4}\setlength {\rightskip }{0pt plus 5cm}int DT\_\discretionary {-}{}{}Font\discretionary {-}{}{}Width (int {\em Font\discretionary {-}{}{}Number})}{20}
+\contentsline {subsubsection}{\numberline {5.2.3.5}\setlength {\rightskip }{0pt plus 5cm}{\bf Bit\discretionary {-}{}{}Font}$\ast $ DT\_\discretionary {-}{}{}Font\discretionary {-}{}{}Pointer (int {\em Font\discretionary {-}{}{}Number})}{20}
+\contentsline {subsubsection}{\numberline {5.2.3.6}\setlength {\rightskip }{0pt plus 5cm}void DT\_\discretionary {-}{}{}Destroy\discretionary {-}{}{}Draw\discretionary {-}{}{}Text ()}{20}

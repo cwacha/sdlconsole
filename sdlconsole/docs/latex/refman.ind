@@ -1,0 +1,323 @@
+\begin{theindex}
+
+  \item {BackgroundImage}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {BackX}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {BackY}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {BitFont}
+    \subitem {DT\_\-drawtext.h}, 20
+  \item {BitFont\_\-td}, 7
+  \item {Bit\-Font\_\-td}
+    \subitem {CharHeight}, 7
+    \subitem {CharWidth}, 7
+    \subitem {FontNumber}, 7
+    \subitem {FontSurface}, 7
+    \subitem {NextFont}, 7
+
+  \indexspace
+
+  \item {CharHeight}
+    \subitem {Bit\-Font\_\-td}, 7
+  \item {CharWidth}
+    \subitem {Bit\-Font\_\-td}, 7
+  \item {Clear\_\-Command}
+    \subitem {CON\_\-console.h}, 19
+  \item {Clear\_\-History}
+    \subitem {CON\_\-console.h}, 19
+  \item {CmdFunction}
+    \subitem {console\_\-information\_\-td}, 11
+  \item {Command}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {Command\_\-Down}
+    \subitem {CON\_\-console.h}, 19
+  \item {Command\_\-Up}
+    \subitem {CON\_\-console.h}, 19
+  \item {CommandLines}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {CommandScrollBack}
+    \subitem {console\_\-information\_\-td}, 11
+  \item {CON\_\-Alpha}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-AlphaGL}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-Background}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-BLINK\_\-RATE}
+    \subitem {CON\_\-console.h}, 14
+  \item {CON\_\-CHAR\_\-BORDER}
+    \subitem {CON\_\-console.h}, 14
+  \item {CON\_\-CHARS\_\-PER\_\-LINE}
+    \subitem {CON\_\-console.h}, 14
+  \item {CON\_\-console.h}, 13
+    \subitem {Clear\_\-Command}, 19
+    \subitem {Clear\_\-History}, 19
+    \subitem {Command\_\-Down}, 19
+    \subitem {Command\_\-Up}, 19
+    \subitem {CON\_\-Alpha}, 16
+    \subitem {CON\_\-AlphaGL}, 16
+    \subitem {CON\_\-Background}, 16
+    \subitem {CON\_\-BLINK\_\-RATE}, 14
+    \subitem {CON\_\-CHAR\_\-BORDER}, 14
+    \subitem {CON\_\-CHARS\_\-PER\_\-LINE}, 14
+    \subitem {CON\_\-DEFAULT\_\-HIDEKEY}, 15
+    \subitem {CON\_\-DEFAULT\_\-PROMPT}, 14
+    \subitem {CON\_\-Destroy}, 16
+    \subitem {CON\_\-DrawConsole}, 16
+    \subitem {CON\_\-Events}, 15
+    \subitem {CON\_\-Execute}, 17
+    \subitem {CON\_\-Free}, 16
+    \subitem {CON\_\-Hide}, 15
+    \subitem {CON\_\-Init}, 16
+    \subitem {CON\_\-INS\_\-CURSOR}, 15
+    \subitem {CON\_\-isVisible}, 15
+    \subitem {CON\_\-LINE\_\-SCROLL}, 15
+    \subitem {CON\_\-NewLineCommand}, 17
+    \subitem {CON\_\-NewLineConsole}, 17
+    \subitem {CON\_\-Out}, 16
+    \subitem {CON\_\-OVR\_\-CURSOR}, 15
+    \subitem {CON\_\-Position}, 16
+    \subitem {CON\_\-Resize}, 16
+    \subitem {CON\_\-SCROLL\_\-INDICATOR}, 15
+    \subitem {CON\_\-SetExecuteFunction}, 17
+    \subitem {CON\_\-SetHideKey}, 17
+    \subitem {CON\_\-SetPrompt}, 17
+    \subitem {CON\_\-SetTabCompletion}, 17
+    \subitem {CON\_\-Show}, 15
+    \subitem {CON\_\-TabCompletion}, 17
+    \subitem {CON\_\-Topmost}, 16
+    \subitem {CON\_\-UpdateConsole}, 18
+    \subitem {ConsoleInformation}, 15
+    \subitem {Cursor\_\-Add}, 18
+    \subitem {Cursor\_\-BSpace}, 18
+    \subitem {Cursor\_\-Del}, 18
+    \subitem {Cursor\_\-End}, 18
+    \subitem {Cursor\_\-Home}, 18
+    \subitem {Cursor\_\-Left}, 18
+    \subitem {Cursor\_\-Right}, 18
+    \subitem {Default\_\-CmdFunction}, 18
+    \subitem {Default\_\-TabFunction}, 18
+    \subitem {DrawCommandLine}, 18
+  \item {CON\_\-DEFAULT\_\-HIDEKEY}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-DEFAULT\_\-PROMPT}
+    \subitem {CON\_\-console.h}, 14
+  \item {CON\_\-Destroy}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-DrawConsole}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-Events}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-Execute}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-Free}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-Hide}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-Init}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-INS\_\-CURSOR}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-isVisible}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-LINE\_\-SCROLL}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-NewLineCommand}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-NewLineConsole}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-Out}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-OVR\_\-CURSOR}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-Position}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-Resize}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-SCROLL\_\-INDICATOR}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-SetExecuteFunction}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-SetHideKey}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-SetPrompt}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-SetTabCompletion}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-Show}
+    \subitem {CON\_\-console.h}, 15
+  \item {CON\_\-TabCompletion}
+    \subitem {CON\_\-console.h}, 17
+  \item {CON\_\-Topmost}
+    \subitem {CON\_\-console.h}, 16
+  \item {CON\_\-UpdateConsole}
+    \subitem {CON\_\-console.h}, 18
+  \item {console\_\-information\_\-td}, 8
+    \subitem {BackgroundImage}, 10
+    \subitem {BackX}, 9
+    \subitem {BackY}, 9
+    \subitem {CmdFunction}, 11
+    \subitem {Command}, 9
+    \subitem {CommandLines}, 9
+    \subitem {CommandScrollBack}, 11
+    \subitem {ConsoleAlpha}, 10
+    \subitem {ConsoleLines}, 8
+    \subitem {ConsoleScrollBack}, 9
+    \subitem {ConsoleSurface}, 10
+    \subitem {CursorPos}, 10
+    \subitem {DispX}, 10
+    \subitem {DispY}, 10
+    \subitem {FontHeight}, 11
+    \subitem {FontNumber}, 9
+    \subitem {FontWidth}, 11
+    \subitem {HideKey}, 8
+    \subitem {InputBackground}, 10
+    \subitem {InsMode}, 10
+    \subitem {LCommand}, 10
+    \subitem {LineBuffer}, 9
+    \subitem {Offset}, 10
+    \subitem {OutputScreen}, 10
+    \subitem {Prompt}, 9
+    \subitem {RCommand}, 9
+    \subitem {TabFunction}, 11
+    \subitem {TotalCommands}, 9
+    \subitem {TotalConsoleLines}, 9
+    \subitem {VChars}, 9
+    \subitem {VCommand}, 10
+    \subitem {visible}, 8
+  \item {ConsoleAlpha}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {ConsoleInformation}
+    \subitem {CON\_\-console.h}, 15
+  \item {ConsoleLines}
+    \subitem {console\_\-information\_\-td}, 8
+  \item {ConsoleScrollBack}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {ConsoleSurface}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {Cursor\_\-Add}
+    \subitem {CON\_\-console.h}, 18
+  \item {Cursor\_\-BSpace}
+    \subitem {CON\_\-console.h}, 18
+  \item {Cursor\_\-Del}
+    \subitem {CON\_\-console.h}, 18
+  \item {Cursor\_\-End}
+    \subitem {CON\_\-console.h}, 18
+  \item {Cursor\_\-Home}
+    \subitem {CON\_\-console.h}, 18
+  \item {Cursor\_\-Left}
+    \subitem {CON\_\-console.h}, 18
+  \item {Cursor\_\-Right}
+    \subitem {CON\_\-console.h}, 18
+  \item {CursorPos}
+    \subitem {console\_\-information\_\-td}, 10
+
+  \indexspace
+
+  \item {Default\_\-CmdFunction}
+    \subitem {CON\_\-console.h}, 18
+  \item {Default\_\-TabFunction}
+    \subitem {CON\_\-console.h}, 18
+  \item {DispX}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {DispY}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {DrawCommandLine}
+    \subitem {CON\_\-console.h}, 18
+  \item {DT\_\-DestroyDrawText}
+    \subitem {DT\_\-drawtext.h}, 20
+  \item {DT\_\-DrawText}
+    \subitem {DT\_\-drawtext.h}, 20
+  \item {DT\_\-drawtext.h}, 20
+    \subitem {BitFont}, 20
+    \subitem {DT\_\-DestroyDrawText}, 20
+    \subitem {DT\_\-DrawText}, 20
+    \subitem {DT\_\-FontHeight}, 20
+    \subitem {DT\_\-FontPointer}, 20
+    \subitem {DT\_\-FontWidth}, 20
+    \subitem {DT\_\-LoadFont}, 20
+    \subitem {TRANS\_\-FONT}, 20
+  \item {DT\_\-FontHeight}
+    \subitem {DT\_\-drawtext.h}, 20
+  \item {DT\_\-FontPointer}
+    \subitem {DT\_\-drawtext.h}, 20
+  \item {DT\_\-FontWidth}
+    \subitem {DT\_\-drawtext.h}, 20
+  \item {DT\_\-LoadFont}
+    \subitem {DT\_\-drawtext.h}, 20
+
+  \indexspace
+
+  \item {FontHeight}
+    \subitem {console\_\-information\_\-td}, 11
+  \item {FontNumber}
+    \subitem {Bit\-Font\_\-td}, 7
+    \subitem {console\_\-information\_\-td}, 9
+  \item {FontSurface}
+    \subitem {Bit\-Font\_\-td}, 7
+  \item {FontWidth}
+    \subitem {console\_\-information\_\-td}, 11
+
+  \indexspace
+
+  \item {HideKey}
+    \subitem {console\_\-information\_\-td}, 8
+
+  \indexspace
+
+  \item {InputBackground}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {InsMode}
+    \subitem {console\_\-information\_\-td}, 10
+
+  \indexspace
+
+  \item {LCommand}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {LineBuffer}
+    \subitem {console\_\-information\_\-td}, 9
+
+  \indexspace
+
+  \item {NextFont}
+    \subitem {Bit\-Font\_\-td}, 7
+
+  \indexspace
+
+  \item {Offset}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {OutputScreen}
+    \subitem {console\_\-information\_\-td}, 10
+
+  \indexspace
+
+  \item {Prompt}
+    \subitem {console\_\-information\_\-td}, 9
+
+  \indexspace
+
+  \item {RCommand}
+    \subitem {console\_\-information\_\-td}, 9
+
+  \indexspace
+
+  \item {TabFunction}
+    \subitem {console\_\-information\_\-td}, 11
+  \item {TotalCommands}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {TotalConsoleLines}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {TRANS\_\-FONT}
+    \subitem {DT\_\-drawtext.h}, 20
+
+  \indexspace
+
+  \item {VChars}
+    \subitem {console\_\-information\_\-td}, 9
+  \item {VCommand}
+    \subitem {console\_\-information\_\-td}, 10
+  \item {visible}
+    \subitem {console\_\-information\_\-td}, 8
+
+\end{theindex}

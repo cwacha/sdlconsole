@@ -1,0 +1,282 @@
+<html>
+<head>
+<title>SDL Console</title>
+</HEAD>
+
+<body link="#0000FF" vlink="#551A8B" alink="#FF0000">
+
+<center><h1>SDL Console</h1></center>
+
+<br><br><b>Author:</b> <a href="mailto:talanthyr@tuxfamily.org">Boris Lesner</a>
+<br><b>Original project by:</b> <a href="mailto:mongoose@mongeese.org">Garrett Banuk</a><br><br>
+
+<strong>Description:</strong><br>
+This is a console that can be added to any SDL application. It 
+is similar to Quake and other game consoles but with lots of added
+features. A console is meant to be a very simple way of interacting
+with a program and executing commands. Commands are linked to the
+console with callback functions so that when a command is typed
+in, a specific function is executed automatically.
+<br>SDL_Console is released under GNU/LGPL licence ( see <a href="http://www.gnu.org/copyleft/lesser.html">www.gnu.org</a> for more information )
+
+<br><br>
+<strong>Depends:</strong><br>
+SDL_console depends of the following libs :<br>
+<b>SDL</b> : <a href="http://www.libsdl.org">www.libsdl.org</a>
+<b>SDL_image</b> : <a href="http://www.libsdl.org/projects/SDL_image">http://www.libsdl.org/projects/SDL_image</a>
+
+<br><br><b>September 19, 2002</b> 
+SDL_console 1.3 is released! Wacha Clemens again couldn't stop adding stuff to the code.<br>
+I has too many features and bugfixes to mention them here. For a complete list see below.<br>
+He has completely rewritten the command line and added lots of useful control keys.
+
+<br><br><b>September 13, 2002</b> 
+SDL_console 1.2 is released thanks to Wacha Clemens who added a prompt, autoscrolling commandline, and buxfixes.<br>
+I also added CON_Free() which equals to CON_Destroy but without destroying text support of DT ( thanks to Paul Wighton ), CON_Destroy still in the lib for compatibility.
+
+<br><br><b>September 03, 2002</b> 
+Garrett give me the SDL_console project and I hope I could add nice changes to the lib !
+<br>But's it's already stable and I think that only a few things would be added.<br>For now I added a debian package of SDL_Console, the SDL_image support for PNG, JPG, ... images formats, and a shared library of the lib.
+<br>SDL_console is now version 1.1.
+<br> Boris Lesner.  
+
+<br><br>
+<b>July 12, 2002</b> <font color="red" size="+1"><b>SDL_Console needs a new author!</b></font> I no longer have the time to work on SDL_Console with my new job and other interests and due to the popularity of SDL_Console, I do not want to let the project stagnate. I'm going to give the project away to someone else to maintain and improve as they see fit. The new author will have full control of the project and may do with it as they please. If you are interested in taking over the project, please <a href="mailto:mongoose@mongeese.org">email</a> me. Give me some information about your computer science skills, projects you've worked on, etc. After/if I get a sufficient response from interested people, I will decide who will take over the project. Thanks for all the support from everyone. I hope this project is still useful in the future.
+
+<br><br>
+<b>Nov 14, 2001</b> <a href="mailto:cort@andrew.cmu.edu">Cort Stratton</a> added a new MSVC project for the console with the new source.
+
+<br><br>
+<b>Oct 8, 2001</b> Finally an update to SDL_console! SDL_console has now reached version 1.0. I figured it's about time since there have not been any bug fixes for a while so the code is pretty solid. There are also lots of new additions to the code and a decent Makefile system now. If anyone wants to write an autoconf system though, be my guest. 
+<ul>
+<li>Backward compatibilty has been completely broken. See the API below.</li>
+<li>Multiple independant consoles can be displayed on the screen. Checkout the <a href="screen3.jpg">screenshot</a>.</li>
+<li>Better Makefile system. Should be a little easier to work with now.</li>
+<li>Fixed a few performance issues.</li>
+<li>Cleaned up the code. Cutting and pasting everyones different coding styles into the source was getting messy.</li>
+</ul>
+
+<br><br>
+<b>June 12, 2001</b> <a href="mailto:slim@maya.com">Seung Chan Lim</a> Has donated a version of SDL_Console with the demo in MSVC project format. You can download it below.
+
+<br><br>
+<b>May 15, 2001</b> Now the console <i>really</i> works with OpenGL. =) Thanks to <a href="mailto:cort@andrew.cmu.edu">Cort Stratton</a> for fixing the OpenGL support. The console example source now demonstrates it's use with OpenGL. There is also the non-OpenGL sample source included in the archive. As usual there were a few cosmetic modifications and bug fixes also.
+
+
+<br><br>
+<b>Apr 29, 2001</b> I added a blinking cursor showing the current editing position due to popular demand. Ugh I didn't realize how ugly this code was. =) It's efficient, just not very neat.
+<ul>
+<li>Added a blinking cursor showing the current text position.</li>
+<li>Reorganized some of the code to be more readable.</li>
+</ul>
+
+
+<b>Feb 20, 2001</b> Thanks to <a href="mailto:pcruz@qwest.net">Patricia Cruz</a> for adding an OpenGL fix to the Console source.
+<ul>
+<li>Console now works within an OpenGL program and can be blitted to OpenGL surfaces.</li>
+</ul>
+
+<b>Nov 18, 2000</b> Lots of new changes here, mainly thanks to Lee Thomason for submitting some of them and motivating me to work on this again.
+<ul>
+<li>Naming conventions have been changed. Console commands now start with the CON_ prefix so as not to be confused with SDL_. Also the text drawing routines now start with DT_ so that they are distinguished as being seperate from the console.</li>
+<li>Console is no longer `attached' to the top of the screen, it is now a box that can be located anywhere. CON_Position(int x, int y)</li>
+<li>The console can be resized without reinitializing.  CON_Resize(SDL_Rect rect)</li>
+<li>Tab completion lists all the matching commands rather than just completing with the first command it partially matches with.  (Ya I know, this ones been overdue.)</li>
+<li>An option can be set to send back the command with the parameters from the user rather than just the parameters. So now multiple commands can be sent to one function and be distinguished from each other.  CON_SendFullCommand(int sendOn)</li>
+<li>New command CON_Destroy() now shuts down and frees the console from the program. DT_DestroyDrawText() does the same thing for the text drawing routines.</li>
+<li>CON_SetConsoleBorder() has been removed. This is because of the new free moving console. Setting a border around the edges is much more complicated so I won't bother implementing this unless people ask for it.</li>
+<li>All of the help resources are going onto the webpage now rather than in the README file.</li>
+</ul>
+
+<b>April 16, 1999</b>
+<ul>
+<li>Scroll back buffer amount can be specified at init.</li>
+<li>PageUP PageDOWN scrolling through the buffer.</li>
+<li>Printing to the console is done with printf() similiar arguments.</li>
+<li>Tab completion of commands.</li>
+<li>Arbitrary number of commands can be added.</li>
+<li>Arbitrary number of arguments to each command from the input.</li>
+<li>Alpha blending onto the destination surface.(optional for speed)</li>
+<li>Border/Background image.(optional for speed)</li>
+<li>Any bitmap font can be used.</li>
+</ul>
+
+Also included is text and font handling routines for bitmap fonts.
+Bitmap fonts can be loaded up and text can be outputted to the surfaces
+using the different fonts. These bitmap font routines can be used seperately
+without the console. The text drawing routines are in the files DT_*
+
+<br><br><strong>Source:</strong><br>
+<a href="SDL_console-1.2.tar.gz">[Console and Example (SDL_console-1.2.tar.gz)]</a><br>
+<a href="SDL_console-1.2.zip">[Console and Example for MSVC (SDL_console-1.2.zip)]</a><br>
+<br><br>Additions and modifications are welcome.<br><a href="mailto:talanthyr@tuxfamily.org">Email</a> me if you have suggestions for other things to be added or fixes.
+
+<br><br><strong>ScreenShots:</strong><br>
+<a href="screen1.jpg">Small console</a>
+<br><a href="screen2.jpg">Stretched to half the screen</a>
+<br><a href="screen3.jpg">Multiple consoles on the same screen</a>
+
+<br>
+<br><b>Keyboard controls</b>
+<br><br>
+ <table>
+  <tr>
+    <td>Up</td>
+    <td>move command history up</td>
+  </tr>
+  <tr>
+    <td>Down</td>
+    <td>move command history down</td>
+  </tr>
+  <tr>
+    <td>Left</td>
+    <td>move cursor left</td>
+  </tr>
+  <tr>
+    <td>Right</td>
+    <td>move cursor right</td>
+  </tr>
+  <tr>
+    <td>Ins</td>
+    <td>toggle overwrite mode (you can set the two different cursor in CON_console.h)</td>
+  </tr>
+  <tr>
+    <td>Del</td>
+    <td>delete character above cursor</td>
+  </tr>
+  <tr>
+    <td>Backspace</td>
+    <td>delete character left of cursor</td>
+  </td>
+  <tr>
+    <td>Home</td>
+    <td>move cursor to begin of command</td>
+  </tr>
+  <tr>
+    <td>End</td>
+    <td>move cursor to end of command</td>
+  </tr>
+  <tr>
+    <td>Ctrl-A</td>
+    <td>same as Home</td>
+  </tr>
+  <tr>
+    <td>Ctrl-E</td>
+    <td>same as End</td>
+  </tr>
+  <tr>
+    <td>Ctrl-C</td>
+    <td>clear commandline</td>
+  </tr>
+  <tr>
+    <td>Page-Up</td>
+    <td>move history up</td>
+  </tr>
+  <tr>
+    <td>Page-Down</td>
+    <td>move history down</td>
+  </tr>
+  <tr>
+    <td>Shift-Home</td>
+    <td>move to top of history</td>
+  </tr>
+  <tr>
+    <td>Shift-End</td>
+    <td>move to end of history</td>
+  </tr>
+  <tr>
+    <td>Ctrl-L</td>
+    <td>clear history</td>
+  </tr>
+</table>
+
+<br><br><strong>API:</strong><br>
+
+Heres an overview of the CONSOLE API.
+
+<br>
+<br><b>#include "CON_Console.h"</b>
+
+<br><br>
+Most of these functions take a pointer to a ConsoleInformation struct. This tells what console the function should proccess on. A new ConsoleInformation pointer is created with Con_Init().
+
+<br><br><b>ConsoleInformation *CON_Init( char *FontName, SDL_Surface *DisplayScreen, int lines, SDL_Rect rect )</b>
+<br>Takes in a string of the path to the bitmap fontname, the surface the console will be displayed on, the number of lines in the back buffer of the console and an SDL_Rect with the x,y location and width and height. It returns a pointer to a ConsoleInformation struct, or NULL on error.
+
+<br><br><b>void CON_Events( SDL_Event *event )</b>
+<br>Send SDL events to this to be processed when the console is down. Be sure to set SDL_EnableUNICODE(1); for SDL before the commands are sent to the console so the console can interpet the commands. The events are sent to the console registered with CON_Topmost();
+
+<br><br><b>void CON_DrawConsole( ConsoleInformation *console )</b>
+<br>Draws the console on the screen.
+
+<br><br><b>void CON_Out( ConsoleInformation *console, char *str, ... )</b>
+<br>Displays strings to the console, works just like printf()
+
+<br><br><b>void CON_CommandExecute( ConsoleInformation *console, char *BackStrings )</b>
+<br>Executes a command string passed to it. Usually only used internally by the console API.
+
+<br><br><b>void CON_AddCommand( void (*CommandCallback)(ConsoleInformation *console, char *Parameters), char *CommandWord )</b>
+<br>The first parameter of this is a pointer to a function that takes a ConsoleInformation pointer and a string pointer as a parameter. The ConsoleInformation pointer is the console the command was typed in, the string is the arguments passed to the command in the console. The second parameter of AddCommand is the string of the command (no space) the user will type into the console to call this function.
+
+<br><br><b>void CON_ListCommands( ConsoleInformation *console )</b>
+<br>Lists the commands in the console.
+
+<br><br><b>void CON_SendFullCommand( int sendOn )</b>
+<br>This sets a flag so that the command and the arguments typed in by the user are all sent to the callback function. This is helpful in that one callback function can be used for multiple different commands typed in by the user and easily distinguished.
+
+<br><br><b>int CON_Background( ConsoleInformation *console, char *image, int x, int y )</b>
+<br>Loads the file from image to the location (x,y) on the background.  If this function is passed NULL for image the background is unloaded.
+
+<br><br><b>void CON_Alpha( ConsoleInformation *console, unsigned char alpha )</b>
+<br>Alpha blends the console into the background, value range is 1-200.
+If the alpha value passed is 0 alpha blending is turned off.
+
+<br><br><b>void CON_Destroy( ConsoleInformation *console )</b>
+<br>This shuts down and frees the console resources.
+
+<br><br><b>void CON_Free( ConsoleInformation *console )</b>
+<br>This shuts down and frees the console resources but not DrawText ressources.
+
+<br><br><b>void CON_SetPrompt(ConsoleInformation *console, char *string)</b>
+<br>This sets the prompt of the console <i>console</i> to <i>string</i>
+
+<br><br><b>void CON_Position( ConsoleInformation *console, int x, int y )</b>
+<br>This positions the console in the new x,y location.
+
+<br><br><b>int CON_Resize( ConsoleInformation *console, SDL_Rect rect )</b>
+<br>This takes an SDL_Rect to resize and move the console window.  Use CON_Position() if you are just moving the console though as the resizing function has to reinitialize resources and so takes longer.
+
+<br><br><b>Special Keys</b>
+<br>Page_UP Page_DOWN scroll around the back buffer of the console TAB tab completes commands END goes back to the bottom of the console
+
+<br><br><br><br>Heres an overview of the DRAW TEXT API.
+
+<br><br><b>#include "SDL_DrawText.h"</b>
+
+<br><br><b>int DT_LoadFont( char *BitmapName, int flags )</b>
+<br>Loads a font from the BitmapName file and returns the
+number of the font. returns -1 as an error. Pass TRANS_FONT
+to the flags if the font is transparent. Transparent color is
+RGB(255,0,255)
+
+<br><br><b>void DT_DrawText( char *string, SDL_Surface *surface, int FontType, int x, int y )</b>
+<br>Draws text to the screen. First parameter is the text to
+draw, second is the surface to draw too, third is the font
+type to draw, last two are the x,y screen location.
+
+<br><br><b>int DT_FontHeight( int FontNumber )</b>
+<br>returns the font character height.
+
+<br><br><b>int DT_FontWidth( int FontNumber )</b>
+<br>returns the font character width.
+
+<br><br><b>void DT_DestroyDrawText( )</b>
+<br>Shuts down and frees all the resources used by the text drawing routines.
+
+<br><br><b>Demo info:</b>
+<br>In this demo the keys CTRL+[1,2,3] display the consoles 1, 2 or 3 to the screen. To select which console you want to type to press ALT+[1,2,3]. ALT+4 directs input back to the program.
+
+<br><br><a href="http://www.tuxfamily.org">TUXFAMILY</a>
+
+</body>
+</html>

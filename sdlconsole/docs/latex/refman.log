@@ -1,0 +1,275 @@
+This is TeX, Version 3.14159 (Web2C 7.3.7) (format=latex 2003.3.17)  17 MAR 2003 10:59
+**refman.tex
+(./refman.tex
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/book.cls
+Document Class: book 2001/04/21 v1.4e Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/bk10.clo
+File: bk10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@chapter=\count80
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@subparagraph=\count85
+\c@figure=\count86
+\c@table=\count87
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf/tex/latex/misc/a4wide.sty
+Package: a4wide 1994/08/30
+
+(/usr/share/texmf/tex/latex/ntgclass/a4.sty
+Package: a4 1999/03/03 v1.2f A4 based page layout
+))
+(/usr/share/texmf/tex/latex/base/makeidx.sty
+Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
+)
+(/usr/share/texmf/tex/latex/fancyhdr/fancyhdr.sty
+\headwidth=\dimen103
+)
+(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2001/08/31 v1.1 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/share/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texmf/tex/latex/tools/multicol.sty
+Package: multicol 2000/07/10 v1.5z multicolumn formatting (FMi)
+\c@tracingmulticols=\count88
+\mult@box=\box26
+\multicol@leftmargin=\dimen106
+\c@unbalance=\count89
+\c@collectmore=\count90
+\doublecol@number=\count91
+\multicoltolerance=\count92
+\multicolpretolerance=\count93
+\full@width=\dimen107
+\page@free=\dimen108
+\premulticols=\dimen109
+\postmulticols=\dimen110
+\multicolsep=\skip43
+\multicolbaselineskip=\skip44
+\partial@page=\box27
+\last@line=\box28
+\mult@rightbox=\box29
+\mult@grightbox=\box30
+\mult@gfirstbox=\box31
+\mult@firstbox=\box32
+\@tempa=\box33
+\@tempa=\box34
+\@tempa=\box35
+\@tempa=\box36
+\@tempa=\box37
+\@tempa=\box38
+\@tempa=\box39
+\@tempa=\box40
+\@tempa=\box41
+\@tempa=\box42
+\@tempa=\box43
+\@tempa=\box44
+\@tempa=\box45
+\@tempa=\box46
+\@tempa=\box47
+\@tempa=\box48
+\@tempa=\box49
+\c@columnbadness=\count94
+\c@finalcolumnbadness=\count95
+\last@try=\dimen111
+\multicolovershoot=\dimen112
+\multicolundershoot=\dimen113
+\mult@nat@firstbox=\box50
+\colbreak@box=\box51
+)
+(/usr/share/texmf/tex/latex/misc/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count96
+\float@exts=\toks15
+\float@box=\box52
+\@float@everytoks=\toks16
+\@floatcapt=\box53
+)
+(/usr/share/texmf/tex/latex/base/alltt.sty
+Package: alltt 1997/06/16 v2.0g defines alltt environment
+) (./doxygen.sty
+Package: doxygen 
+
+(/usr/share/texmf/tex/latex/tools/calc.sty
+Package: calc 1998/07/07 v4.1b Infix arithmetic (KKT,FJ)
+\calc@Acount=\count97
+\calc@Bcount=\count98
+\calc@Adimen=\dimen114
+\calc@Bdimen=\dimen115
+\calc@Askip=\skip45
+\calc@Bskip=\skip46
+LaTeX Info: Redefining \setlength on input line 59.
+LaTeX Info: Redefining \addtolength on input line 60.
+\calc@denominator=\count99
+)
+(/usr/share/texmf/tex/latex/tools/array.sty
+Package: array 1998/05/13 v2.3m Tabular extension package (FMi)
+\col@sep=\dimen116
+\extrarowheight=\dimen117
+\NC@list=\toks17
+\extratabsurround=\skip47
+\backup@length=\skip48
+)
+\tmplength=\skip49
+)
+\@indexfile=\write3
+\openout3 = `refman.idx'.
+
+
+Writing index file refman.idx
+(./refman.aux (./structconsole__information__td.aux) (./DT__drawtext_8h.aux))
+\openout1 = `refman.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 13.
+LaTeX Font Info:    ... okay on input line 13.
+
+[1
+
+
+] [2
+
+] (./refman.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 5.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 5.
+)
+\tf@toc=\write4
+\openout4 = `refman.toc'.
+
+ [1
+
+] [2
+
+]
+Chapter 1.
+(./index.tex
+Underfull \hbox (badness 10000) in paragraph at lines 12--12
+  
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--13
+ []\OT1/cmr/m/n/10 Garett Banuk $\OML/cmm/m/it/10 <$\OT1/cmtt/m/n/10 mongoose@m
+ongeese.org$\OML/cmm/m/it/10 >$ \OT1/cmr/m/n/10 (Orig-i-nal Ver-sion) , Clemens
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 13--13
+ \OT1/cmr/m/n/10 Wacha $\OML/cmm/m/it/10 <$\OT1/cmtt/m/n/10 reflex-2000@gmx.net
+$\OML/cmm/m/it/10 >$ \OT1/cmr/m/n/10 (Ver-sion 2.x, Doc-u-men-ta-tion) , Boris 
+Lesner
+ []
+
+) [1
+
+] [2
+
+]
+Chapter 2.
+(./annotated.tex) [3] [4
+
+]
+Chapter 3.
+(./files.tex) [5] [6
+
+]
+Chapter 4.
+(./structBitFont__td.tex
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 8.
+ (/usr/share/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 8.
+) [7]
+\openout2 = `structconsole__information__td.aux'.
+
+
+(./structconsole__information__td.tex [8
+
+] [9] [10]) [11] [12
+
+
+]
+Chapter 5.
+(./CON__console_8h.tex [13]
+Underfull \hbox (badness 10000) in paragraph at lines 74--76
+ []\OT1/cmr/m/n/10 void \OT1/cmr/bx/n/10 CON[]-Set-Execute-Function \OT1/cmr/m/
+n/10 (\OT1/cmr/bx/n/10 Console-Information $\OMS/cmsy/m/n/10 ^^C$\OT1/cmr/m/n/1
+0 console, void($\OMS/cmsy/m/n/10 ^^C$\OT1/cmr/m/n/10 Cmd-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--78
+ []\OT1/cmr/m/n/10 void \OT1/cmr/bx/n/10 CON[]-Set-Tab-Completion \OT1/cmr/m/n/
+10 (\OT1/cmr/bx/n/10 Console-Information $\OMS/cmsy/m/n/10 ^^C$\OT1/cmr/m/n/10 
+console, char $\OMS/cmsy/m/n/10 ^^C$\OT1/cmr/m/n/10 ($\OMS/cmsy/m/n/10 ^^C$\OT1
+/cmr/m/n/10 Tab-
+ []
+
+[14] [15] [16]
+Underfull \hbox (badness 10000) in paragraph at lines 288--288
+  
+ []
+
+[17] [18]) [19]
+\openout2 = `DT__drawtext_8h.aux'.
+
+ (./DT__drawtext_8h.tex) [20
+
+] (./refman.ind [21
+
+
+] [22] [23])
+(./refman.aux (./structconsole__information__td.aux) (./DT__drawtext_8h.aux)) )
+ 
+Here is how much of TeX's memory you used:
+ 1113 strings out of 10847
+ 14877 string characters out of 70946
+ 67647 words of memory out of 263001
+ 4032 multiletter control sequences out of 10000+0
+ 7506 words of font info for 27 fonts, out of 400000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 29i,11n,43p,574b,418s stack positions out of 300i,100n,500p,50000b,4000s
+
+Output written on refman.dvi (27 pages, 52524 bytes).
