@@ -9,7 +9,7 @@
 	function. The Interaction stuff for the console can be found in the ProcessEvents()
 	function. 
 
-
+*/
 
 #ifdef GL_DEMO
 #include <GL/glut.h>

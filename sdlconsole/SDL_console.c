@@ -436,12 +436,15 @@ ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *DisplayScreen, i
 	if(newinfo->VChars > CON_CHARS_PER_LINE)
 		newinfo->VChars = CON_CHARS_PER_LINE;
 
-	/* We would like to have a minumum # of lines to guarentee we don't create a memory error */
+	/* deprecated! Memory errors disabled by C.Wacha :-)
+	   We would like to have a minumum # of lines to guarentee we don't create a memory error */
+	/*
 	if(rect.h / newinfo->FontHeight > lines)
 		newinfo->LineBuffer = rect.h / newinfo->FontHeight;
 	else
 		newinfo->LineBuffer = lines;
-
+	*/
+	newinfo->LineBuffer = lines;
 
 	newinfo->ConsoleLines = (char **)malloc(sizeof(char *) * newinfo->LineBuffer);
 	newinfo->CommandLines = (char **)malloc(sizeof(char *) * newinfo->LineBuffer);
@@ -740,6 +743,7 @@ int CON_Background(ConsoleInformation *console, const char *image, int x, int y)
 	SDL_FillRect(console->InputBackground, NULL, SDL_MapRGBA(console->ConsoleSurface->format, 0, 0, 0, SDL_ALPHA_OPAQUE));
 	SDL_BlitSurface(console->BackgroundImage, &backgroundsrc, console->InputBackground, &backgrounddest);
 
+	CON_UpdateConsole(console);
 	return 0;
 }
 
@@ -823,6 +827,13 @@ int CON_Resize(ConsoleInformation *console, SDL_Rect rect) {
 
 	/* restore the alpha level */
 	CON_Alpha(console, console->ConsoleAlpha);
+
+	/* re-calculate the number of visible characters in the command line */
+	console->VChars = (rect.w - CON_CHAR_BORDER) / console->FontWidth;
+	if(console->VChars > CON_CHARS_PER_LINE)
+		console->VChars = CON_CHARS_PER_LINE;
+
+	CON_UpdateConsole(console);
 	return 0;
 }
 
