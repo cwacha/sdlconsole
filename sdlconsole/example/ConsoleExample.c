@@ -3,6 +3,14 @@
  * Clemens Wacha (reflex-2000@gmx.net)
  */
 
+/*	How to read this file:
+	
+	The important steps are marked with STEP 1 to 4. They are all in the main() 
+	function. The Interaction stuff for the console can be found in the ProcessEvents()
+	function. 
+
+
+
 #ifdef GL_DEMO
 #include <GL/glut.h>
 #endif /* GL_DEMO */
@@ -39,7 +47,7 @@ int main(int argc, char **argv) {
 		return 1;
 
 
-	/* Init the consoles */
+	/* STEP 1: Init the consoles */
 	Con_rect.x = Con_rect.y = 0;
 	Con_rect.w = Con_rect.h = 300;
 	if((Consoles[0] = CON_Init("ConsoleFont.gif", Screen, 100, Con_rect)) == NULL)
@@ -59,7 +67,8 @@ int main(int argc, char **argv) {
 		return 1;
 
 
-	/* Attach the Command handling function to the consoles. Remark that every
+	
+	/* STEP 2: Attach the Command handling function to the consoles. Remark that every
 	   console can have its own command handler */
 	CON_SetExecuteFunction(Consoles[0], Command_Handler);
 	CON_SetExecuteFunction(Consoles[1], Command_Handler);
@@ -93,6 +102,7 @@ int main(int argc, char **argv) {
 		if(TextDemo)
 			RandText(Screen);
 
+		/* STEP 3: in your video loop, call the drawing function */ 
 		for(i=0; i<CONSOLE_N; i++)
 			CON_DrawConsole(Consoles[i]);
 
@@ -116,6 +126,7 @@ int main(int argc, char **argv) {
 
 	}
 
+	/* STEP 4: delete your consoles before quitting */
 	for(i=0; i<CONSOLE_N; i++)
 		CON_Destroy(Consoles[i]);
 
@@ -273,6 +284,40 @@ void Command_Handler(ConsoleInformation *console, char* command) {
 		free(linecopy);
 		return;
 	}
+
+	/*	This command handler is very stupid. Normally you would save your commands
+		using an array of char* and pointers to functions. You will need something like this 
+		anyway if you want to make use of the tabfunction because you will have 
+		to implement the tabulator completion search function yourself 
+		
+		To make myself clear: I use this construct in my own programs:
+		
+		typedef struct {
+			char* commandname;
+			int (*my_func)(int argc, char* argv[]);
+		} command_t;
+		
+		command_t* cmd_table[] = {
+								{ "quit", quit_function },
+								{ "alpha", set_alpha },
+								{ NULL, NULL }
+								};
+								
+		and to search for a command:
+		
+		command_t* cmd;
+		
+		for (cmd = cmd_table; cmd->commandname; cmd++) {
+			if(!strcasecmd(cmd->commandname, argv[0])) {
+				command found, now start the function
+				return cmd->myfunc;
+			}
+		}
+		if we land here: command not found
+		
+		etc..
+		
+	*/
 
 	if(!strcmp(argv[0], "quit"))
 		KillProgram();

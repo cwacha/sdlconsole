@@ -1,19 +1,6 @@
 #include "split.h"
 
-#ifdef __WIN32__
-#include <stdio.h>
-#include <stdarg.h>
-
-//irgendwie gabs unter Windows kein snprintf.. machen wir halt schnell unser eigenes :-)
-int snprintf(char* str, int size, const char* format, ...) {
-	va_list opts;
-	va_start(opts, format);
-	vsnprintf(str, size, format, opts);
-	va_end(opts);
-}
-#endif
-
-/*!
+/*
  * splitline is a destructive argument parser, much like a very primitive
  * form of a shell parser. it supports quotes for embedded spaces and
  * literal quotes with the backslash escape.

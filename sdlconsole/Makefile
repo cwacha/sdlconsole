@@ -34,4 +34,4 @@ uninstall:
 	rm -f /usr/local/include/DT_drawtext.h
 
 clean:
-	rm -f $(OBJS) libSDL_console.so libSDL_console.a core
+	rm -f $(OBJS) libSDL_console.so.2 libSDL_console.a core
