@@ -41,20 +41,20 @@ int main(int argc, char **argv) {
 	/* Init the consoles */
 	Con_rect.x = Con_rect.y = 0;
 	Con_rect.w = Con_rect.h = 300;
-	if((Consoles[0] = CON_Init("ConsoleFont.png", Screen, 100, Con_rect)) == NULL)
+	if((Consoles[0] = CON_Init("ConsoleFont.gif", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 350;
 	Con_rect.y = 20;
 	Con_rect.w = Con_rect.h = 200;
-	if((Consoles[1] = CON_Init("ConsoleFont.png", Screen, 100, Con_rect)) == NULL)
+	if((Consoles[1] = CON_Init("ConsoleFont.gif", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 340;
 	Con_rect.y = 280;
 	Con_rect.w = 300;
 	Con_rect.h = 200;
-	if((Consoles[2] = CON_Init("ConsoleFont.png", Screen, 100, Con_rect)) == NULL)
+	if((Consoles[2] = CON_Init("ConsoleFont.gif", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv) {
 	CON_Show(Consoles[0]);
 
 	/* Heres another font for the text demo */
-	LargeFont = DT_LoadFont("LargeFont.png", 0);
+	LargeFont = DT_LoadFont("LargeFont.gif", 0);
 
 	/* Main execution loop */
 	while(!done) {

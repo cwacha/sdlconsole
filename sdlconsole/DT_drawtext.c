@@ -74,9 +74,10 @@ int DT_LoadFont(const char *BitmapName, int flags) {
 	}
 
 	/* load the font bitmap */
-	if(NULL == (Temp = IMG_Load(BitmapName))) {
+	Temp = IMG_Load(BitmapName);
+        if(Temp == NULL) {
 		PRINT_ERROR("Cannot load file ");
-		printf("%s\n", BitmapName);
+		printf("%s: %s\n", BitmapName, SDL_GetError());
 		return -1;
 	}
 
