@@ -313,8 +313,8 @@ void DrawTextDemo() {
 
 /* This function displays a help message */
 void HelpText(SDL_Surface *Screen) {
-	DT_DrawText("Show/Hide the consoles with Ctrl-1 to Ctrl-3", Screen, 0, 10, Screen->h - 20);
-	DT_DrawText("Change input with Alt-1 to Alt-3. Alt-4 disables Input.", Screen, 0, 10, Screen->h - 10);
+	DT_DrawText("Show/Hide the consoles with Ctrl-1 to Ctrl-3", Screen, 0, 100, Screen->h - 30);
+	DT_DrawText("Change input with Alt-1 to Alt-3. Alt-4 disables Input.", Screen, 0, 100, Screen->h - 20);
 }
 
 /* This function demonstrates the text drawing routines that
