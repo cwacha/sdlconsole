@@ -7,7 +7,8 @@ LIBSSTATIC=-L.. `sdl-config --libs` -lm -lSDL_image ../libSDL_console.a
 GLLIBS=$(LIBS) -lGL -lGLU -lglut
 GLLIBSSTATIC=$(LIBSSTATIC) -lGL -lGLU -lglut
 
-FLAGS=-Wall -g -O2
+FLAGS=-Wall -g -O2 -pedantic
+
 
 INCLUDE=`sdl-config --cflags` -I.. -I.
 GLINCLUDE=$(INCLUDE) -DGL_DEMO

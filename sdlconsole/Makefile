@@ -1,21 +1,21 @@
 #Makefile for SDL_Console
 
-OBJECTS=SDL_console.o DT_drawtext.o internal.o
+OBJS=SDL_console.o DT_drawtext.o internal.o
 FLAGS=-Wall -g -O2
-INCLUDE=`sdl-config --cflags`
+INCDIR=`sdl-config --cflags`
 LIBS=`sdl-config --libs` -lSDL_image
 CC=gcc
 
 all: libSDL_console.a libSDL_console.so
 
-libSDL_console.so: $(OBJECTS)
-	$(CC) $(OBJECTS) $(FLAGS) -fpic -shared -o libSDL_console.so
+libSDL_console.so:
+	$(LD) -shared $(OBJS) -soname libSDL_console.so.2 -o libSDL_console.so
 
-libSDL_console.a: $(OBJECTS)
-	ar cru libSDL_console.a $(OBJECTS)
+libSDL_console.a: $(OBJS)
+	ar cru libSDL_console.a $(OBJS)
 
 %.o: %.c
-	$(CC) $(FLAGS) $(INCLUDE) -fpic -c $< -o $@
+	$(CC) $(FLAGS) $(INCDIR) -fPIC -c $< -o $@
 
 install:
 	cp libSDL_console.so /usr/local/lib
@@ -30,4 +30,4 @@ uninstall:
 	rm -f /usr/local/include/DT_drawtext.h
 
 clean:
-	rm -f $(OBJECTS) libSDL_console.so libSDL_console.a core
+	rm -f $(OBJS) libSDL_console.so libSDL_console.a core

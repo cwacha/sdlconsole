@@ -141,7 +141,7 @@ void DT_DrawText(const char *string, SDL_Surface *surface, int FontType, int x, 
 		current = string[loop];
 		if (current<0 || current > 255)
 			current = 0;
-		//SourceRect.x = string[loop] * CurrentFont->CharWidth;
+		/* SourceRect.x = string[loop] * CurrentFont->CharWidth; */
 		SourceRect.x = current * CurrentFont->CharWidth;
 		SDL_BlitSurface(CurrentFont->FontSurface, &SourceRect, surface, &DestRect);
 		DestRect.x += CurrentFont->CharWidth;
