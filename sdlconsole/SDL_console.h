@@ -1,5 +1,24 @@
-#ifndef CON_console_H
-#define CON_console_H
+/*
+	SDL_console: An easy to use drop-down console based on the SDL library
+	Copyright (C) 1999, 2000, 2001, 2002, 2003 Clemens Wacha
+	
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Library General Public
+	License as published by the Free Software Foundation; either
+	version 2 of the License, or (at your option) any later version.
+	
+	This library is distributed in the hope tat it will be useful,
+	but WHITOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Library General Public License for more details.
+	
+	You should have received a copy of the GNU Library Generla Public
+	License along with this library; if not, write to the Free
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	
+	Clemens Wacha
+	reflex-2000@gmx.net
+*/
 
 /*! \mainpage
  
@@ -19,9 +38,13 @@ Have Fun!
 \author Boris Lesner <talanthyr@tuxfamily.org> (Package Maintainer)
 */
 
+#ifndef _CONSOLE_H_
+#define _CONSOLE_H_
 
-
-#include "SDL.h"
+//#include "SDL.h"
+#include "SDL_events.h"
+#include "SDL_video.h"
+#include "begin_code.h"
 
 //! Cut the buffer line if it becomes longer than this
 #define CON_CHARS_PER_LINE   128
@@ -44,6 +67,7 @@ Have Fun!
 //! Defines the opening/closing speed
 #define CON_OPENCLOSE_SPEED 25
 
+/* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -90,113 +114,115 @@ extern "C" {
 
 		int FontHeight;
 		int FontWidth;
-	}
-	ConsoleInformation;
+	} ConsoleInformation;
 
 	/*! Takes keys from the keyboard and inputs them to the console if the console isVisible().
 		If the event was not handled (i.e. WM events or unknown ctrl- or alt-sequences) 
 		the function returns the event for further processing. */
-	SDL_Event* CON_Events(SDL_Event *event);
+	extern DECLSPEC SDL_Event* SDLCALL CON_Events(SDL_Event *event);
 	/*! Makes the console visible */
-	void CON_Show(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_Show(ConsoleInformation *console);
 	/*! Hides the console */
-	void CON_Hide(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_Hide(ConsoleInformation *console);
 	/*! Returns 1 if the console is visible, 0 else */
-	int CON_isVisible(ConsoleInformation *console);
+	extern DECLSPEC int SDLCALL CON_isVisible(ConsoleInformation *console);
 	/*! Internal: Updates visible state. Used in CON_DrawConsole() */
-	void CON_UpdateOffset(ConsoleInformation* console);
+	extern DECLSPEC void SDLCALL CON_UpdateOffset(ConsoleInformation* console);
 	/*! Draws the console to the screen if it isVisible()*/
-	void CON_DrawConsole(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_DrawConsole(ConsoleInformation *console);
 	/*! Initializes a new console */
-	ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *DisplayScreen, int lines, SDL_Rect rect);
+	extern DECLSPEC ConsoleInformation* SDLCALL CON_Init(const char *FontName, SDL_Surface *DisplayScreen, int lines, SDL_Rect rect);
 	/*! Frees DT_DrawText and calls CON_Free */
-	void CON_Destroy(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_Destroy(ConsoleInformation *console);
 	/*! Frees all the memory loaded by the console */
-	void CON_Free(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_Free(ConsoleInformation *console);
 	/*! printf for the console */
-	void CON_Out(ConsoleInformation *console, const char *str, ...);
+	extern DECLSPEC void SDLCALL CON_Out(ConsoleInformation *console, const char *str, ...);
 	/*! Sets the alpha channel of an SDL_Surface to the specified value (0 - transparend,
 		255 - opaque). Use this function also for OpenGL. */
-	void CON_Alpha(ConsoleInformation *console, unsigned char alpha);
+	extern DECLSPEC void SDLCALL CON_Alpha(ConsoleInformation *console, unsigned char alpha);
 	/*! Internal: Sets the alpha channel of an SDL_Surface to the specified value.
 		Preconditions: the surface in question is RGBA. 0 <= a <= 255, where 0 is transparent and 255 opaque */
-	void CON_AlphaGL(SDL_Surface *s, int alpha);
+	extern DECLSPEC void SDLCALL CON_AlphaGL(SDL_Surface *s, int alpha);
 	/*! Sets a background image for the console */
-	int CON_Background(ConsoleInformation *console, const char *image, int x, int y);
+	extern DECLSPEC int SDLCALL CON_Background(ConsoleInformation *console, const char *image, int x, int y);
 	/*! Changes current position of the console */
-	void CON_Position(ConsoleInformation *console, int x, int y);
+	extern DECLSPEC void SDLCALL CON_Position(ConsoleInformation *console, int x, int y);
 	/*! Changes the size of the console */
-	int CON_Resize(ConsoleInformation *console, SDL_Rect rect);
+	extern DECLSPEC int SDLCALL CON_Resize(ConsoleInformation *console, SDL_Rect rect);
 	/*! Beams a console to another screen surface. Needed if you want to make a Video restart in your program. This
 		function first changes the OutputScreen Pointer then calls CON_Resize to adjust the new size. */
-	int CON_Transfer(ConsoleInformation* console, SDL_Surface* new_outputscreen, SDL_Rect rect);
+	extern DECLSPEC int SDLCALL CON_Transfer(ConsoleInformation* console, SDL_Surface* new_outputscreen, SDL_Rect rect);
 	/*! Give focus to a console. Make it the "topmost" console. This console will receive events
 		sent with CON_Events() */
-	void CON_Topmost(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_Topmost(ConsoleInformation *console);
 	/*! Modify the prompt of the console */
-	void CON_SetPrompt(ConsoleInformation *console, char* newprompt);
+	extern DECLSPEC void SDLCALL CON_SetPrompt(ConsoleInformation *console, char* newprompt);
 	/*! Set the key, that invokes a CON_Hide() after press. default is ESCAPE and you can always hide using
 		ESCAPE and the HideKey. compared against event->key.keysym.sym !! */
-	void CON_SetHideKey(ConsoleInformation *console, int key);
+	extern DECLSPEC void SDLCALL CON_SetHideKey(ConsoleInformation *console, int key);
 	/*! Internal: executes the command typed in at the console (called if you press ENTER)*/
-	void CON_Execute(ConsoleInformation *console, char* command);
+	extern DECLSPEC void SDLCALL CON_Execute(ConsoleInformation *console, char* command);
 	/*! Sets the callback function that is called if a command was typed in. The function could look like this:
 		void my_command_handler(ConsoleInformation* console, char* command). @param console: the console the command
 		came from. @param command: the command string that was typed in. */
-	void CON_SetExecuteFunction(ConsoleInformation *console, void(*CmdFunction)(ConsoleInformation *console2, char* command));
+	extern DECLSPEC void SDLCALL CON_SetExecuteFunction(ConsoleInformation *console, void(*CmdFunction)(ConsoleInformation *console2, char* command));
 	/*! Sets the callback tabulator completion function. char* my_tabcompletion(char* command). If Tab is
 		pressed, the function gets called with the already typed in command. my_tabcompletion then checks if if can
 		complete the command or if it should display a list of all matching commands (with CON_Out()). Returns the 
 		completed command or NULL if no completion was made. */
-	void CON_SetTabCompletion(ConsoleInformation *console, char*(*TabFunction)(char* command));
+	extern DECLSPEC void SDLCALL CON_SetTabCompletion(ConsoleInformation *console, char*(*TabFunction)(char* command));
 	/*! Internal: Gets called when TAB was pressed */
-	void CON_TabCompletion(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_TabCompletion(ConsoleInformation *console);
 	/*! Internal: makes newline (same as printf("\n") or CON_Out(console, "\n") ) */
-	void CON_NewLineConsole(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_NewLineConsole(ConsoleInformation *console);
 	/*! Internal: shift command history (the one you can switch with the up/down keys) */
-	void CON_NewLineCommand(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_NewLineCommand(ConsoleInformation *console);
 	/*! Internal: updates console after resize etc. */
-	void CON_UpdateConsole(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_UpdateConsole(ConsoleInformation *console);
 
 
 	/*! Internal: Default Execute callback */
-	void Default_CmdFunction(ConsoleInformation *console, char* command);
+	extern DECLSPEC void SDLCALL Default_CmdFunction(ConsoleInformation *console, char* command);
 	/*! Internal: Default TabCompletion callback */
-	char* Default_TabFunction(char* command);
+	extern DECLSPEC char* SDLCALL Default_TabFunction(char* command);
 
 	/*! Internal: draws the commandline the user is typing in to the screen. called by update? */
-	void DrawCommandLine();
+	extern DECLSPEC void SDLCALL DrawCommandLine();
 
 	/*! Internal: Gets called if you press the LEFT key (move cursor left) */
-	void Cursor_Left(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Cursor_Left(ConsoleInformation *console);
 	/*! Internal: Gets called if you press the RIGHT key (move cursor right) */
-	void Cursor_Right(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Cursor_Right(ConsoleInformation *console);
 	/*! Internal: Gets called if you press the HOME key (move cursor to the beginning
 	of the line */
-	void Cursor_Home(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Cursor_Home(ConsoleInformation *console);
 	/*! Internal: Gets called if you press the END key (move cursor to the end of the line*/
-	void Cursor_End(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Cursor_End(ConsoleInformation *console);
 	/*! Internal: Called if you press DELETE (deletes character under the cursor) */
-	void Cursor_Del(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Cursor_Del(ConsoleInformation *console);
 	/*! Internal: Called if you press BACKSPACE (deletes character left of cursor) */
-	void Cursor_BSpace(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Cursor_BSpace(ConsoleInformation *console);
 	/*! Internal: Called if you type in a character (add the char to the command) */
-	void Cursor_Add(ConsoleInformation *console, SDL_Event *event);
+	extern DECLSPEC void SDLCALL Cursor_Add(ConsoleInformation *console, SDL_Event *event);
 
 	/*! Internal: Called if you press Ctrl-C (deletes the commandline) */
-	void Clear_Command(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Clear_Command(ConsoleInformation *console);
 	/*! Internal: Called if you press Ctrl-L (deletes the History) */
-	void Clear_History(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Clear_History(ConsoleInformation *console);
 
 	/*! Internal: Called if you press UP key (switches through recent typed in commands */
-	void Command_Up(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Command_Up(ConsoleInformation *console);
 	/*! Internal: Called if you press DOWN key (switches through recent typed in commands */
-	void Command_Down(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL Command_Down(ConsoleInformation *console);
 
+/* Ends C function definitions when using C++ */
 #ifdef __cplusplus
 };
 #endif
+#include "close_code.h"
 
-#endif
+#endif /* _CONSOLE_H_ */
 
+/* end of SDL_console.h ... */
 

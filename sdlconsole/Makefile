@@ -1,6 +1,6 @@
 #Makefile for SDL_Console
 
-OBJECTS=CON_console.o DT_drawtext.o internal.o
+OBJECTS=SDL_console.o DT_drawtext.o internal.o
 FLAGS=-Wall -g -O2
 INCLUDE=`sdl-config --cflags`
 LIBS=`sdl-config --libs` -lSDL_image
@@ -20,7 +20,7 @@ libSDL_console.a: $(OBJECTS)
 install:
 	cp libSDL_console.so /usr/local/lib
 	cp libSDL_console.a /usr/local/lib
-	cp CON_console.h /usr/local/include
+	cp SDL_console.h /usr/local/include
 	cp DT_drawtext.h /usr/local/include
 
 uninstall:

@@ -6,13 +6,13 @@
  *  in any of your programs.
  */
 
+#include "SDL_console.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
-#include "SDL.h"
 #include "SDL_image.h"
-#include "CON_console.h"
 #include "DT_drawtext.h"
 #include "internal.h"
 
