@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "SDL.h"
-#include "CON_console.h"
+#include "SDL_console.h"
 #include "DT_drawtext.h"
 #include "ConsoleExample.h"
 #include "split.h"
@@ -26,7 +26,8 @@ ConsoleInformation *Consoles[CONSOLE_N];  /* Pointers to all the consoles */
 
 int main(int argc, char **argv) {
 	SDL_Surface *Screen;
-	int ticks = 0, oldticks = 0;
+	int now = 0, then = 0;
+	int frames = 0;
 	int i;
 	char framerate[30];
 	SDL_Rect Con_rect;
@@ -96,11 +97,15 @@ int main(int argc, char **argv) {
 			CON_DrawConsole(Consoles[i]);
 
 		/* print the framerate */
-		oldticks = ticks;
-		ticks = SDL_GetTicks();
-		sprintf(framerate, "%.2f FPS", 1000.0 / (ticks - oldticks));
+		frames++;
+		now = SDL_GetTicks();
+		if( now > then + 500) {
+		    sprintf(framerate, "%7.2f fps", ((double)frames * 1000) / (now - then));
+		    then = now;
+		    frames = 0;
+		}
 		DT_DrawText(framerate, Screen, 1, 1, Screen->h - 40);
-
+		
 #ifdef GL_DEMO
 
 		SDL_GL_SwapBuffers();
