@@ -26,7 +26,7 @@ install:
 uninstall:
 	rm -f /usr/local/lib/libSDL_console.so
 	rm -f /usr/local/lib/libSDL_console.a
-	rm -f /usr/local/include/CON_console.h
+	rm -f /usr/local/include/SDL_console.h
 	rm -f /usr/local/include/DT_drawtext.h
 
 clean:
