@@ -23,6 +23,11 @@
 #ifndef _CONSOLE_H_
 #define _CONSOLE_H_
 
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
+
+
 #include "SDL_events.h"
 #include "SDL_video.h"
 #include "begin_code.h"
@@ -31,7 +36,7 @@
 	than this. Remark that this number does NOT include the '/0' character at the end of a string. So if we create
 	a string we do this char* mystring[CON_CHARS_PER_LINE + 1];
 	*/
-#define CON_CHARS_PER_LINE   128
+#define CON_CHARS_PER_LINE   127
 /*! Cursor blink frequency in ms */
 #define CON_BLINK_RATE       500
 /*! Border in pixels from the left margin to the first letter */
@@ -45,8 +50,7 @@
 /*! Cursor shown if we are in insert mode */
 #define CON_INS_CURSOR "_"
 /*! Cursor shown if we are in overwrite mode */
-/* #define CON_OVR_CURSOR "|" */
-#define CON_OVR_CURSOR 219
+#define CON_OVR_CURSOR "|"
 /*! Defines the default hide key (that Hide()'s the console if pressed) */
 #define CON_DEFAULT_HIDEKEY	SDLK_ESCAPE
 /*! Defines the opening/closing speed when the console switches from CON_CLOSED to CON_OPEN */
@@ -68,7 +72,7 @@ extern "C" {
 	typedef struct console_information_td {
 		int Visible;						/*! enum that tells which visible state we are in CON_CLOSED, CON_OPEN, CON_CLOSING, CON_OPENING */
 		int WasUnicode;						/*! stores the UNICODE value before the console was shown. On Hide() the UNICODE value is restored. */
-		int RaiseOffset;					/*! Offset used when scrolling in the console ??? FIXME */
+		int RaiseOffset;					/*! Offset used in show/hide animation */
 		int HideKey;						/*! the key that can hide the console */
 		char **ConsoleLines;				/*! List of all the past lines */
 		char **CommandLines;				/*! List of all the past commands */

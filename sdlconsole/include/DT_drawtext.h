@@ -23,6 +23,10 @@
 #ifndef Drawtext_h
 #define Drawtext_h
 
+#ifdef HAVE_CONFIG_H
+  #include <config.h>
+#endif
+
 
 #define TRANS_FONT 1
 

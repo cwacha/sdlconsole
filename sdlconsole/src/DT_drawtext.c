@@ -29,9 +29,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "SDL.h"
-#include "SDL_image.h"
 #include "DT_drawtext.h"
 #include "internal.h"
+
+#ifdef HAVE_LIBSDL_IMAGE
+  #include "SDL_image.h"
+#endif
 
 
 static BitFont *BitFonts = NULL;	/* Linked list of fonts */
@@ -95,8 +98,14 @@ int DT_LoadFont(const char *BitmapName, int flags) {
 	}
 
 	/* load the font bitmap */
+
+#ifdef HAVE_LIBSDL_IMAGE
 	Temp = IMG_Load(BitmapName);
-        if(Temp == NULL) {
+#else
+	Temp = SDL_LoadBMP(BitmapName);
+#endif
+
+    if(Temp == NULL) {
 		PRINT_ERROR("Cannot load file ");
 		printf("%s: %s\n", BitmapName, SDL_GetError());
 		return -1;

@@ -31,10 +31,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
-#include "SDL_image.h"
 #include "DT_drawtext.h"
 #include "internal.h"
 
+#ifdef HAVE_LIBSDL_IMAGE
+#include "SDL_image.h"
+#endif
 
 /* This contains a pointer to the "topmost" console. The console that
  * is currently taking keyboard input. */
@@ -468,13 +470,13 @@ ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *DisplayScreen, i
 	newinfo->ConsoleLines = (char **)malloc(sizeof(char *) * newinfo->LineBuffer);
 	newinfo->CommandLines = (char **)malloc(sizeof(char *) * newinfo->LineBuffer);
 	for(loop = 0; loop <= newinfo->LineBuffer - 1; loop++) {
-		newinfo->ConsoleLines[loop] = (char *)calloc(CON_CHARS_PER_LINE, sizeof(char));
-		newinfo->CommandLines[loop] = (char *)calloc(CON_CHARS_PER_LINE, sizeof(char));
+		newinfo->ConsoleLines[loop] = (char *)calloc(CON_CHARS_PER_LINE+1, sizeof(char));
+		newinfo->CommandLines[loop] = (char *)calloc(CON_CHARS_PER_LINE+1, sizeof(char));
 	}
-	memset(newinfo->Command, 0, CON_CHARS_PER_LINE);
-	memset(newinfo->LCommand, 0, CON_CHARS_PER_LINE);
-	memset(newinfo->RCommand, 0, CON_CHARS_PER_LINE);
-	memset(newinfo->VCommand, 0, CON_CHARS_PER_LINE);
+	memset(newinfo->Command, 0, CON_CHARS_PER_LINE+1);
+	memset(newinfo->LCommand, 0, CON_CHARS_PER_LINE+1);
+	memset(newinfo->RCommand, 0, CON_CHARS_PER_LINE+1);
+	memset(newinfo->VCommand, 0, CON_CHARS_PER_LINE+1);
 
 
 	CON_Out(newinfo, "Console initialised.");
@@ -550,7 +552,7 @@ void CON_NewLineConsole(ConsoleInformation *console) {
 
 	console->ConsoleLines[0] = temp;
 
-	memset(console->ConsoleLines[0], 0, CON_CHARS_PER_LINE);
+	memset(console->ConsoleLines[0], 0, CON_CHARS_PER_LINE+1);
 	if(console->TotalConsoleLines < console->LineBuffer - 1)
 		console->TotalConsoleLines++;
 
@@ -581,7 +583,7 @@ void CON_NewLineCommand(ConsoleInformation *console) {
 
 	console->CommandLines[0] = temp;
 
-	memset(console->CommandLines[0], 0, CON_CHARS_PER_LINE);
+	memset(console->CommandLines[0], 0, CON_CHARS_PER_LINE+1);
 	if(console->TotalCommands < console->LineBuffer - 1)
 		console->TotalCommands++;
 }
@@ -666,15 +668,15 @@ void DrawCommandLine() {
 /* Outputs text to the console (in game), up to CON_CHARS_PER_LINE chars can be entered */
 void CON_Out(ConsoleInformation *console, const char *str, ...) {
 	va_list marker;
-	/* keep some space free for stuff like CON_Out(console, "blablabla %s", console->Command); */
-	char temp[CON_CHARS_PER_LINE + 128];
+
+	char temp[CON_CHARS_PER_LINE+1];
 	char* ptemp;
 
 	if(!console)
 		return;
 
 	va_start(marker, str);
-	vsnprintf(temp, CON_CHARS_PER_LINE + 127, str, marker);
+	vsnprintf(temp, CON_CHARS_PER_LINE, str, marker);
 	va_end(marker);
 
 	ptemp = temp;
@@ -738,7 +740,11 @@ int CON_Background(ConsoleInformation *console, const char *image, int x, int y)
 	}
 
 	/* Load a new background */
+#ifdef HAVE_LIBSDL_IMAGE
 	temp = IMG_Load(image);
+#else
+	temp = SDL_LoadBMP(image);
+#endif
 	if(!temp) {
 		CON_Out(console, "Cannot load background %s.", image);
 		return 1;
@@ -939,11 +945,16 @@ void CON_TabCompletion(ConsoleInformation *console) {
 	if(!command)
 		return;	/* no tab completion took place so return silently */
 
+	/*	command now contains the tabcompleted string. check for correct size
+		since the string has to fit into the commandline it can have a maximum length of
+		CON_CHARS_PER_LINE = commandlength + space + cursor
+		=> commandlength = CON_CHARS_PER_LINE - 2
+	*/
 	j = strlen(command);
-	if(j > CON_CHARS_PER_LINE - 2)
-		j = CON_CHARS_PER_LINE-1;
+	if(j + 2 > CON_CHARS_PER_LINE)
+		j = CON_CHARS_PER_LINE - 2;
 
-	memset(console->LCommand, 0, CON_CHARS_PER_LINE);
+	memset(console->LCommand, 0, CON_CHARS_PER_LINE+1);
 	console->CursorPos = 0;
 
 	for(i = 0; i < j; i++) {
@@ -966,7 +977,7 @@ char* Default_TabFunction(char* command) {
 }
 
 void Cursor_Left(ConsoleInformation *console) {
-	char temp[CON_CHARS_PER_LINE];
+	char temp[CON_CHARS_PER_LINE+1];
 
 	if(Topmost->CursorPos > 0) {
 		Topmost->CursorPos--;
@@ -979,7 +990,7 @@ void Cursor_Left(ConsoleInformation *console) {
 }
 
 void Cursor_Right(ConsoleInformation *console) {
-	char temp[CON_CHARS_PER_LINE];
+	char temp[CON_CHARS_PER_LINE+1];
 
 	if(Topmost->CursorPos < strlen(Topmost->Command)) {
 		Topmost->CursorPos++;
@@ -991,23 +1002,23 @@ void Cursor_Right(ConsoleInformation *console) {
 }
 
 void Cursor_Home(ConsoleInformation *console) {
-	char temp[CON_CHARS_PER_LINE];
+	char temp[CON_CHARS_PER_LINE+1];
 
 	Topmost->CursorPos = 0;
 	strcpy(temp, Topmost->RCommand);
 	strcpy(Topmost->RCommand, Topmost->LCommand);
 	strncat(Topmost->RCommand, temp, strlen(temp));
-	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE);
+	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE+1);
 }
 
 void Cursor_End(ConsoleInformation *console) {
 	Topmost->CursorPos = strlen(Topmost->Command);
 	strncat(Topmost->LCommand, Topmost->RCommand, strlen(Topmost->RCommand));
-	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE);
+	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE+1);
 }
 
 void Cursor_Del(ConsoleInformation *console) {
-	char temp[CON_CHARS_PER_LINE];
+	char temp[CON_CHARS_PER_LINE+1];
 
 	if(strlen(Topmost->RCommand) > 0) {
 		strcpy(temp, Topmost->RCommand);
@@ -1029,8 +1040,9 @@ void Cursor_BSpace(ConsoleInformation *console) {
 
 void Cursor_Add(ConsoleInformation *console, SDL_Event *event) {
 	int len = 0;
-	
-	if(strlen(Topmost->Command) < CON_CHARS_PER_LINE - 1 && event->key.keysym.unicode) {
+
+	/* Again: the commandline has to hold the command and the cursor (+1) */
+	if(strlen(Topmost->Command) + 1 < CON_CHARS_PER_LINE && event->key.keysym.unicode) {
 		Topmost->CursorPos++;
 		len = strlen(Topmost->LCommand);
 		Topmost->LCommand[len] = (char)event->key.keysym.unicode;
@@ -1041,10 +1053,10 @@ void Cursor_Add(ConsoleInformation *console, SDL_Event *event) {
 
 void Clear_Command(ConsoleInformation *console) {
 	Topmost->CursorPos = 0;
-	memset(Topmost->VCommand, 0, CON_CHARS_PER_LINE);
-	memset(Topmost->Command, 0, CON_CHARS_PER_LINE);
-	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE);
-	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE);
+	memset(Topmost->VCommand, 0, CON_CHARS_PER_LINE+1);
+	memset(Topmost->Command, 0, CON_CHARS_PER_LINE+1);
+	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE+1);
+	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE+1);
 }
 
 void Assemble_Command(ConsoleInformation* console) {
@@ -1054,14 +1066,14 @@ void Assemble_Command(ConsoleInformation* console) {
 	len = CON_CHARS_PER_LINE - strlen(Topmost->LCommand);
 	strcpy(Topmost->Command, Topmost->LCommand);
 	strncat(Topmost->Command, Topmost->RCommand, len);
-	Topmost->Command[CON_CHARS_PER_LINE - 1] = '\0';
+	Topmost->Command[CON_CHARS_PER_LINE] = '\0';
 }
 
 void Clear_History(ConsoleInformation *console) {
 	int loop;
 
 	for(loop = 0; loop <= console->LineBuffer - 1; loop++)
-		memset(console->ConsoleLines[loop], 0, CON_CHARS_PER_LINE);
+		memset(console->ConsoleLines[loop], 0, CON_CHARS_PER_LINE+1);
 }
 
 void Command_Up(ConsoleInformation *console) {

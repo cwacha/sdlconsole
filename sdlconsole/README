@@ -1,6 +1,11 @@
 SDL Console
 	A quake-like drop-down console for SDL.
 
+The newest version can be found at
+
+http://sdlconsole.sourceforge.net/
+
+
 Original Version by
 Garrett Banuk
 (mongoose@mongeese.org)
@@ -8,7 +13,3 @@ Garrett Banuk
 Maintainer and responsible for future releases:
 Clemens Wacha (reflex-2000@gmx.net)
 Boris Lesner (talanthyr@tuxfamily.org)
-
-http://sdlconsole.sourceforge.net/
-
-Please see the index.html file for info.
