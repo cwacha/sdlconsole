@@ -64,7 +64,7 @@ extern "C" {
 	enum {
 	    CON_CLOSED,	/*! The console is closed (and not shown) */
 	    CON_CLOSING,	/*! The console is still open and visible but closing. After it has completely disappeared it changes to CON_CLOSED */
-	    CON_OPENING,	/*! The console is visible and opening but not yet fully open. Changes to CON_OPEN when done*/
+	    CON_OPENING,	/*! The console is visible and opening but not yet fully open. Changes to CON_OPEN when done */
 	    CON_OPEN	/*! The console is open and visible */
 	};
 
