@@ -112,7 +112,6 @@ SDL_Event* CON_Events(SDL_Event *event) {
 				break;
 			case SDLK_TAB:
 				CON_TabCompletion(Topmost);
-				CON_UpdateConsole(Topmost);
 				break;
 			case SDLK_RETURN:
 				if(strlen(Topmost->Command) > 0) {
@@ -925,6 +924,8 @@ void CON_TabCompletion(ConsoleInformation *console) {
 	console->CursorPos++;
 	console->LCommand[j] = ' ';
 	console->LCommand[j+1] = '\0';
+
+	Assemble_Command(console);
 }
 
 char* Default_TabFunction(char* command) {
