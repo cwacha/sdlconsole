@@ -4,8 +4,10 @@
             "name": "Mac",
             "includePath": [
                 "${default}",
+                "/usr/local/include/SDL",
                 "/usr/local/include/SDL/**",
-                "${workspaceFolder}/sdlconsole/**"
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/include/**",
             ],
             "defines": [],
             "macFrameworkPath": [
