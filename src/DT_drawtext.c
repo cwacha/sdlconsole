@@ -1,16 +1,40 @@
+/*
+	SDL_console: An easy to use drop-down console based on the SDL library
+	Copyright (C) 1999, 2000, 2001, 2002, 2003, 2004 Clemens Wacha
+	
+	This library is free software; you can redistribute it and/or
+	modify it under the terms of the GNU Library General Public
+	License as published by the Free Software Foundation; either
+	version 2 of the License, or (at your option) any later version.
+	
+	This library is distributed in the hope that it will be useful,
+	but WHITOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+	Library General Public License for more details.
+	
+	You should have received a copy of the GNU Library Generla Public
+	License along with this library; if not, write to the Free
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+	
+	Clemens Wacha
+	reflex-2000@gmx.net
+*/
+
+
 /*  DT_drawtext.c
  *  Written By: Garrett Banuk <mongoose@mongeese.org>
- *  This is free, just be sure to give me credit when using it
- *  in any of your programs.
  */
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "SDL.h"
-#include "SDL_image.h"
 #include "DT_drawtext.h"
 #include "internal.h"
+
+#ifdef HAVE_SDLIMAGE
+  #include "SDL_image.h"
+#endif
 
 
 static BitFont *BitFonts = NULL;	/* Linked list of fonts */
@@ -74,8 +98,14 @@ int DT_LoadFont(const char *BitmapName, int flags) {
 	}
 
 	/* load the font bitmap */
+
+#ifdef HAVE_SDLIMAGE
 	Temp = IMG_Load(BitmapName);
-        if(Temp == NULL) {
+#else
+	Temp = SDL_LoadBMP(BitmapName);
+#endif
+
+    if(Temp == NULL) {
 		PRINT_ERROR("Cannot load file ");
 		printf("%s: %s\n", BitmapName, SDL_GetError());
 		return -1;
