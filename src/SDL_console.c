@@ -35,7 +35,7 @@
 #include "internal.h"
 
 #ifdef HAVE_SDLIMAGE
-#include "SDL_image.h"
+  #include "SDL_image.h"
 #endif
 
 /* This contains a pointer to the "topmost" console. The console that
@@ -1084,6 +1084,7 @@ void Command_Up(ConsoleInformation *console) {
 		/* memset(console->RCommand, 0, CON_CHARS_PER_LINE);
 		memset(console->LCommand, 0, CON_CHARS_PER_LINE); */
 		console->RCommand[0] = '\0';
+		console->LCommand[0] = '\0';
 	
 		console->Offset = 0;
 		strcpy(console->LCommand, console->CommandLines[console->CommandScrollBack]);
@@ -1100,6 +1101,7 @@ void Command_Down(ConsoleInformation *console) {
 		/* memset(console->RCommand, 0, CON_CHARS_PER_LINE);
 		memset(console->LCommand, 0, CON_CHARS_PER_LINE); */
 		console->RCommand[0] = '\0';
+		console->LCommand[0] = '\0';
 		
 		console->Offset = 0;
 		if(console->CommandScrollBack > -1)
