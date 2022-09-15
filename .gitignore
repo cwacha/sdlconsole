@@ -1,1 +1,34 @@
 .DS_Store
+
+# folders
+autom4te.cache/
+.libs
+.deps
+
+# object files
+*.Po
+*.o
+*.lo
+*.la
+
+# example files
+example/example
+example/example_static
+
+# autoconf/automake files
+aclocal.m4
+compile
+config.guess
+config.h
+config.log
+config.status
+config.sub
+configure
+depcomp
+install-sh
+libtool
+ltmain.sh
+Makefile
+Makefile.in
+missing
+stamp-h1
