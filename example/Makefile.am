@@ -24,5 +24,5 @@ ConsoleExample_LDFLAGS = -L../src -lSDL_console
 noinst_PROGRAMS = ConsoleExample ConsoleExample_static $(GLEXAMPLES)
 
 
-EXTRA_DIST = ConsoleExample.c ConsoleExample.h split.c split.h ConsoleFont.gif LargeFont.gif background.jpg
+EXTRA_DIST = *.h ConsoleFont.bmp LargeFont.gif background.jpg
 
