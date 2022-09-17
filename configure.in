@@ -1,61 +1,29 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
+AC_PREREQ([2.71])
 
-AC_PREREQ(2.57)
-AC_INIT(SDL_console)
-AC_CONFIG_SRCDIR([README])
-AC_CONFIG_HEADER([config.h])
+AC_INIT(SDL_console, [2.1.0])
+AC_CONFIG_SRCDIR([src/SDL_console.c])
+AC_CONFIG_HEADERS([config.h])
 
-dnl Set various version strings - taken gratefully from the GTk sources
-
-# Making releases:
-#   MICRO_VERSION += 1;
-#   INTERFACE_AGE += 1;
-#   BINARY_AGE += 1;
-# if any functions have been added, set INTERFACE_AGE to 0.
-# if backwards compatibility has been broken,
-# set BINARY_AGE and INTERFACE_AGE to 0.
-
+# Version (ensure this is in sync with line 5: AC_INIT)
 MAJOR_VERSION=2
 MINOR_VERSION=1
-MICRO_VERSION=0
-INTERFACE_AGE=0
-BINARY_AGE=0
-VERSION=$MAJOR_VERSION.$MINOR_VERSION.$MICRO_VERSION
-
+PATCH_VERSION=0
+VERSION=$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION
 AC_SUBST(MAJOR_VERSION)
 AC_SUBST(MINOR_VERSION)
-AC_SUBST(MICRO_VERSION)
-AC_SUBST(INTERFACE_AGE)
-AC_SUBST(BINARY_AGE)
+AC_SUBST(PATCH_VERSION)
 AC_SUBST(VERSION)
 
-# libtool versioning
-LT_RELEASE=$MAJOR_VERSION.$MINOR_VERSION
-LT_CURRENT=`expr $MICRO_VERSION - $INTERFACE_AGE`
-LT_REVISION=$INTERFACE_AGE
-LT_AGE=`expr $BINARY_AGE - $INTERFACE_AGE`
-
-AC_SUBST(LT_RELEASE)
-AC_SUBST(LT_CURRENT)
-AC_SUBST(LT_REVISION)
-AC_SUBST(LT_AGE)
-
-dnl Detect the canonical host and target build environment
-AC_CANONICAL_HOST
-AC_CANONICAL_TARGET
-
 dnl Setup for automake
-AM_INIT_AUTOMAKE(SDL_console, $VERSION)
+AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 
 dnl Check for tools
-
-AC_LIBTOOL_WIN32_DLL
-AM_PROG_LIBTOOL
+LT_INIT
 AC_PROG_MAKE_SET
 AC_PROG_CC
-AC_C_INLINE
 AC_PROG_INSTALL
 AC_PROG_LN_S
 
@@ -68,9 +36,9 @@ AM_PATH_SDL($SDL_VERSION,
 CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
-# Check command-line options
+# Check for SDL_image
 AC_ARG_ENABLE(sdlimage,
-AC_HELP_STRING(--enable-sdlimage,support SDL_image (default=yes)),
+AS_HELP_STRING([--enable-sdlimage],[support SDL_image (default=yes)]),
 ,
 enable_sdlimage=yes)
 if test x$enable_sdlimage = xyes; then
@@ -87,7 +55,7 @@ AC_SUBST(CON_LIBS)
 
 
 AC_ARG_ENABLE(gldemo,
-AC_HELP_STRING(--enable-opengl,enable OpenGL support for the example (default=yes)),
+AS_HELP_STRING([--enable-opengl],[enable OpenGL support for the example (default=yes)]),
 ,
 enable_gldemo=yes)
 if test x$enable_gldemo = xyes; then
@@ -104,20 +72,6 @@ fi
 AC_SUBST(EXAMPLE_LIBS)
 AM_CONDITIONAL(HAVE_OPENGL,test x$enable_gldemo = xyes)
 
-#What is that thing used for anyway???
-# FIXME: Replace `main' with a function in `-lm':
-#AC_CHECK_LIB([m], [main])
-
-# Checks for header files.
-AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h string.h])
-
-# Checks for typedefs, structures, and compiler characteristics.
-AC_C_CONST
-
-# Checks for library functions.
-AC_FUNC_MALLOC
-AC_CHECK_FUNCS([atexit memset strdup])
 
 AC_CONFIG_FILES([Makefile
                  src/Makefile

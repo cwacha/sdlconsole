@@ -1,8 +1,9 @@
 #!/bin/sh
 
 aclocal -I .
-automake --foreign --add-missing --copy
 autoconf
+autoheader
+automake --add-missing --copy
 
 echo "Now you are ready to run ./configure"
 

@@ -1,34 +1,39 @@
+# OS specific ignores
 .DS_Store
-
-# folders
-autom4te.cache/
-.libs
-.deps
 
 # object files
 *.Po
 *.o
 *.lo
 *.la
+*.a
+*.dylib
 
 # example files
-example/example
-example/example_static
+example/ConsoleExample
+example/ConsoleExample_static
 
-# autoconf/automake files
-aclocal.m4
-compile
-config.guess
-config.h
-config.log
-config.status
-config.sub
-configure
-depcomp
-install-sh
-libtool
-ltmain.sh
-Makefile
+# autoconf/automake
+/autom4te.cache
+/aclocal.m4
+/compile
+/config.*
+/configure
+/depcomp
+/install-sh
+/libtool
+/ltmain.sh
+/Makefile
+/Makefile.in
+/missing
+/stamp-h1
 Makefile.in
-missing
-stamp-h1
+Makefile
+.libs
+.deps
+
+
+# CMake
+cmake_install.cmake
+CMakeCache.txt
+CMakeFiles

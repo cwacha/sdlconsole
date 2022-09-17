@@ -1,8 +1,8 @@
 FLAGS=-Wall -g -O2 -pedantic
-INCLUDES= -I../include
+AM_CPPFLAGS= -I../include
 
-example_static_SOURCES = ConsoleExample.c split.c
-example_static_LDFLAGS = -L../src ../src/.libs/libSDL_console.a
+ConsoleExample_static_SOURCES = ConsoleExample.c split.c
+ConsoleExample_static_LDFLAGS = -L../src ../src/.libs/libSDL_console.a
 
 if HAVE_OPENGL
 GLEXAMPLES = exampleGL exampleGL_static
@@ -18,10 +18,10 @@ else
 GLEXAMPLES =
 endif
 
-example_SOURCES = ConsoleExample.c split.c
-example_LDFLAGS = -L../src -lSDL_console
+ConsoleExample_SOURCES = ConsoleExample.c split.c
+ConsoleExample_LDFLAGS = -L../src -lSDL_console
 
-noinst_PROGRAMS = example example_static $(GLEXAMPLES)
+noinst_PROGRAMS = ConsoleExample ConsoleExample_static $(GLEXAMPLES)
 
 
 EXTRA_DIST = ConsoleExample.c ConsoleExample.h split.c split.h ConsoleFont.gif LargeFont.gif background.jpg

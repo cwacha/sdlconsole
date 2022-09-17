@@ -1,4 +1,4 @@
-INCLUDES = -I../include
+AM_CPPFLAGS = -I../include
 
 lib_LTLIBRARIES = libSDL_console.la
 
@@ -8,7 +8,7 @@ libSDL_console_la_SOURCES = \
 	internal.c
 
 libSDL_console_la_LDFLAGS = \
-	-release $(LT_RELEASE) \
-	-version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE)
+	-release $(MAJOR_VERSION).$(MINOR_VERSION) \
+	-version-info $(PATCH_VERSION):0:0
 libSDL_console_la_LIBADD = @CON_LIBS@
 
