@@ -48,8 +48,10 @@ int main(int argc, char **argv) {
 
 
 	/* STEP 1: Init the consoles */
-	Con_rect.x = Con_rect.y = 0;
-	Con_rect.w = Con_rect.h = 300;
+	Con_rect.x = 0;
+	Con_rect.y = 0;
+	Con_rect.w = 640;
+	Con_rect.h = 300;
 	if((Consoles[0] = CON_Init("ConsoleFont.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
@@ -74,8 +76,10 @@ int main(int argc, char **argv) {
 	CON_SetExecuteFunction(Consoles[1], Command_Handler);
 	CON_SetExecuteFunction(Consoles[2], Command_Handler);
 
+	CON_SetHideKey(Consoles[0], SDLK_WORLD_0);
 	ListCommands(Consoles[0]);
 	CON_Show(Consoles[0]);
+	CON_Topmost(Consoles[0]);
 
 	/* Heres another font for the text demo */
 	LargeFont = DT_LoadFont("LargeFont.gif", 0);
@@ -257,10 +261,17 @@ void ProcessEvents() {
 					}
 				}
 				break;
+			case SDLK_WORLD_0:
+				if(CON_isVisible( Consoles[0] ))
+					CON_Hide( Consoles[0] );
+				else
+					CON_Show( Consoles[0] );
+				break;
 			case SDLK_ESCAPE:
 				done = 1;
 				break;
 			default:
+				//printf("%d\n", event.key.keysym.sym);
 				break;
 			}
 			break;
