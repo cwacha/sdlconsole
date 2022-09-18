@@ -10,7 +10,8 @@
 *.dylib
 sdl_console-*.tar.gz
 
-# example files
+# build files
+/build
 example/ConsoleExample
 example/ConsoleExample_static
 

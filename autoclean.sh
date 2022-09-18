@@ -1,6 +1,7 @@
 #!/bin/sh
 
 TMP=`pwd`; cd `dirname $0`; BASEDIR=`pwd`; cd $TMP
+echo "Cleaning $BASEDIR"
 
 rm -rf autom4te.cache
 rm -f aclocal.m4
@@ -42,8 +43,9 @@ rm -rf example/autom4te.cache
 
 # cmake clean
 rm -f CMakeCache.txt
-find $BASEDIR -name CMakeFiles -delete
+find $BASEDIR -name CMakeFiles -exec rm -rf {} \;
 find $BASEDIR -name cmake_install.cmake -delete
+rm -rf $BASEDIR/build
 
 echo "autotools cleaned."
 

@@ -5,7 +5,6 @@
             "includePath": [
                 "${default}",
                 "/usr/local/include/SDL",
-                "/usr/local/include/SDL/**",
                 "${workspaceFolder}/src/**",
                 "${workspaceFolder}/include/**"
             ],

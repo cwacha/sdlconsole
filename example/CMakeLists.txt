@@ -27,3 +27,30 @@ target_link_libraries(ConsoleExample_static LINK_PUBLIC
     external.sdl_image
     SDL_console_static
 )
+
+#[[
+include(GNUInstallDirs)
+install(TARGETS ConsoleExample ConsoleExample_static
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+)
+install(FILES ${extra_dist}
+        DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+]]
+
+# hack to have build/example dir contain the extra files
+# taken from https://stackoverflow.com/questions/10671916/how-to-copy-dll-files-into-the-same-folder-as-the-executable-using-cmake
+file(GLOB extra_dist *.bmp *.gif *.jpg)
+
+add_custom_command(TARGET ConsoleExample POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${extra_dist}
+    $<TARGET_FILE_DIR:ConsoleExample>
+)
+add_custom_command(TARGET ConsoleExample_static POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    ${extra_dist}
+    $<TARGET_FILE_DIR:ConsoleExample>
+)

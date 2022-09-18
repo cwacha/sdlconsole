@@ -42,3 +42,12 @@ target_link_libraries(SDL_console
     external.sdl
     external.sdl_image
 )
+
+
+include(GNUInstallDirs)
+install(TARGETS SDL_console SDL_console_static
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/SDL
+)
