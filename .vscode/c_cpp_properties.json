@@ -17,6 +17,40 @@
             "cppStandard": "c++17",
             "intelliSenseMode": "macos-clang-x64",
             "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "Windows-MSYS2",
+            "includePath": [
+                "${default}",
+                "C:\\msys64\\mingw64\\lib\\gcc\\x86_64-w64-mingw32\\12.2.0\\include",
+                "C:\\msys64\\mingw64\\include\\SDL",
+                "${workspaceFolder}/src/**",
+                "${workspaceFolder}/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "C:/msys64/mingw64/bin/gcc.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "windows-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools"
+        },
+        {
+            "name": "Windows-MinGW-w64",
+            "includePath": [
+                "C:/mingw32/include",
+                "${workspaceFolder}/../lib/SDL-1.2.15/include",
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/mingw32/bin/gcc.exe",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "windows-gcc-x86",
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4
