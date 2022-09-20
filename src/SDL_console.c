@@ -251,7 +251,6 @@ void CON_AlphaGL(SDL_Surface *s, int alpha)
 		for (y = 0; y < h; ++y)
 			for (x = 0; x < w; ++x)
 			{
-				char print = 0;
 				/* Lock the surface for direct access to the pixels */
 				if (SDL_MUSTLOCK(s) && SDL_LockSurface(s) < 0)
 				{
@@ -261,8 +260,7 @@ void CON_AlphaGL(SDL_Surface *s, int alpha)
 				}
 				pixel = DT_GetPixel(s, x, y);
 				if (x == 0 && y == 0)
-					print = 1;
-				SDL_GetRGBA(pixel, format, &r, &g, &b, &a);
+					SDL_GetRGBA(pixel, format, &r, &g, &b, &a);
 				pixel = SDL_MapRGBA(format, r, g, b, val);
 				SDL_GetRGBA(pixel, format, &r, &g, &b, &a);
 				DT_PutPixel(s, x, y, pixel);
@@ -653,11 +651,8 @@ void DrawCommandLine()
 	if (Topmost->Offset > Topmost->CursorPos)
 		Topmost->Offset = Topmost->CursorPos;
 
-	/* first add prompt to visible part */
-	strcpy(Topmost->VCommand, Topmost->Prompt);
-
-	/* then add the visible part of the command */
-	strncat(Topmost->VCommand, &Topmost->Command[Topmost->Offset], strlen(&Topmost->Command[Topmost->Offset]));
+	/* add prompt and the visible part of the command */
+	snprintf(Topmost->VCommand, CON_CHARS_PER_LINE + 1, "%s%s", Topmost->Prompt, &Topmost->Command[Topmost->Offset]);
 
 	/* now display the result */
 
@@ -1055,7 +1050,7 @@ void Cursor_Left(ConsoleInformation *console)
 		strcpy(Topmost->RCommand, &Topmost->LCommand[strlen(Topmost->LCommand) - 1]);
 		strcat(Topmost->RCommand, temp);
 		Topmost->LCommand[strlen(Topmost->LCommand) - 1] = '\0';
-		/* CON_Out(Topmost, "L:%s, R:%s", Topmost->LCommand, Topmost->RCommand); */
+		// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 	}
 }
 
@@ -1066,29 +1061,29 @@ void Cursor_Right(ConsoleInformation *console)
 	if (Topmost->CursorPos < strlen(Topmost->Command))
 	{
 		Topmost->CursorPos++;
-		strncat(Topmost->LCommand, Topmost->RCommand, 1);
+		strcpy(temp, Topmost->LCommand);
+		snprintf(Topmost->LCommand, strlen(Topmost->LCommand) + 2, "%s%c", temp, Topmost->RCommand[0]);
+
 		strcpy(temp, Topmost->RCommand);
 		strcpy(Topmost->RCommand, &temp[1]);
-		/* CON_Out(Topmost, "L:%s, R:%s", Topmost->LCommand, Topmost->RCommand); */
+		// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 	}
 }
 
 void Cursor_Home(ConsoleInformation *console)
 {
-	char temp[CON_CHARS_PER_LINE + 1];
-
 	Topmost->CursorPos = 0;
-	strcpy(temp, Topmost->RCommand);
-	strcpy(Topmost->RCommand, Topmost->LCommand);
-	strncat(Topmost->RCommand, temp, strlen(temp));
+	strcpy(Topmost->RCommand, Topmost->Command);
 	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE + 1);
+	// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 }
 
 void Cursor_End(ConsoleInformation *console)
 {
 	Topmost->CursorPos = strlen(Topmost->Command);
-	strncat(Topmost->LCommand, Topmost->RCommand, strlen(Topmost->RCommand));
+	strcpy(Topmost->LCommand, Topmost->Command);
 	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE + 1);
+	// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 }
 
 void Cursor_Del(ConsoleInformation *console)
@@ -1142,13 +1137,8 @@ void Clear_Command(ConsoleInformation *console)
 
 void Assemble_Command(ConsoleInformation *console)
 {
-	int len = 0;
-
 	/* Concatenate the left and right side to command */
-	len = CON_CHARS_PER_LINE - strlen(Topmost->LCommand);
-	strcpy(Topmost->Command, Topmost->LCommand);
-	strncat(Topmost->Command, Topmost->RCommand, len);
-	Topmost->Command[CON_CHARS_PER_LINE] = '\0';
+	snprintf(Topmost->Command, CON_CHARS_PER_LINE + 1, "%s%s", Topmost->LCommand, Topmost->RCommand);
 }
 
 void Clear_History(ConsoleInformation *console)
