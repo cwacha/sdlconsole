@@ -6,20 +6,23 @@
  * literal quotes with the backslash escape.
  */
 
-
-char *splitnext(char **pos) {
+char *splitnext(char **pos)
+{
 	char *a, *d, *s;
 
 	s = *pos;
 	while (*s == ' ' || *s == '\t')
 		s++;
 	a = d = s;
-	//printf("tokenbegin:%s\\0\n", a);
+	// printf("tokenbegin:%s\\0\n", a);
 
-	while (*s && *s != ' ' && *s != '\t') {
-		if (*s == '"') {
+	while (*s && *s != ' ' && *s != '\t')
+	{
+		if (*s == '"')
+		{
 			s++;
-			while (*s && *s != '"') {
+			while (*s && *s != '"')
+			{
 				if (*s == '\\')
 					s++;
 				if (*s)
@@ -27,7 +30,9 @@ char *splitnext(char **pos) {
 			}
 			if (*s == '"')
 				s++;
-		} else {
+		}
+		else
+		{
 			if (*s == '\\')
 				s++;
 			*(d++) = *(s++);
@@ -41,20 +46,18 @@ char *splitnext(char **pos) {
 	return a;
 }
 
-int splitline(char **argv, int max, char *line) {
+int splitline(char **argv, int max, char *line)
+{
 	char *s;
 	int i = 0;
 
 	s = line;
-	while(*s && i < max) {
+	while (*s && i < max)
+	{
 		argv[i] = splitnext(&s);
 		i++;
 	}
-	if(!argv[0])
-		return(0);
+	if (!argv[0])
+		return (0);
 	return i;
 }
-
-
-
-

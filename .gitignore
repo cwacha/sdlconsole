@@ -1,5 +1,6 @@
 # OS specific ignores
 .DS_Store
+.vs
 
 # object files
 *.Po
@@ -8,6 +9,7 @@
 *.la
 *.a
 *.dylib
+*.dll
 sdl_console-*.tar.gz
 
 # build files
