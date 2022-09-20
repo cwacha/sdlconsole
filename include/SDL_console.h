@@ -27,9 +27,8 @@
 #include <config.h>
 #endif
 
-#include "SDL_events.h"
-#include "SDL_video.h"
-#include "SDL_timer.h"
+
+#include "SDL.h"
 #include "begin_code.h"
 
 /*! Number of visible characters in a line. Lines in the history, the commandline, or CON_Out strings cannot be longer

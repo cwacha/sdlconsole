@@ -29,6 +29,7 @@ target_include_directories(SDL_console_static PRIVATE
 )
 target_link_libraries(SDL_console_static
     external.sdl
+    external.sdl_image
 )
 
 # Shared SDL_console library
