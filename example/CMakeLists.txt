@@ -54,9 +54,11 @@ add_custom_command(TARGET ConsoleExample_static POST_BUILD COMMAND ${CMAKE_COMMA
 
 # on windows copy SDL.dll and libSDL_console.dll to build/example dir
 file(GLOB extra_dll ${CMAKE_SOURCE_DIR}/*.dll ${CMAKE_BINARY_DIR}/src/*.dll)
+if(extra_dll)
 add_custom_command(TARGET ConsoleExample ConsoleExample_static POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${extra_dll} $<TARGET_FILE_DIR:ConsoleExample>
 )
 add_custom_command(TARGET ConsoleExample_static POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different
     ${extra_dll} $<TARGET_FILE_DIR:ConsoleExample>
 )
+endif()
