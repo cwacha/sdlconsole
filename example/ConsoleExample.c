@@ -16,6 +16,7 @@
 #endif /* HAVE_OPENGL */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include "SDL.h"
 #include "SDL_console.h"
@@ -33,6 +34,7 @@ ConsoleInformation *Consoles[CONSOLE_N]; /* Pointers to all the consoles */
 int main(int argc, char **argv)
 {
 	SDL_Surface *Screen;
+	SDL_Renderer *sdlRenderer;
 	int now = 0, then = 0;
 	int frames = 0;
 	int i;
@@ -40,8 +42,18 @@ int main(int argc, char **argv)
 	SDL_Rect Con_rect;
 
 	/* init the graphics */
-	if (Init(&Screen, argc, argv))
+	if (Init(&sdlRenderer, argc, argv))
 		return 1;
+
+	Screen = SDL_CreateRGBSurface(0, 640, 480, 32,
+								  0x00FF0000,
+								  0x0000FF00,
+								  0x000000FF,
+								  0xFF000000);
+	SDL_Texture *sdlTexture = SDL_CreateTexture(sdlRenderer,
+												SDL_PIXELFORMAT_ARGB8888,
+												SDL_TEXTUREACCESS_STREAMING,
+												640, 480);
 
 	/* STEP 1: Init the consoles */
 	Con_rect.x = 0;
@@ -70,7 +82,7 @@ int main(int argc, char **argv)
 	CON_SetExecuteFunction(Consoles[1], Command_Handler);
 	CON_SetExecuteFunction(Consoles[2], Command_Handler);
 
-	CON_SetHideKey(Consoles[0], SDLK_WORLD_0);
+	CON_SetHideKey(Consoles[0], SDL_SCANCODE_GRAVE);
 	ListCommands(Consoles[0]);
 	CON_Show(Consoles[0]);
 	CON_Topmost(Consoles[0]);
@@ -121,7 +133,11 @@ int main(int argc, char **argv)
 		SDL_GL_SwapBuffers();
 #else
 
-		SDL_Flip(Screen);
+		SDL_UpdateTexture(sdlTexture, NULL, Screen->pixels, Screen->pitch);
+		SDL_RenderClear(sdlRenderer);
+		SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
+		SDL_RenderPresent(sdlRenderer);
+		// SDL_Flip(Screen);
 #endif /* HAVE_OPENGL */
 	}
 
@@ -169,14 +185,14 @@ void setup_opengl(int width, int height)
 #endif /* HAVE_OPENGL */
 
 /* Initialise the graphics */
-int Init(SDL_Surface **Screen, int argc, char **argv)
+int Init(SDL_Renderer **sdlRenderer, int argc, char **argv)
 {
 #ifdef HAVE_OPENGL
 	int SetVideoFlags = SDL_HWSURFACE | SDL_ASYNCBLIT | SDL_OPENGLBLIT;
 	int width = 640, height = 480, depth = 24;
 #else
 
-	int SetVideoFlags = SDL_HWSURFACE | SDL_DOUBLEBUF;
+	Uint32 SetVideoFlags = SDL_WINDOW_OPENGL;
 	int width = 640, height = 480, depth = 16;
 #endif /* HAVE_OPENGL */
 
@@ -185,7 +201,7 @@ int Init(SDL_Surface **Screen, int argc, char **argv)
 	for (loop = 1; loop < argc; loop++)
 	{
 		if (strcmp(argv[loop], "-fullscreen") == 0)
-			SetVideoFlags |= SDL_FULLSCREEN;
+			SetVideoFlags |= SDL_WINDOW_FULLSCREEN;
 		else if (strcmp(argv[loop], "-width") == 0)
 			width = atoi(argv[++loop]);
 		else if (strcmp(argv[loop], "-height") == 0)
@@ -210,13 +226,22 @@ int Init(SDL_Surface **Screen, int argc, char **argv)
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 #endif /* HAVE_OPENGL */
 
-	if ((*Screen = SDL_SetVideoMode(width, height, depth, SetVideoFlags)) == NULL)
+	SDL_Window *sdlWindow = SDL_CreateWindow("My Game Window",
+											 SDL_WINDOWPOS_UNDEFINED,
+											 SDL_WINDOWPOS_UNDEFINED,
+											 640, 480,
+											 SetVideoFlags);
+
+	*sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, 0);
+	SDL_SetRenderDrawColor(*sdlRenderer, 0, 0, 0, 255);
+
+/* 	if ((*Screen = SDL_SetVideoMode(width, height, depth, SetVideoFlags)) == NULL)
 	{
 		fprintf(stderr, "*Error* Couldn't set %dx%dx%d video mode: %s\n", width, height, depth, SDL_GetError());
 		SDL_Quit();
 		return 1;
 	}
-
+ */
 #ifdef HAVE_OPENGL
 	setup_opengl(width, height);
 #endif /* HAVE_OPENGL */
@@ -260,26 +285,31 @@ void ProcessEvents()
 					if ((event.key.keysym.sym - SDLK_1) == CONSOLE_N)
 					{
 						CON_Topmost(NULL);
-						SDL_EnableKeyRepeat(0, 0);
+						// SDL_EnableKeyRepeat(0, 0);
 					}
 					else
 					{
 						CON_Topmost(Consoles[event.key.keysym.sym - SDLK_1]);
-						SDL_EnableKeyRepeat(250, 30);
+						// SDL_EnableKeyRepeat(250, 30);
 					}
 				}
-				break;
-			case SDLK_WORLD_0:
-				if (CON_isVisible(Consoles[0]))
-					CON_Hide(Consoles[0]);
-				else
-					CON_Show(Consoles[0]);
 				break;
 			case SDLK_ESCAPE:
 				done = 1;
 				break;
 			default:
 				// printf("%d\n", event.key.keysym.sym);
+				break;
+			}
+			switch (event.key.keysym.scancode)
+			{
+			case SDL_SCANCODE_GRAVE:
+				if (CON_isVisible(Consoles[0]))
+					CON_Hide(Consoles[0]);
+				else
+					CON_Show(Consoles[0]);
+				break;
+			default:
 				break;
 			}
 			break;

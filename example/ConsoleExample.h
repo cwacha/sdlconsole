@@ -1,7 +1,7 @@
 #ifndef ConsoleExample_h
 #define ConsoleExample_h
 
-int Init(SDL_Surface **Screen, int argc, char **argv);
+int Init(SDL_Renderer **sdlRenderer, int argc, char **argv);
 void ProcessEvents();
 void KillProgram();
 void Echo(ConsoleInformation *console, int argc, char *argv[]);

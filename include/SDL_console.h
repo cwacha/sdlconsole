@@ -27,7 +27,6 @@
 #include <config.h>
 #endif
 
-
 #include "SDL.h"
 #include "begin_code.h"
 
@@ -41,7 +40,7 @@
 /*! Border in pixels from the left margin to the first letter */
 #define CON_CHAR_BORDER 4
 /*! Default prompt used at the commandline */
-#define CON_DEFAULT_PROMPT "]"
+#define CON_DEFAULT_PROMPT "] "
 /*! Scroll this many lines at a time (when pressing PGUP or PGDOWN) */
 #define CON_LINE_SCROLL 2
 /*! Indicator showing that you scrolled up the history */
@@ -75,7 +74,7 @@ extern "C"
 		int Visible;																/*! enum that tells which visible state we are in CON_CLOSED, CON_OPEN, CON_CLOSING, CON_OPENING */
 		int WasUnicode;																/*! stores the UNICODE value before the console was shown. On Hide() the UNICODE value is restored. */
 		int RaiseOffset;															/*! Offset used in show/hide animation */
-		int HideKey;																/*! the key that can hide the console */
+		SDL_Scancode HideKey;														/*! the key that can hide the console */
 		char **ConsoleLines;														/*! List of all the past lines */
 		char **CommandLines;														/*! List of all the past commands */
 		int TotalConsoleLines;														/*! Total number of lines in the console */
@@ -93,8 +92,8 @@ extern "C"
 		int CursorPos;																/*! Current cursor position relative to the currently typed in command */
 		int Offset;																	/*! First visible character relative to the currently typed in command (used if command is too long to fit into console) */
 		int InsMode;																/*! Boolean that tells us whether we are in Insert- or Overwrite-Mode */
-		SDL_Surface *ConsoleSurface;												/*! THE Surface of the console */
-		SDL_Surface *OutputScreen;													/*! This is the screen to draw the console to (normally you VideoSurface)*/
+		SDL_Surface *ConsoleSurface;												/*! The main Surface of the console. It will hold all history text as well as the commandline */
+		SDL_Surface *OutputSurface;													/*! This is the screen surface to draw the console to (normally your main video surface before it gets turned into a texture)*/
 		SDL_Surface *BackgroundImage;												/*! Background image for the console */
 		SDL_Surface *InputBackground;												/*! Dirty rectangle that holds the part of the background image that is behind the commandline */
 		int DispX, DispY;															/*! The top left x and y coords of the console on the display screen */
@@ -128,7 +127,7 @@ extern "C"
 		CON_DrawConsole will then no more blit the console to this surface but give you a pointer to ConsoleSurface when all updates are done***
 		@param lines The total number of lines in the history
 		@param rect Position and size of the new console */
-	extern DECLSPEC ConsoleInformation *SDLCALL CON_Init(const char *FontName, SDL_Surface *DisplayScreen, int lines, SDL_Rect rect);
+	extern DECLSPEC ConsoleInformation *SDLCALL CON_Init(const char *FontName, SDL_Surface *OutputSurface, int lines, SDL_Rect rect);
 	/*! Frees DT_DrawText and calls CON_Free */
 	extern DECLSPEC void SDLCALL CON_Destroy(ConsoleInformation *console);
 	/*! Frees all the memory loaded by the console */
@@ -148,9 +147,9 @@ extern "C"
 	/*! Changes the size of the console */
 	extern DECLSPEC int SDLCALL CON_Resize(ConsoleInformation *console, SDL_Rect rect);
 	/*! Beams a console to another screen surface. Needed if you want to make a Video restart in your program. This
-		function first changes the OutputScreen Pointer then calls CON_Resize to adjust the new size. ***Will disappear in the next major release. Instead
+		function first changes the OutputSurface Pointer then calls CON_Resize to adjust the new size. ***Will disappear in the next major release. Instead
 		i will introduce a new function called CON_ReInit or something that adjusts the internal parameters etc *** */
-	extern DECLSPEC int SDLCALL CON_Transfer(ConsoleInformation *console, SDL_Surface *new_outputscreen, SDL_Rect rect);
+	extern DECLSPEC int SDLCALL CON_Transfer(ConsoleInformation *console, SDL_Surface *NewOutputSurface, SDL_Rect rect);
 	/*! Give focus to a console. Make it the "topmost" console. This console will receive events
 		sent with CON_Events() ***Will disappear in the next major release. There is no need for such a focus model *** */
 	extern DECLSPEC void SDLCALL CON_Topmost(ConsoleInformation *console);
@@ -158,7 +157,7 @@ extern "C"
 	extern DECLSPEC void SDLCALL CON_SetPrompt(ConsoleInformation *console, char *newprompt);
 	/*! Set the key, that invokes a CON_Hide() after press. default is ESCAPE and you can always hide using
 		ESCAPE and the HideKey (2 keys for hiding). compared against event->key.keysym.sym !! */
-	extern DECLSPEC void SDLCALL CON_SetHideKey(ConsoleInformation *console, int key);
+	extern DECLSPEC void SDLCALL CON_SetHideKey(ConsoleInformation *console, SDL_Scancode key);
 	/*! Internal: executes the command typed in at the console (called if you press 'Return')*/
 	extern DECLSPEC void SDLCALL CON_Execute(ConsoleInformation *console, char *command);
 	/*! Sets the callback function that is called if a command was typed in. The function you would like to use as the callback will have to
@@ -206,7 +205,7 @@ extern "C"
 	/*! Internal: Called if you press BACKSPACE (deletes character left of cursor) */
 	extern DECLSPEC void SDLCALL Cursor_BSpace(ConsoleInformation *console);
 	/*! Internal: Called if you type in a character (add the char to the command) */
-	extern DECLSPEC void SDLCALL Cursor_Add(ConsoleInformation *console, SDL_Event *event);
+	extern DECLSPEC void SDLCALL Cursor_Add(ConsoleInformation *console, SDL_TextInputEvent *event);
 
 	/*! Internal: Called if you press Ctrl-C (deletes the commandline) */
 	extern DECLSPEC void SDLCALL Clear_Command(ConsoleInformation *console);
