@@ -4,6 +4,8 @@ find_package(SDL2 REQUIRED)
 find_package(SDL2_image)
 if(SDL2_IMAGE_FOUND)
     add_definitions(-DHAVE_SDLIMAGE)
+else()
+    add_library(SDL2_image::SDL2_image INTERFACE IMPORTED)
 endif()
 
 
@@ -22,10 +24,8 @@ target_include_directories(SDL_console_static PRIVATE
 )
 target_link_libraries(SDL_console_static PUBLIC
     SDL2::SDL2
+    SDL2_image::SDL2_image
 )
-if(SDL2_IMAGE_FOUND)
-    target_link_libraries(SDL_console_static SDL2_image::SDL2_image)
-endif()
 
 
 # Shared SDL_console library
@@ -43,10 +43,8 @@ target_include_directories(SDL_console PRIVATE
 )
 target_link_libraries(SDL_console PUBLIC
     SDL2::SDL2
+    SDL2_image::SDL2_image
 )
-if(SDL2_IMAGE_FOUND)
-    target_link_libraries(SDL_console SDL2_image::SDL2_image)
-endif()
 
 include(GNUInstallDirs)
 install(TARGETS SDL_console SDL_console_static

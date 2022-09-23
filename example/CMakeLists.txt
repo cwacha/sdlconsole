@@ -2,6 +2,8 @@ find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_image CONFIG)
 if(SDL2_IMAGE_FOUND)
     add_definitions(-DHAVE_SDLIMAGE)
+else()
+    add_library(SDL2_image::SDL2_image INTERFACE IMPORTED)
 endif()
 
 add_compile_options(-Wall -g -O2 -pedantic)
@@ -18,11 +20,9 @@ target_include_directories(ConsoleExample PRIVATE
 target_link_libraries(ConsoleExample
     SDL2::SDL2
     SDL2::SDL2main
+    SDL2_image::SDL2_image
     SDL_console
 )
-if(SDL2_IMAGE_FOUND)
-    target_link_libraries(ConsoleExample SDL2_image::SDL2_image)
-endif()
 
 
 # Example app STATIC
@@ -37,11 +37,9 @@ target_include_directories(ConsoleExample_static PRIVATE
 target_link_libraries(ConsoleExample_static
     SDL2::SDL2
     SDL2::SDL2main
+    SDL2_image::SDL2_image
     SDL_console_static
 )
-if(SDL2_IMAGE_FOUND)
-    target_link_libraries(ConsoleExample_static SDL2_image::SDL2_image)
-endif()
 
 
 #[[
