@@ -31,6 +31,15 @@ int LargeFont;
 #define CONSOLE_N 3
 ConsoleInformation *Consoles[CONSOLE_N]; /* Pointers to all the consoles */
 
+void Log(void *userdata, int category, SDL_LogPriority priority, const char *message)
+{
+	if (Consoles[0] == NULL)
+		return;
+
+	CON_Out(Consoles[0], message);
+	printf(message);
+}
+
 int main(int argc, char **argv)
 {
 	SDL_Surface *Screen;
@@ -40,6 +49,9 @@ int main(int argc, char **argv)
 	int i;
 	char framerate[30];
 	SDL_Rect Con_rect;
+
+	SDL_LogSetAllPriority(SDL_LOG_PRIORITY_DEBUG);
+	SDL_LogSetOutputFunction(Log, NULL);
 
 	/* init the graphics */
 	if (Init(&sdlRenderer, argc, argv))
@@ -76,13 +88,15 @@ int main(int argc, char **argv)
 	if ((Consoles[2] = CON_Init("ConsoleFont.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "custom log function initialized");
+
 	/* STEP 2: Attach the Command handling function to the consoles. Remark that every
 	   console can have its own command handler */
 	CON_SetExecuteFunction(Consoles[0], Command_Handler);
 	CON_SetExecuteFunction(Consoles[1], Command_Handler);
 	CON_SetExecuteFunction(Consoles[2], Command_Handler);
 
-	CON_SetHideKey(Consoles[0], SDL_SCANCODE_GRAVE);
+	// CON_SetToggleKey(Consoles[0], SDL_SCANCODE_GRAVE);
 	ListCommands(Consoles[0]);
 	CON_Show(Consoles[0]);
 	CON_Topmost(Consoles[0]);
@@ -214,7 +228,7 @@ int Init(SDL_Renderer **sdlRenderer, int argc, char **argv)
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
-		fprintf(stderr, "*Error* Couldn't initialize SDL: %s\n", SDL_GetError());
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "*Error* Couldn't initialize SDL: %s", SDL_GetError());
 		return 1;
 	}
 
@@ -237,7 +251,7 @@ int Init(SDL_Renderer **sdlRenderer, int argc, char **argv)
 
 /* 	if ((*Screen = SDL_SetVideoMode(width, height, depth, SetVideoFlags)) == NULL)
 	{
-		fprintf(stderr, "*Error* Couldn't set %dx%dx%d video mode: %s\n", width, height, depth, SDL_GetError());
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "*Error* Couldn't set %dx%dx%d video mode: %s", width, height, depth, SDL_GetError());
 		SDL_Quit();
 		return 1;
 	}
@@ -299,17 +313,6 @@ void ProcessEvents()
 				break;
 			default:
 				// printf("%d\n", event.key.keysym.sym);
-				break;
-			}
-			switch (event.key.keysym.scancode)
-			{
-			case SDL_SCANCODE_GRAVE:
-				if (CON_isVisible(Consoles[0]))
-					CON_Hide(Consoles[0]);
-				else
-					CON_Show(Consoles[0]);
-				break;
-			default:
 				break;
 			}
 			break;

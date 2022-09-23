@@ -49,8 +49,8 @@
 #define CON_INS_CURSOR "_"
 /*! Cursor shown if we are in overwrite mode */
 #define CON_OVR_CURSOR "|"
-/*! Defines the default hide key (that Hide()'s the console if pressed) */
-#define CON_DEFAULT_HIDEKEY SDLK_ESCAPE
+/*! Defines the default show/hide key (that CON_Show()'s or CON_Hide()'s the console if pressed) */
+#define CON_DEFAULT_TOGGLEKEY SDL_SCANCODE_GRAVE
 /*! Defines the opening/closing speed when the console switches from CON_CLOSED to CON_OPEN */
 #define CON_OPENCLOSE_SPEED 25
 
@@ -72,9 +72,8 @@ extern "C"
 	typedef struct console_information_td
 	{
 		int Visible;																/*! enum that tells which visible state we are in CON_CLOSED, CON_OPEN, CON_CLOSING, CON_OPENING */
-		int WasUnicode;																/*! stores the UNICODE value before the console was shown. On Hide() the UNICODE value is restored. */
 		int RaiseOffset;															/*! Offset used in show/hide animation */
-		SDL_Scancode HideKey;														/*! the key that can hide the console */
+		SDL_Scancode ToggleKey;														/*! the key that can show/hide the console */
 		char **ConsoleLines;														/*! List of all the past lines */
 		char **CommandLines;														/*! List of all the past commands */
 		int TotalConsoleLines;														/*! Total number of lines in the console */
@@ -155,9 +154,9 @@ extern "C"
 	extern DECLSPEC void SDLCALL CON_Topmost(ConsoleInformation *console);
 	/*! Modify the prompt of the console. If you want a backslash you will have to escape it. */
 	extern DECLSPEC void SDLCALL CON_SetPrompt(ConsoleInformation *console, char *newprompt);
-	/*! Set the key, that invokes a CON_Hide() after press. default is ESCAPE and you can always hide using
-		ESCAPE and the HideKey (2 keys for hiding). compared against event->key.keysym.sym !! */
-	extern DECLSPEC void SDLCALL CON_SetHideKey(ConsoleInformation *console, SDL_Scancode key);
+	/*! Set the key, that invokes a CON_Hide() or CON_Show() after press. default is SDL_SCANCODE_GRAVE and you can always hide using
+		ESCAPE and the ToggleKey (2 keys for hiding). compared against event->key.keysym.scancode */
+	extern DECLSPEC void SDLCALL CON_SetToggleKey(ConsoleInformation *console, SDL_Scancode key);
 	/*! Internal: executes the command typed in at the console (called if you press 'Return')*/
 	extern DECLSPEC void SDLCALL CON_Execute(ConsoleInformation *console, char *command);
 	/*! Sets the callback function that is called if a command was typed in. The function you would like to use as the callback will have to

@@ -49,6 +49,17 @@ SDL_Event *CON_Events(SDL_Event *event)
 {
 	if (Topmost == NULL)
 		return event;
+	if (event->type == SDL_KEYDOWN)
+	{
+		if (event->key.keysym.scancode == Topmost->ToggleKey)
+		{
+			if (CON_isVisible(Topmost))
+				CON_Hide(Topmost);
+			else
+				CON_Show(Topmost);
+			return NULL;
+		}
+	}
 	if (!CON_isVisible(Topmost))
 		return event;
 
@@ -80,12 +91,6 @@ SDL_Event *CON_Events(SDL_Event *event)
 		{
 			/* the console does not handle ALT combinations! */
 			return event;
-		}
-		/* check if the console hide key was pressed */
-		else if (event->key.keysym.scancode == Topmost->HideKey)
-		{
-			CON_Hide(Topmost);
-			return NULL;
 		}
 		else
 		{
@@ -420,7 +425,6 @@ ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *OutputSurface, i
 		return NULL;
 	}
 	newinfo->Visible = CON_CLOSED;
-	newinfo->WasUnicode = 0;
 	newinfo->RaiseOffset = 0;
 	newinfo->ConsoleLines = NULL;
 	newinfo->CommandLines = NULL;
@@ -435,7 +439,7 @@ ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *OutputSurface, i
 	newinfo->CommandScrollBack = 0;
 	newinfo->OutputSurface = OutputSurface;
 	newinfo->Prompt = CON_DEFAULT_PROMPT;
-	newinfo->HideKey = CON_DEFAULT_HIDEKEY;
+	newinfo->ToggleKey = CON_DEFAULT_TOGGLEKEY;
 
 	CON_SetExecuteFunction(newinfo, Default_CmdFunction);
 	CON_SetTabCompletion(newinfo, Default_TabFunction);
@@ -528,6 +532,7 @@ void CON_Show(ConsoleInformation *console)
 	{
 		console->Visible = CON_OPENING;
 		CON_UpdateConsole(console);
+		SDL_StartTextInput();
 
 		// console->WasUnicode = SDL_EnableUNICODE(-1);
 		// SDL_EnableUNICODE(1);
@@ -540,6 +545,7 @@ void CON_Hide(ConsoleInformation *console)
 	if (console)
 	{
 		console->Visible = CON_CLOSING;
+		SDL_StopTextInput();
 		// SDL_EnableUNICODE(console->WasUnicode);
 	}
 }
@@ -963,10 +969,10 @@ void CON_SetPrompt(ConsoleInformation *console, char *newprompt)
 }
 
 /* Sets the key that deactivates (hides) the console. */
-void CON_SetHideKey(ConsoleInformation *console, SDL_Scancode key)
+void CON_SetToggleKey(ConsoleInformation *console, SDL_Scancode key)
 {
 	if (console)
-		console->HideKey = key;
+		console->ToggleKey = key;
 }
 
 /* Executes the command entered */
