@@ -37,51 +37,6 @@
 
 static BitFont *BitFonts = NULL; /* Linked list of fonts */
 
-/* sets the transparency value for the font in question.  assumes that
- * we're in an OpenGL context.  */
-void DT_SetFontAlphaGL(int FontNumber, int a)
-{
-	unsigned char val;
-	BitFont *CurrentFont;
-	unsigned char r_targ, g_targ, b_targ;
-	int i, imax;
-	unsigned char *pix;
-
-	/* get pointer to font */
-	CurrentFont = DT_FontPointer(FontNumber);
-	if (CurrentFont == NULL)
-	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Setting font alpha for non-existent font!");
-		return;
-	}
-	if (CurrentFont->FontSurface->format->BytesPerPixel == 2)
-	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "16-bit SDL surfaces do not support alpha-blending under OpenGL");
-		return;
-	}
-	if (a < SDL_ALPHA_TRANSPARENT)
-		val = SDL_ALPHA_TRANSPARENT;
-	else if (a > SDL_ALPHA_OPAQUE)
-		val = SDL_ALPHA_OPAQUE;
-	else
-		val = a;
-
-	/* iterate over all pixels in the font surface.  For each
-	 * pixel that is (255,0,255), set its alpha channel
-	 * appropriately.  */
-	imax = CurrentFont->FontSurface->h * (CurrentFont->FontSurface->w << 2);
-	pix = (unsigned char *)(CurrentFont->FontSurface->pixels);
-	r_targ = 255; /*pix[0]; */
-	g_targ = 0;	  /*pix[1]; */
-	b_targ = 255; /*pix[2]; */
-	for (i = 3; i < imax; i += 4)
-		if (pix[i - 3] == r_targ && pix[i - 2] == g_targ && pix[i - 1] == b_targ)
-			pix[i] = val;
-	/* also make sure that alpha blending is disabled for the font
-	   surface. */
-	SDL_SetSurfaceAlphaMod(CurrentFont->FontSurface, SDL_ALPHA_OPAQUE);
-}
-
 /* Loads the font into a new struct
  * returns -1 as an error else it returns the number
  * of the font for the user to use
@@ -118,8 +73,8 @@ int DT_LoadFont(const char *BitmapName, SDL_PixelFormat *format)
 	(*CurrentFont)->FontSurface = SDL_ConvertSurface(Temp, format, 0);
 	SDL_FreeSurface(Temp);
 
-	(*CurrentFont)->CharWidth = (*CurrentFont)->FontSurface->w / 256;
-	(*CurrentFont)->CharHeight = (*CurrentFont)->FontSurface->h;
+	(*CurrentFont)->CharWidth = (*CurrentFont)->FontSurface->w / 32;
+	(*CurrentFont)->CharHeight = (*CurrentFont)->FontSurface->h / 8;
 	(*CurrentFont)->FontNumber = FontNumber;
 	(*CurrentFont)->NextFont = NULL;
 
@@ -127,15 +82,33 @@ int DT_LoadFont(const char *BitmapName, SDL_PixelFormat *format)
 	 * is that the first pixel of the font image will be the color we should treat
 	 * as transparent.
 	 */
-	if (TRANS_FONT)
+	Uint8 *p = (Uint8 *)(*CurrentFont)->FontSurface->pixels;
+	Uint32 firstpixel;
+
+	switch ((*CurrentFont)->FontSurface->format->BytesPerPixel)
 	{
-		// if (SDL_GetVideoSurface()->format & SDL_OPENGLBLIT)
-		//	DT_SetFontAlphaGL(FontNumber, SDL_ALPHA_TRANSPARENT);
-		// else
-		SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_TRUE, SDL_MapRGB((*CurrentFont)->FontSurface->format, 255, 0, 255));
+	case 1:
+		firstpixel = *p;
+		break;
+	case 2:
+		firstpixel = *(Uint16 *)p;
+		break;
+	case 3:
+		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			firstpixel = p[0] << 16 | p[1] << 8 | p[2];
+		else
+			firstpixel = p[0] | p[1] << 8 | p[2] << 16;
+		break;
+	case 4:
+		firstpixel = *(Uint32 *)p;
+		break;
+	default:
+		firstpixel = 0;
 	}
-	// else if (SDL_GetVideoSurface()->format & SDL_OPENGLBLIT)
-	//	DT_SetFontAlphaGL(FontNumber, SDL_ALPHA_OPAQUE);
+	Uint8 r, g, b;
+
+	SDL_GetRGB(firstpixel, (*CurrentFont)->FontSurface->format, &r, &g, &b);
+	SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_TRUE, SDL_MapRGB((*CurrentFont)->FontSurface->format, r, g, b));
 
 	return FontNumber;
 }
@@ -152,7 +125,7 @@ void DT_DrawText(const char *string, SDL_Surface *surface, int FontType, int x, 
 	CurrentFont = DT_FontPointer(FontType);
 	if (CurrentFont == NULL)
 	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "CurrentFont does not exit. Fontnumber: %i", FontType);
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "CurrentFont does not exist. Fontnumber: %i", FontType);
 		return;
 	}
 
@@ -179,20 +152,18 @@ void DT_DrawText(const char *string, SDL_Surface *surface, int FontType, int x, 
 	{
 		current = string[loop];
 		if (current < 0 || current > 255)
+		{
+			// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Unknown character code: %i", current);
 			current = 0;
+		}
 		/* SourceRect.x = string[loop] * CurrentFont->CharWidth; */
-		SourceRect.x = current * CurrentFont->CharWidth;
+		SourceRect.x = (current % 32) * CurrentFont->CharWidth;
+		SourceRect.y = (current / 32) * CurrentFont->CharHeight;
+
 		SDL_BlitSurface(CurrentFont->FontSurface, &SourceRect, surface, &DestRect);
 		DestRect.x += CurrentFont->CharWidth;
 	}
-	/* if we're in OpenGL-mode, we need to manually update after blitting. */
-/* 	if (surface->format & SDL_OPENGLBLIT)
-	{
-		DestRect.x = x;
-		DestRect.w = characters * CurrentFont->CharWidth;
-		SDL_UpdateRects(surface, 1, &DestRect);
-	}
- */}
+}
 
 /* Returns the height of the font numbers character
  * returns 0 if the fontnumber was invalid */

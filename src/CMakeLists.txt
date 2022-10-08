@@ -29,6 +29,7 @@ target_link_libraries(SDL_console_static PUBLIC
 
 
 # Shared SDL_console library
+set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
 add_library(SDL_console SHARED
     SDL_console.c
     internal.c

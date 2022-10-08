@@ -1,6 +1,7 @@
 # OS specific ignores
 .DS_Store
 .vs
+out
 
 # object files
 *.Po

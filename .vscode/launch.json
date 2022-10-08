@@ -37,6 +37,40 @@
         "MIMode": "gdb",
         "miDebuggerPath": "/usr/bin/gdb"
       }
+    },
+    {
+      "name": "(gdb) ConsoleExample_static",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/build/example/ConsoleExample_static.exe",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${workspaceFolder}/build/example",
+      "environment": [],
+      "externalConsole": false,
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        },
+        {
+          "description": "Set Disassembly Flavor to Intel",
+          "text": "-gdb-set disassembly-flavor intel",
+          "ignoreFailures": true
+        }
+      ],
+      "windows": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "C:/mingw32/bin/gdb.exe"
+      },
+      "osx": {
+        "MIMode": "lldb"
+      },
+      "linux": {
+        "MIMode": "gdb",
+        "miDebuggerPath": "/usr/bin/gdb"
+      }
     }
   ]
 }

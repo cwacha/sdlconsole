@@ -27,8 +27,6 @@
 #include <config.h>
 #endif
 
-#define TRANS_FONT 1
-
 #include "SDL.h"
 
 #ifdef __cplusplus

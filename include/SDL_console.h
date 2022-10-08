@@ -51,8 +51,8 @@
 #define CON_OVR_CURSOR "|"
 /*! Defines the default show/hide key (that CON_Show()'s or CON_Hide()'s the console if pressed) */
 #define CON_DEFAULT_TOGGLEKEY SDL_SCANCODE_GRAVE
-/*! Defines the opening/closing speed when the console switches from CON_CLOSED to CON_OPEN */
-#define CON_OPENCLOSE_SPEED 25
+/*! Defines the time in milliseconds that the console uses to open or close (transition time between CON_CLOSED and CON_OPEN) */
+#define CON_OPENCLOSE_SPEED 250
 
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
@@ -73,6 +73,7 @@ extern "C"
 	{
 		int Visible;																/*! enum that tells which visible state we are in CON_CLOSED, CON_OPEN, CON_CLOSING, CON_OPENING */
 		int RaiseOffset;															/*! Offset used in show/hide animation */
+		Uint32 RaiseTicks;															/*! SDL_GetTickets() when console transitioned from CON_OPEN to CON_CLOSING or from CON_CLOSED to CON_OPENING */
 		SDL_Scancode ToggleKey;														/*! the key that can show/hide the console */
 		char **ConsoleLines;														/*! List of all the past lines */
 		char **CommandLines;														/*! List of all the past commands */
@@ -115,7 +116,7 @@ extern "C"
 	/*! Hides the console */
 	extern DECLSPEC void SDLCALL CON_Hide(ConsoleInformation *console);
 	/*! Returns 1 if the console is opening or open, 0 else */
-	extern DECLSPEC int SDLCALL CON_isVisible(ConsoleInformation *console);
+	extern DECLSPEC int SDLCALL CON_isOpen(ConsoleInformation *console);
 	/*! Internal: Updates visible state. This function is responsible for the opening/closing animation. Only used in CON_DrawConsole() */
 	extern DECLSPEC void SDLCALL CON_UpdateOffset(ConsoleInformation *console);
 	/*! Draws the console to the screen if it is visible (NOT if it isVisible()). It get's drawn if it is REALLY visible ;-) */
@@ -133,12 +134,8 @@ extern "C"
 	extern DECLSPEC void SDLCALL CON_Free(ConsoleInformation *console);
 	/*! Function to send text to the console. Works exactly like printf and supports the same format */
 	extern DECLSPEC void SDLCALL CON_Out(ConsoleInformation *console, const char *str, ...);
-	/*! Sets the alpha level of the console to the specified value (0 - transparent,
-		255 - opaque). Use this function also for OpenGL. */
+	/*! Sets the alpha level of the console to the specified value (0 - transparent, 255 - opaque). */
 	extern DECLSPEC void SDLCALL CON_Alpha(ConsoleInformation *console, unsigned char alpha);
-	/*! Internal: Sets the alpha channel of an SDL_Surface to the specified value.
-		Preconditions: the surface in question is RGBA. 0 <= a <= 255, where 0 is transparent and 255 opaque */
-	extern DECLSPEC void SDLCALL CON_AlphaGL(SDL_Surface *s, int alpha);
 	/*! Sets a background image for the console */
 	extern DECLSPEC int SDLCALL CON_Background(ConsoleInformation *console, const char *image, int x, int y);
 	/*! Changes current position of the console to the new given coordinates */

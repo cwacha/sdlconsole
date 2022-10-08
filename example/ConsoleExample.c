@@ -33,17 +33,25 @@ ConsoleInformation *Consoles[CONSOLE_N]; /* Pointers to all the consoles */
 
 void Log(void *userdata, int category, SDL_LogPriority priority, const char *message)
 {
-	if (Consoles[0] == NULL)
-		return;
 
-	CON_Out(Consoles[0], message);
-	printf(message);
+	FILE *f;
+	f = fopen("error.log", "a+");
+	if (f != NULL)
+	{
+		fprintf(f, "%s\n", message);
+		fclose(f);
+	}
+	printf("%s\n", message);
+
+	if (Consoles[0])
+		CON_Out(Consoles[0], message);
 }
 
 int main(int argc, char **argv)
 {
-	SDL_Surface *Screen;
 	SDL_Renderer *sdlRenderer;
+	SDL_Texture *sdlTexture;
+	SDL_Surface *Screen;
 	int now = 0, then = 0;
 	int frames = 0;
 	int i;
@@ -54,39 +62,37 @@ int main(int argc, char **argv)
 	SDL_LogSetOutputFunction(Log, NULL);
 
 	/* init the graphics */
-	if (Init(&sdlRenderer, argc, argv))
+	if (Init(&sdlRenderer, &sdlTexture, &Screen, argc, argv))
 		return 1;
-
-	Screen = SDL_CreateRGBSurface(0, 640, 480, 32,
-								  0x00FF0000,
-								  0x0000FF00,
-								  0x000000FF,
-								  0xFF000000);
-	SDL_Texture *sdlTexture = SDL_CreateTexture(sdlRenderer,
-												SDL_PIXELFORMAT_ARGB8888,
-												SDL_TEXTUREACCESS_STREAMING,
-												640, 480);
 
 	/* STEP 1: Init the consoles */
 	Con_rect.x = 0;
 	Con_rect.y = 0;
 	Con_rect.w = 640;
 	Con_rect.h = 300;
-	if ((Consoles[0] = CON_Init("ConsoleFont.bmp", Screen, 100, Con_rect)) == NULL)
+	if ((Consoles[0] = CON_Init("ExportedFont.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 350;
 	Con_rect.y = 20;
 	Con_rect.w = Con_rect.h = 200;
-	if ((Consoles[1] = CON_Init("ConsoleFont.bmp", Screen, 100, Con_rect)) == NULL)
+	if ((Consoles[1] = CON_Init("ConsoleFont2.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 340;
 	Con_rect.y = 280;
 	Con_rect.w = 300;
 	Con_rect.h = 200;
-	if ((Consoles[2] = CON_Init("ConsoleFont.bmp", Screen, 100, Con_rect)) == NULL)
+	if ((Consoles[2] = CON_Init("ConsoleFont2.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
+
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, " !\"#$%%&\'()*+,-./0123456789:;<=>?");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "`abcdefghijklmnopqrstuvwxyz{|}~");
+
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ! \" # $ %% & \' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ ");
 
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "custom log function initialized");
 
@@ -110,18 +116,7 @@ int main(int argc, char **argv)
 		ProcessEvents();
 
 		/* wipe the screen clean with a blue fill and draw the console if its down */
-#ifdef HAVE_OPENGL
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glMatrixMode(GL_MODELVIEW);
-		glLoadIdentity();
-		glTranslatef(0.0, 0.0, -5.0);
-		glutSolidTeapot(2.0);
-		glFlush();
-#else
-
-		SDL_FillRect(Screen, NULL, 255);
-#endif /* HAVE_OPENGL */
+		SDL_FillRect(Screen, NULL, SDL_MapRGB(Screen->format, 0, 0, 255));
 
 		HelpText(Screen);
 		if (TextDemo)
@@ -134,7 +129,7 @@ int main(int argc, char **argv)
 		/* print the framerate */
 		frames++;
 		now = SDL_GetTicks();
-		if (now > then + 500)
+		if (now > then + 250)
 		{
 			sprintf(framerate, "%7.2f fps", ((double)frames * 1000) / (now - then));
 			then = now;
@@ -142,17 +137,10 @@ int main(int argc, char **argv)
 		}
 		DT_DrawText(framerate, Screen, 1, 1, Screen->h - 40);
 
-#ifdef HAVE_OPENGL
-
-		SDL_GL_SwapBuffers();
-#else
-
 		SDL_UpdateTexture(sdlTexture, NULL, Screen->pixels, Screen->pitch);
 		SDL_RenderClear(sdlRenderer);
 		SDL_RenderCopy(sdlRenderer, sdlTexture, NULL, NULL);
 		SDL_RenderPresent(sdlRenderer);
-		// SDL_Flip(Screen);
-#endif /* HAVE_OPENGL */
 	}
 
 	/* STEP 4: delete your consoles before quitting */
@@ -162,54 +150,11 @@ int main(int argc, char **argv)
 	return 0;
 }
 
-#ifdef HAVE_OPENGL
-/* SETUP_OPENGL -- initializes assorted OpenGL parameters */
-void setup_opengl(int width, int height)
-{
-	float ratio = (float)width / (float)height;
-	/* lighting init */
-	GLfloat mat_diffuse[] = {0.9, 0.9, 0.0, 1.0};
-	GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
-	GLfloat mat_shininess[] = {50.0};
-	GLfloat light_position[] = {1.0, 0.0, 5.0, 0.0};
-	GLfloat white_light[] = {1.0, 1.0, 1.0, 1.0};
-
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
-	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_DEPTH_TEST);
-
-	/* Set the clear color. */
-	glClearColor(0.0, 0.0, 1.0, 1.0);
-
-	/* Setup our viewport. */
-	glViewport(0, 0, width, height);
-
-	/* Change to the projection matrix and set our viewing volume. */
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0, ratio, 1.0, 1024.0);
-}
-#endif /* HAVE_OPENGL */
-
 /* Initialise the graphics */
-int Init(SDL_Renderer **sdlRenderer, int argc, char **argv)
+int Init(SDL_Renderer **sdlRenderer, SDL_Texture **sdlTexture, SDL_Surface **Screen, int argc, char **argv)
 {
-#ifdef HAVE_OPENGL
-	int SetVideoFlags = SDL_HWSURFACE | SDL_ASYNCBLIT | SDL_OPENGLBLIT;
-	int width = 640, height = 480, depth = 24;
-#else
-
 	Uint32 SetVideoFlags = SDL_WINDOW_OPENGL;
-	int width = 640, height = 480, depth = 16;
-#endif /* HAVE_OPENGL */
-
+	int width = 640, height = 480, bpp = 32;
 	int loop;
 
 	for (loop = 1; loop < argc; loop++)
@@ -221,7 +166,7 @@ int Init(SDL_Renderer **sdlRenderer, int argc, char **argv)
 		else if (strcmp(argv[loop], "-height") == 0)
 			height = atoi(argv[++loop]);
 		else if (strcmp(argv[loop], "-bpp") == 0)
-			depth = atoi(argv[++loop]);
+			bpp = atoi(argv[++loop]);
 		else if (strcmp(argv[loop], "-sw") == 0)
 			SetVideoFlags |= SDL_SWSURFACE;
 	}
@@ -232,40 +177,48 @@ int Init(SDL_Renderer **sdlRenderer, int argc, char **argv)
 		return 1;
 	}
 
-#ifdef HAVE_OPENGL
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-#endif /* HAVE_OPENGL */
-
 	SDL_Window *sdlWindow = SDL_CreateWindow("My Game Window",
 											 SDL_WINDOWPOS_UNDEFINED,
 											 SDL_WINDOWPOS_UNDEFINED,
-											 640, 480,
+											 width, height,
 											 SetVideoFlags);
 
 	*sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, 0);
+	// SDL_SetRenderDrawBlendMode(*sdlRenderer, SDL_BLENDMODE_BLEND);
 	SDL_SetRenderDrawColor(*sdlRenderer, 0, 0, 0, 255);
 
-/* 	if ((*Screen = SDL_SetVideoMode(width, height, depth, SetVideoFlags)) == NULL)
+	Uint32 Rmask, Gmask, Bmask, Amask;
+	Uint32 PixelFormat;
+	switch (bpp)
 	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "*Error* Couldn't set %dx%dx%d video mode: %s", width, height, depth, SDL_GetError());
-		SDL_Quit();
-		return 1;
+	case 8:
+		PixelFormat = SDL_PIXELFORMAT_RGB332;
+		break;
+	case 15:
+		PixelFormat = SDL_PIXELFORMAT_RGB555;
+		break;
+	case 16:
+		PixelFormat = SDL_PIXELFORMAT_ARGB4444;
+		break;
+	case 24:
+		PixelFormat = SDL_PIXELFORMAT_RGB24;
+	case 32:
+	default:
+		PixelFormat = SDL_PIXELFORMAT_ARGB32;
+		break;
 	}
- */
-#ifdef HAVE_OPENGL
-	setup_opengl(width, height);
-#endif /* HAVE_OPENGL */
+	SDL_PixelFormatEnumToMasks(PixelFormat, &bpp, &Rmask, &Gmask, &Bmask, &Amask);
+	*Screen = SDL_CreateRGBSurface(0, width, height, bpp, Rmask, Gmask, Bmask, Amask);
+	*sdlTexture = SDL_CreateTexture(*sdlRenderer,
+									PixelFormat,
+									SDL_TEXTUREACCESS_STREAMING,
+									width, height);
 
 	atexit(SDL_Quit);
 	return 0;
 }
 
-/* Processes all the incoming events
- */
+/* Processes all the incoming events */
 void ProcessEvents()
 {
 	SDL_Event event;
@@ -289,7 +242,7 @@ void ProcessEvents()
 				if (event.key.keysym.mod & KMOD_CTRL)
 				{
 					/* Show/Hide consoles */
-					if (CON_isVisible(Consoles[event.key.keysym.sym - SDLK_1]))
+					if (CON_isOpen(Consoles[event.key.keysym.sym - SDLK_1]))
 						CON_Hide(Consoles[event.key.keysym.sym - SDLK_1]);
 					else
 						CON_Show(Consoles[event.key.keysym.sym - SDLK_1]);
@@ -387,10 +340,12 @@ void Command_Handler(ConsoleInformation *console, char *command)
 		Move(console, argc, argv);
 	else if (!strcmp(argv[0], "resize"))
 		Resize(console, argc, argv);
-	else if (!strcmp(argv[0], "listcommands"))
+	else if (!strcmp(argv[0], "help"))
 		ListCommands(console);
 	else if (!strcmp(argv[0], "prompt"))
 		SetPrompt(console, argc, argv);
+	else
+		CON_Out(console, "%s: command not found", argv[0]);
 }
 
 /* call this to end the main loop */
@@ -521,13 +476,13 @@ void SetPrompt(ConsoleInformation *console, int argc, char *argv[])
 
 void ListCommands(ConsoleInformation *console)
 {
+	CON_Out(console, "help");
 	CON_Out(console, "quit");
 	CON_Out(console, "echo");
-	CON_Out(console, "drawtextdemo");
 	CON_Out(console, "alpha");
 	CON_Out(console, "background");
 	CON_Out(console, "move");
 	CON_Out(console, "resize");
-	CON_Out(console, "listcommands");
 	CON_Out(console, "prompt");
+	CON_Out(console, "drawtextdemo");
 }
