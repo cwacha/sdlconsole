@@ -11,10 +11,6 @@
 
 */
 
-#ifdef HAVE_OPENGL
-#include <GL/glut.h>
-#endif /* HAVE_OPENGL */
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -26,7 +22,8 @@
 
 int done = 0;
 int TextDemo = 0;
-int LargeFont;
+BitFont *Font;
+BitFont *LargeFont;
 
 #define CONSOLE_N 3
 ConsoleInformation *Consoles[CONSOLE_N]; /* Pointers to all the consoles */
@@ -70,7 +67,7 @@ int main(int argc, char **argv)
 	Con_rect.y = 0;
 	Con_rect.w = 640;
 	Con_rect.h = 300;
-	if ((Consoles[0] = CON_Init("ExportedFont.bmp", Screen, 100, Con_rect)) == NULL)
+	if ((Consoles[0] = CON_Init("ExportedFont3.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 350;
@@ -86,15 +83,23 @@ int main(int argc, char **argv)
 	if ((Consoles[2] = CON_Init("ConsoleFont2.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, " !\"#$%%&\'()*+,-./0123456789:;<=>?");
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_");
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "`abcdefghijklmnopqrstuvwxyz{|}~");
+	// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "custom log function initialized");
+	// SDL_LogError(SDL_LOG_CATEGORY_ERROR, " !\"#$%%&\'()*+,-./0123456789:;<=>?");
+	// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_");
+	// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "`abcdefghijklmnopqrstuvwxyz{|}~");
 
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ☺ ☻ ♥ ♦ ♣ ♠ • ◘ ○ ◙ ♂ ♀ ♪ ♫ ☼ ► ◄ ↕ ‼ ¶ § ▬ ↨ ↑ ↓ → ← ∟ ↔ ▲ ▼");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ! \" # $ %% & \' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ");
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~  ⌂");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Ç ü é â ä à å ç ê ë è ï î ì Ä Å É æ Æ ô ö ò û ù ÿ Ö Ü ¢ £ ¥ ₧ ƒ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "á í ó ú ñ Ñ ª º ¿ ⌐ ¬ ½ ¼ ¡ « » ░ ▒ ▓ │ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "└ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ █ ▄ ▌ ▐ ▀");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "α ß Γ π Σ σ µ τ Φ Θ Ω δ ∞ φ ε ∩ ≡ ± ≥ ≤ ⌠ ⌡ ÷ ≈ ° ∙ · √ ⁿ ² ■");
 
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "custom log function initialized");
+	// Load some fonts for the example
+	Font = BF_OpenFont("ConsoleFont2.bmp", Screen->format);
+	LargeFont = BF_OpenFont("LargeFont.bmp", Screen->format);
 
 	/* STEP 2: Attach the Command handling function to the consoles. Remark that every
 	   console can have its own command handler */
@@ -106,9 +111,6 @@ int main(int argc, char **argv)
 	ListCommands(Consoles[0]);
 	CON_Show(Consoles[0]);
 	CON_Topmost(Consoles[0]);
-
-	/* Heres another font for the text demo */
-	LargeFont = DT_LoadFont("LargeFont.gif", 0);
 
 	/* Main execution loop */
 	while (!done)
@@ -135,7 +137,7 @@ int main(int argc, char **argv)
 			then = now;
 			frames = 0;
 		}
-		DT_DrawText(framerate, Screen, 1, 1, Screen->h - 40);
+		BF_RenderText(Font, framerate, Screen, 1, Screen->h - 40);
 
 		SDL_UpdateTexture(sdlTexture, NULL, Screen->pixels, Screen->pitch);
 		SDL_RenderClear(sdlRenderer);
@@ -377,27 +379,27 @@ void DrawTextDemo()
 /* This function displays a help message */
 void HelpText(SDL_Surface *Screen)
 {
-	DT_DrawText("Show/Hide the consoles with Ctrl-1 to Ctrl-3", Screen, 0, 100, Screen->h - 30);
-	DT_DrawText("Change input with Alt-1 to Alt-3. Alt-4 disables Input.", Screen, 0, 100, Screen->h - 20);
+	BF_RenderText(Font, "Show/Hide the consoles with Ctrl-1 to Ctrl-3", Screen, 100, Screen->h - 30);
+	BF_RenderText(Font, "Change input with Alt-1 to Alt-3. Alt-4 disables Input.", Screen, 100, Screen->h - 20);
 }
 
 /* This function demonstrates the text drawing routines that
  * come with this console */
 void RandText(SDL_Surface *Screen)
 {
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 40, Screen->h - 50);
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 100, 300);
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 200, 400);
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 20, 20);
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 0, 0);
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 300, 5);
-	DT_DrawText("This is an example of the DrawText routine", Screen, 0, 600, 90);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 40, Screen->h - 50);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 100, 300);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 200, 400);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 20, 20);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 0, 0);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 300, 5);
+	BF_RenderText(Font, "This is an example of the DrawText routine", Screen, 600, 90);
 
 	/* Now show the large font */
-	if (-1 != LargeFont)
+	if (LargeFont)
 	{
-		DT_DrawText("Heres a large font (non-transparent)", Screen, LargeFont, 50, 60);
-		DT_DrawText("Heres a large font (non-transparent)", Screen, LargeFont, 0, 170);
+		BF_RenderText(LargeFont, "Here's a large font", Screen, 50, 60);
+		BF_RenderText(LargeFont, "Here's a large font", Screen, 0, 170);
 	}
 }
 

@@ -1,6 +1,6 @@
 find_package(SDL2 CONFIG REQUIRED)
 find_package(SDL2_image CONFIG)
-if(SDL2_IMAGE_FOUND)
+if(SDL2_image_FOUND)
     add_definitions(-DHAVE_SDLIMAGE)
 else()
     add_library(SDL2_image::SDL2_image INTERFACE IMPORTED)

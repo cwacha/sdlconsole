@@ -243,9 +243,9 @@ void CON_UpdateConsole(ConsoleInformation *console)
 	{
 		if (console->ConsoleScrollBack != 0 && loop == 0)
 			for (loop2 = 0; loop2 < (console->VChars / 5) + 1; loop2++)
-				DT_DrawText(CON_SCROLL_INDICATOR, console->ConsoleSurface, console->FontNumber, CON_CHAR_BORDER + (loop2 * 5 * console->FontWidth), (Screenlines - loop - 2) * console->FontHeight);
+				BF_RenderText(console->Font, CON_SCROLL_INDICATOR, console->ConsoleSurface, CON_CHAR_BORDER + (loop2 * 5 * console->FontWidth), (Screenlines - loop - 2) * console->FontHeight);
 		else
-			DT_DrawText(console->ConsoleLines[console->ConsoleScrollBack + loop], console->ConsoleSurface, console->FontNumber, CON_CHAR_BORDER, (Screenlines - loop - 2) * console->FontHeight);
+			BF_RenderText(console->Font, console->ConsoleLines[console->ConsoleScrollBack + loop], console->ConsoleSurface, CON_CHAR_BORDER, (Screenlines - loop - 2) * console->FontHeight);
 	}
 }
 
@@ -349,14 +349,14 @@ ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *OutputSurface, i
 	CON_SetTabCompletion(newinfo, Default_TabFunction);
 
 	/* Load the consoles font */
-	if (-1 == (newinfo->FontNumber = DT_LoadFont(FontName, OutputSurface->format)))
+	if (NULL == (newinfo->Font = BF_OpenFont(FontName, OutputSurface->format)))
 	{
 		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not load font '%s' for the console!", FontName);
 		return NULL;
 	}
 
-	newinfo->FontHeight = DT_FontHeight(newinfo->FontNumber);
-	newinfo->FontWidth = DT_FontWidth(newinfo->FontNumber);
+	newinfo->FontHeight = newinfo->Font->CharHeight;
+	newinfo->FontWidth = newinfo->Font->CharWidth;
 
 	/* make sure that the size of the console is valid */
 	if (rect.w > newinfo->OutputSurface->w || rect.w < newinfo->FontWidth * 32)
@@ -460,17 +460,12 @@ int CON_isOpen(ConsoleInformation *console)
 /* Frees all the memory loaded by the console */
 void CON_Destroy(ConsoleInformation *console)
 {
-	DT_DestroyDrawText();
-	CON_Free(console);
-}
-
-/* Frees all the memory loaded by the console */
-void CON_Free(ConsoleInformation *console)
-{
 	int i;
 
 	if (!console)
 		return;
+
+	BF_CloseFont(console->Font);
 
 	for (i = 0; i <= console->LineBuffer - 1; i++)
 	{
@@ -570,7 +565,7 @@ void DrawCommandLine()
 	SDL_BlitSurface(Topmost->InputBackground, NULL, Topmost->ConsoleSurface, &rect);
 
 	/* now add the text */
-	DT_DrawText(Topmost->VCommand, Topmost->ConsoleSurface, Topmost->FontNumber, CON_CHAR_BORDER, Topmost->ConsoleSurface->h - Topmost->FontHeight);
+	BF_RenderText(Topmost->Font, Topmost->VCommand, Topmost->ConsoleSurface, CON_CHAR_BORDER, Topmost->ConsoleSurface->h - Topmost->FontHeight);
 
 	/* at last add the cursor
 	   check if the blink period is over */
@@ -592,9 +587,9 @@ void DrawCommandLine()
 	{
 		x = CON_CHAR_BORDER + Topmost->FontWidth * (Topmost->CursorPos - Topmost->Offset + strlen(Topmost->Prompt));
 		if (Topmost->InsMode)
-			DT_DrawText(CON_INS_CURSOR, Topmost->ConsoleSurface, Topmost->FontNumber, x, Topmost->ConsoleSurface->h - Topmost->FontHeight);
+			BF_RenderText(Topmost->Font, CON_INS_CURSOR, Topmost->ConsoleSurface, x, Topmost->ConsoleSurface->h - Topmost->FontHeight);
 		else
-			DT_DrawText(CON_OVR_CURSOR, Topmost->ConsoleSurface, Topmost->FontNumber, x, Topmost->ConsoleSurface->h - Topmost->FontHeight);
+			BF_RenderText(Topmost->Font, CON_OVR_CURSOR, Topmost->ConsoleSurface, x, Topmost->ConsoleSurface->h - Topmost->FontHeight);
 	}
 }
 
@@ -833,7 +828,7 @@ void CON_Topmost(ConsoleInformation *console)
 		rect.w = Topmost->InputBackground->w;
 		rect.h = Topmost->InputBackground->h;
 		SDL_BlitSurface(Topmost->InputBackground, NULL, Topmost->ConsoleSurface, &rect);
-		DT_DrawText(Topmost->VCommand, Topmost->ConsoleSurface, Topmost->FontNumber, CON_CHAR_BORDER, Topmost->ConsoleSurface->h - Topmost->FontHeight);
+		BF_RenderText(Topmost->Font, Topmost->VCommand, Topmost->ConsoleSurface, CON_CHAR_BORDER, Topmost->ConsoleSurface->h - Topmost->FontHeight);
 	}
 	Topmost = console;
 	if (console)

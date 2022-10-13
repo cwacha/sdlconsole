@@ -27,201 +27,204 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "SDL.h"
 #include "DT_drawtext.h"
-#include "internal.h"
+#include "utf8.h"
+#include "SDL.h"
 
 #ifdef HAVE_SDLIMAGE
 #include "SDL_image.h"
 #endif
 
-static BitFont *BitFonts = NULL; /* Linked list of fonts */
-
-/* Loads the font into a new struct
- * returns -1 as an error else it returns the number
- * of the font for the user to use
- */
-int DT_LoadFont(const char *BitmapName, SDL_PixelFormat *format)
+Uint32 BF_GetPixel(SDL_Surface *surface, unsigned int x, unsigned int y)
 {
-	int FontNumber = 0;
-	BitFont **CurrentFont = &BitFonts;
-	SDL_Surface *Temp;
+	int bpp = surface->format->BytesPerPixel;
+	if (x > surface->w - 1)
+		x = surface->w - 1;
+	if (y > surface->h - 1)
+		y = surface->h - 1;
 
-	while (*CurrentFont)
+	// Here p is the address to the pixel we want to retrieve
+	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
+
+	switch (bpp)
 	{
-		CurrentFont = &((*CurrentFont)->NextFont);
-		FontNumber++;
+	case 1:
+		return *p;
+		break;
+	case 2:
+		return *(Uint16 *)p;
+		break;
+	case 3:
+		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			return p[0] << 16 | p[1] << 8 | p[2];
+		else
+			return p[0] | p[1] << 8 | p[2] << 16;
+		break;
+	case 4:
+		return *(Uint32 *)p;
+		break;
+	default:
+		return 0;
 	}
+}
+
+void BF_LoadMap(BitFont *font, const char *utf8_map)
+{
+	if (!font)
+		return;
+
+	int maplength = strlen(utf8_map);
+
+	font->map[0] = 0;
+
+	int i = 1;
+	int character = 1;
+	u8chr_t ch;
+	while (i < maplength && character < 256)
+	{
+		i += u8next(&utf8_map[i], &ch);
+		font->map[character] = u8decode(ch);
+		character++;
+	}
+}
+
+int BF_GetMapIndex(BitFont *font, Uint32 codepoint)
+{
+	if (!font)
+		return 0;
+
+	for (int i = 0; i < sizeof(font->map); i++)
+	{
+		if (font->map[i] == codepoint)
+			return i;
+	}
+	return 0;
+}
+
+BitFont *
+BF_OpenFont(const char *filename, SDL_PixelFormat *format)
+{
+	BitFont *NewFont;
+	SDL_Surface *Temp;
 
 	/* load the font bitmap */
 
 #ifdef HAVE_SDLIMAGE
-	Temp = IMG_Load(BitmapName);
+	Temp = IMG_Load(filename);
 #else
-	Temp = SDL_LoadBMP(BitmapName);
+	Temp = SDL_LoadBMP(filename);
 #endif
 
-	if (Temp == NULL)
+	if (!Temp)
 	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot load file %s: %s", BitmapName, SDL_GetError());
-		return -1;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot load font file %s: %s", filename, SDL_GetError());
+		return NULL;
 	}
 
 	/* Add a font to the list */
-	*CurrentFont = (BitFont *)malloc(sizeof(BitFont));
+	NewFont = (BitFont *)malloc(sizeof(BitFont));
 
-	(*CurrentFont)->FontSurface = SDL_ConvertSurface(Temp, format, 0);
+	NewFont->FontSurface = SDL_ConvertSurface(Temp, format, 0);
 	SDL_FreeSurface(Temp);
-
-	(*CurrentFont)->CharWidth = (*CurrentFont)->FontSurface->w / 32;
-	(*CurrentFont)->CharHeight = (*CurrentFont)->FontSurface->h / 8;
-	(*CurrentFont)->FontNumber = FontNumber;
-	(*CurrentFont)->NextFont = NULL;
-
-	/* Set font as transparent if the flag is set.  The assumption we'll go on
-	 * is that the first pixel of the font image will be the color we should treat
-	 * as transparent.
-	 */
-	Uint8 *p = (Uint8 *)(*CurrentFont)->FontSurface->pixels;
-	Uint32 firstpixel;
-
-	switch ((*CurrentFont)->FontSurface->format->BytesPerPixel)
+	if (!NewFont->FontSurface)
 	{
-	case 1:
-		firstpixel = *p;
-		break;
-	case 2:
-		firstpixel = *(Uint16 *)p;
-		break;
-	case 3:
-		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-			firstpixel = p[0] << 16 | p[1] << 8 | p[2];
-		else
-			firstpixel = p[0] | p[1] << 8 | p[2] << 16;
-		break;
-	case 4:
-		firstpixel = *(Uint32 *)p;
-		break;
-	default:
-		firstpixel = 0;
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Failed to convert font surface %s: %s", filename, SDL_GetError());
+		return NULL;
 	}
+
+	NewFont->CharWidth = NewFont->FontSurface->w / 32;
+	NewFont->CharHeight = NewFont->FontSurface->h / 8;
+
+	/* Set font transparency. The assumption we'll go on is that the first pixel of the font image
+	 *  will be the color we should treat as transparent.
+	 */
 	Uint8 r, g, b;
+	SDL_GetRGB(BF_GetPixel(NewFont->FontSurface, 0, 0), NewFont->FontSurface->format, &r, &g, &b);
+	SDL_SetColorKey(NewFont->FontSurface, SDL_TRUE, SDL_MapRGB(NewFont->FontSurface->format, r, g, b));
 
-	SDL_GetRGB(firstpixel, (*CurrentFont)->FontSurface->format, &r, &g, &b);
-	SDL_SetColorKey((*CurrentFont)->FontSurface, SDL_TRUE, SDL_MapRGB((*CurrentFont)->FontSurface->format, r, g, b));
+	// load the default UTF8 translation map (for CP437)
+	const char *BitFontDefaultMap = " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■";
+	BF_LoadMap(NewFont, BitFontDefaultMap);
 
-	return FontNumber;
+	return NewFont;
 }
 
-/* Takes the font type, coords, and text to draw to the surface*/
-void DT_DrawText(const char *string, SDL_Surface *surface, int FontType, int x, int y)
+void BF_RenderText(BitFont *font, const char *text, SDL_Surface *surface, int x, int y)
 {
-	int loop;
-	int characters;
-	int current;
 	SDL_Rect SourceRect, DestRect;
-	BitFont *CurrentFont;
 
-	CurrentFont = DT_FontPointer(FontType);
-	if (CurrentFont == NULL)
+	if (!font)
 	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "CurrentFont does not exist. Fontnumber: %i", FontType);
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "No font provided, cannot render text.");
 		return;
 	}
 
-	/* see how many characters can fit on the screen */
+	// don't draw if the area is outside of the surface. That was easy!
 	if (x > surface->w || y > surface->h)
 		return;
 
-	if (strlen(string) < (surface->w - x) / CurrentFont->CharWidth)
-		characters = strlen(string);
-	else
-		characters = (surface->w - x) / CurrentFont->CharWidth;
-
+	/*
+		int characters;
+		if (strlen(text) < (surface->w - x) / font->CharWidth)
+			characters = strlen(text);
+		else
+			characters = (surface->w - x) / font->CharWidth;
+	*/
 	DestRect.x = x;
 	DestRect.y = y;
-	DestRect.w = CurrentFont->CharWidth;
-	DestRect.h = CurrentFont->CharHeight;
+	DestRect.w = font->CharWidth;
+	DestRect.h = font->CharHeight;
 
 	SourceRect.y = 0;
-	SourceRect.w = CurrentFont->CharWidth;
-	SourceRect.h = CurrentFont->CharHeight;
+	SourceRect.w = font->CharWidth;
+	SourceRect.h = font->CharHeight;
+
+	/* see how many characters can fit on the screen */
+	int max_characters = (surface->w - x) / font->CharWidth;
 
 	/* Now draw it */
-	for (loop = 0; loop < characters; loop++)
+	int text_length = strlen(text);
+
+	int loop = 0;
+	int character = 0;
+	while (loop < text_length && character < max_characters)
 	{
-		current = string[loop];
-		if (current < 0 || current > 255)
-		{
-			// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Unknown character code: %i", current);
-			current = 0;
-		}
-		/* SourceRect.x = string[loop] * CurrentFont->CharWidth; */
-		SourceRect.x = (current % 32) * CurrentFont->CharWidth;
-		SourceRect.y = (current / 32) * CurrentFont->CharHeight;
+		u8chr_t ch;
+		loop += u8next(&text[loop], &ch);
+		int current = BF_GetMapIndex(font, u8decode(ch));
+		character++;
 
-		SDL_BlitSurface(CurrentFont->FontSurface, &SourceRect, surface, &DestRect);
-		DestRect.x += CurrentFont->CharWidth;
-	}
-}
+		SourceRect.x = (current % 32) * font->CharWidth;
+		SourceRect.y = (current / 32) * font->CharHeight;
 
-/* Returns the height of the font numbers character
- * returns 0 if the fontnumber was invalid */
-int DT_FontHeight(int FontNumber)
-{
-	BitFont *CurrentFont;
-
-	CurrentFont = DT_FontPointer(FontNumber);
-	if (CurrentFont)
-		return CurrentFont->CharHeight;
-	else
-		return 0;
-}
-
-/* Returns the width of the font numbers charcter */
-int DT_FontWidth(int FontNumber)
-{
-	BitFont *CurrentFont;
-
-	CurrentFont = DT_FontPointer(FontNumber);
-	if (CurrentFont)
-		return CurrentFont->CharWidth;
-	else
-		return 0;
-}
-
-/* Returns a pointer to the font struct of the number
- * returns NULL if theres an error
- */
-BitFont *DT_FontPointer(int FontNumber)
-{
-	BitFont *CurrentFont = BitFonts;
-
-	while (CurrentFont)
-		if (CurrentFont->FontNumber == FontNumber)
-			return CurrentFont;
-		else
-		{
-			CurrentFont = CurrentFont->NextFont;
-		}
-
-	return NULL;
-}
-
-/* removes all the fonts currently loaded */
-void DT_DestroyDrawText()
-{
-	BitFont *CurrentFont = BitFonts;
-	BitFont *temp;
-
-	while (CurrentFont)
-	{
-		temp = CurrentFont;
-		CurrentFont = CurrentFont->NextFont;
-
-		SDL_FreeSurface(temp->FontSurface);
-		free(temp);
+		SDL_BlitSurface(font->FontSurface, &SourceRect, surface, &DestRect);
+		DestRect.x += font->CharWidth;
 	}
 
-	BitFonts = NULL;
+	/*
+		int loop;
+		int current;
+		for (loop = 0; loop < characters; loop++)
+		{
+			current = text[loop];
+			if (current < 0 || current > 255)
+			{
+				// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Unknown character code: %i", current);
+				current = 0;
+			}
+			// SourceRect.x = string[loop] * CurrentFont->CharWidth;
+			SourceRect.x = (current % 32) * font->CharWidth;
+			SourceRect.y = (current / 32) * font->CharHeight;
+
+			SDL_BlitSurface(font->FontSurface, &SourceRect, surface, &DestRect);
+			DestRect.x += font->CharWidth;
+		}
+	*/
+}
+void BF_CloseFont(BitFont *font)
+{
+	if (!font)
+		return;
+	SDL_FreeSurface(font->FontSurface);
+	free(font);
 }

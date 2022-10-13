@@ -27,6 +27,7 @@
 #include <config.h>
 #endif
 
+#include "DT_drawtext.h"
 #include "SDL.h"
 #include "begin_code.h"
 
@@ -80,7 +81,6 @@ extern "C"
 		int TotalConsoleLines;														/*! Total number of lines in the console */
 		int ConsoleScrollBack;														/*! How much the user scrolled back in the console */
 		int TotalCommands;															/*! Number of commands that were typed in before (which are now in the CommandLines array) */
-		int FontNumber;																/*! This is the number of the font for the console (DT_* specific; will hopefully disappear in future releases) */
 		int LineBuffer;																/*! The number of visible lines in the console (autocalculated on CON_UpdateConsole()) */
 		int VChars;																	/*! The number of visible characters in one console line (autocalculated on CON_Init() and recalc. on CON_Resize()) */
 		int BackX, BackY;															/*! Background image x and y coords */
@@ -101,9 +101,9 @@ extern "C"
 		int CommandScrollBack;														/*! How much the users scrolled back in the command lines */
 		void (*CmdFunction)(struct console_information_td *console, char *command); /*! The Function that is executed if you press 'Return' in the console */
 		char *(*TabFunction)(char *command);										/*! The Function that is executed if you press 'Tab' in the console */
-
-		int FontHeight; /*! The height of the font used in the console */
-		int FontWidth;	/*! The width of the font used in the console (Remark that the console needs FIXED width fonts!!) */
+		BitFont *Font;																/*! This is the BitFont for the console (BF_* specific; will hopefully disappear in future releases) */
+		int FontHeight;																/*! The height of the font used in the console */
+		int FontWidth;																/*! The width of the font used in the console (Remark that the console needs FIXED width fonts!!) */
 	} ConsoleInformation;
 
 	/*! Takes keys from the keyboard and inputs them to the console if the console isVisible().
@@ -128,10 +128,8 @@ extern "C"
 		@param lines The total number of lines in the history
 		@param rect Position and size of the new console */
 	extern DECLSPEC ConsoleInformation *SDLCALL CON_Init(const char *FontName, SDL_Surface *OutputSurface, int lines, SDL_Rect rect);
-	/*! Frees DT_DrawText and calls CON_Free */
+	/*! Frees all memory from BitFont and the console */
 	extern DECLSPEC void SDLCALL CON_Destroy(ConsoleInformation *console);
-	/*! Frees all the memory loaded by the console */
-	extern DECLSPEC void SDLCALL CON_Free(ConsoleInformation *console);
 	/*! Function to send text to the console. Works exactly like printf and supports the same format */
 	extern DECLSPEC void SDLCALL CON_Out(ConsoleInformation *console, const char *str, ...);
 	/*! Sets the alpha level of the console to the specified value (0 - transparent, 255 - opaque). */
@@ -203,7 +201,7 @@ extern "C"
 	/*! Internal: Called if you type in a character (add the char to the command) */
 	extern DECLSPEC void SDLCALL Cursor_Add(ConsoleInformation *console, SDL_TextInputEvent *event);
 
-	/*! Internal: Called if you press Ctrl-C (deletes the commandline) */
+	// Internal: Called if you press Ctrl-C (deletes the commandline)
 	extern DECLSPEC void SDLCALL Clear_Command(ConsoleInformation *console);
 	/*! Internal: Called if the command line has changed (assemles console->Command from LCommand and RCommand */
 	extern DECLSPEC void SDLCALL Assemble_Command(ConsoleInformation *console);

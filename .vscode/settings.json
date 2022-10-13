@@ -1,6 +1,8 @@
 {
   "cmake.configureEnvironment": {
     "SDLDIR": "${workspaceFolder}/../lib/SDL-1.2.15-mingw32",
-    "SDL2_DIR": "${workspaceFolder}/../lib/SDL2-2.24.1-mingw"
-  }
+    "SDL2_DIR": "${workspaceFolder}/../lib/SDL2-2.24.1-mingw",
+    "SDL2_image_DIR": "${workspaceFolder}/../lib/SDL2_image-2.6.2-mingw"
+  },
+  "cmake.configureOnOpen": true
 }
