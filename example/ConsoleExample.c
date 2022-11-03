@@ -67,13 +67,13 @@ int main(int argc, char **argv)
 	Con_rect.y = 0;
 	Con_rect.w = 640;
 	Con_rect.h = 300;
-	if ((Consoles[0] = CON_Init("ExportedFont3.bmp", Screen, 100, Con_rect)) == NULL)
+	if ((Consoles[0] = CON_Init("DOS.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 350;
 	Con_rect.y = 20;
 	Con_rect.w = Con_rect.h = 200;
-	if ((Consoles[1] = CON_Init("ConsoleFont2.bmp", Screen, 100, Con_rect)) == NULL)
+	if ((Consoles[1] = CON_Init("Squarewave_8x12.bmp", Screen, 100, Con_rect)) == NULL)
 		return 1;
 
 	Con_rect.x = 340;
@@ -90,16 +90,31 @@ int main(int argc, char **argv)
 
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ☺ ☻ ♥ ♦ ♣ ♠ • ◘ ○ ◙ ♂ ♀ ♪ ♫ ☼ ► ◄ ↕ ‼ ¶ § ▬ ↨ ↑ ↓ → ← ∟ ↔ ▲ ▼");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ! \" # $ %% & \' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ?");
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ");
-	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~  ⌂");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "@ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~ ⌂");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Ç ü é â ä à å ç ê ë è ï î ì Ä Å É æ Æ ô ö ò û ù ÿ Ö Ü ¢ £ ¥ ₧ ƒ");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "á í ó ú ñ Ñ ª º ¿ ⌐ ¬ ½ ¼ ¡ « » ░ ▒ ▓ │ ┤ ╡ ╢ ╖ ╕ ╣ ║ ╗ ╝ ╜ ╛ ┐");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "└ ┴ ┬ ├ ─ ┼ ╞ ╟ ╚ ╔ ╩ ╦ ╠ ═ ╬ ╧ ╨ ╤ ╥ ╙ ╘ ╒ ╓ ╫ ╪ ┘ ┌ █ ▄ ▌ ▐ ▀");
 	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "α ß Γ π Σ σ µ τ Φ Θ Ω δ ∞ φ ε ∩ ≡ ± ≥ ≤ ⌠ ⌡ ÷ ≈ ° ∙ · √ ⁿ ² ■");
 
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, " 	┌─┬┐  ╔═╦╗  ╓─╥╖  ╒═╤╕ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  │ ││  ║ ║║  ║ ║║  │ ││ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ├─┼┤  ╠═╬╣  ╟─╫╢  ╞═╪╡ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  └─┴┘  ╚═╩╝  ╙─╨╜  ╘═╧╛ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ┌───────────────────┐  ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  │  ╔═══╗ Some Text  │▒ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  │  ╚═╦═╝ in the box │▒ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  ╞═╤══╩══╤═══════════╡▒ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  │░├──┬──┤░░░░░░░░░░░│▒ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  │░└──┴──┘░░░░░░░░░░░│▒ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "  └───────────────────┘▒ ");
+	SDL_LogError(SDL_LOG_CATEGORY_ERROR, "   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒ ");
+
 	// Load some fonts for the example
 	Font = BF_OpenFont("ConsoleFont2.bmp", Screen->format);
-	LargeFont = BF_OpenFont("LargeFont.bmp", Screen->format);
+	LargeFont = BF_OpenFont("font-40x40.png", Screen->format);
+	BF_SetCharSize(LargeFont, 40, 40);
+	BF_LoadMap(LargeFont, " !\"#$%&'()*+,-./0123456789;;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ|\\]^_'abcdefghijklmnopqrstuvwxyz(|)~ ÇüéâäàåçêëèïîìÄÅÉæÆôöòûI");
 
 	/* STEP 2: Attach the Command handling function to the consoles. Remark that every
 	   console can have its own command handler */

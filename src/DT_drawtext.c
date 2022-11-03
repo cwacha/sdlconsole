@@ -35,7 +35,165 @@
 #include "SDL_image.h"
 #endif
 
-Uint32 BF_GetPixel(SDL_Surface *surface, unsigned int x, unsigned int y)
+const char *BitFontDefaultMap = " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■";
+
+BitFont *BF_OpenFont(const char *filename, SDL_PixelFormat *format)
+{
+	BitFont *NewFont;
+	SDL_Surface *Temp;
+
+	// load the font bitmap
+#ifdef HAVE_SDLIMAGE
+	Temp = IMG_Load(filename);
+#else
+	Temp = SDL_LoadBMP(filename);
+#endif
+
+	if (!Temp)
+	{
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot load font file %s: %s", filename, SDL_GetError());
+		return NULL;
+	}
+
+	NewFont = (BitFont *)malloc(sizeof(BitFont));
+
+	NewFont->FontSurface = SDL_ConvertSurface(Temp, format, 0);
+	SDL_FreeSurface(Temp);
+	if (!NewFont->FontSurface)
+	{
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Failed to convert font surface %s: %s", filename, SDL_GetError());
+		return NULL;
+	}
+
+	// Set font transparency. The assumption we'll go on is that the first pixel of the font image
+	// will be the color we should treat as transparent.
+	Uint8 r, g, b;
+	SDL_GetRGB(_BF_GetPixel(NewFont->FontSurface, 0, 0), NewFont->FontSurface->format, &r, &g, &b);
+	SDL_SetColorKey(NewFont->FontSurface, SDL_TRUE, SDL_MapRGB(NewFont->FontSurface->format, r, g, b));
+
+	// calculate character size
+	BF_SetCharSize(NewFont, 0, 0);
+
+	// load the default UTF8 translation map (for CP437)
+	BF_LoadMap(NewFont, BitFontDefaultMap);
+
+	return NewFont;
+}
+
+void BF_RenderText(BitFont *font, const char *text, SDL_Surface *surface, int x, int y)
+{
+	if (!font)
+	{
+		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "No font provided, cannot render text.");
+		return;
+	}
+
+	// don't draw if the area is outside of the surface. That was easy!
+	if (x > surface->w || y > surface->h)
+		return;
+
+	SDL_Rect SourceRect, DestRect;
+	DestRect.x = x;
+	DestRect.y = y;
+	DestRect.w = font->CharWidth;
+	DestRect.h = font->CharHeight;
+
+	SourceRect.y = 0;
+	SourceRect.w = font->CharWidth;
+	SourceRect.h = font->CharHeight;
+
+	/* see how many characters can fit on the screen */
+	int max_characters = (surface->w - x) / font->CharWidth;
+
+	/* Now draw it */
+	int text_bytes = strlen(text);
+
+	int loop = 0;
+	int character = 0;
+	while (loop < text_bytes && character < max_characters)
+	{
+		u8chr_t ch;
+		loop += u8next(&text[loop], &ch);
+		int current = _BF_GetMapIndex(font, u8decode(ch));
+		character++;
+
+		SourceRect.x = (current % font->Cols) * font->CharWidth;
+		SourceRect.y = (current / font->Cols) * font->CharHeight;
+
+		SDL_BlitSurface(font->FontSurface, &SourceRect, surface, &DestRect);
+		DestRect.x += font->CharWidth;
+	}
+}
+
+void BF_CloseFont(BitFont *font)
+{
+	if (!font)
+		return;
+	SDL_FreeSurface(font->FontSurface);
+	free(font);
+}
+
+void BF_LoadMap(BitFont *font, const char *utf8_map)
+{
+	if (!font)
+		return;
+
+	int maplength = strlen(utf8_map);
+
+	font->map[0] = 0;
+
+	int i = 1;
+	int character = 1;
+	u8chr_t ch;
+	while (i < maplength && character < 256)
+	{
+		i += u8next(&utf8_map[i], &ch);
+		font->map[character] = u8decode(ch);
+		character++;
+	}
+}
+
+void BF_SetCharSize(BitFont *font, unsigned int width, unsigned int height)
+{
+	if (!font)
+		return;
+
+	if (!font->FontSurface)
+	{
+		font->CharWidth = 0;
+		font->CharHeight = 0;
+		return;
+	}
+
+	if (width > font->FontSurface->w)
+		width = font->FontSurface->w;
+	if (height > font->FontSurface->h)
+		height = font->FontSurface->h;
+
+	if (width == 0)
+		width = font->FontSurface->w / 32;
+	if (height == 0)
+		height = font->FontSurface->h / 8;
+
+	font->CharWidth = width;
+	font->CharHeight = height;
+	font->Cols = font->FontSurface->w / font->CharWidth;
+}
+
+int _BF_GetMapIndex(BitFont *font, Uint32 codepoint)
+{
+	if (!font)
+		return 0;
+
+	for (int i = 0; i < sizeof(font->map); i++)
+	{
+		if (font->map[i] == codepoint)
+			return i;
+	}
+	return 0;
+}
+
+Uint32 _BF_GetPixel(SDL_Surface *surface, unsigned int x, unsigned int y)
 {
 	int bpp = surface->format->BytesPerPixel;
 	if (x > surface->w - 1)
@@ -66,165 +224,4 @@ Uint32 BF_GetPixel(SDL_Surface *surface, unsigned int x, unsigned int y)
 	default:
 		return 0;
 	}
-}
-
-void BF_LoadMap(BitFont *font, const char *utf8_map)
-{
-	if (!font)
-		return;
-
-	int maplength = strlen(utf8_map);
-
-	font->map[0] = 0;
-
-	int i = 1;
-	int character = 1;
-	u8chr_t ch;
-	while (i < maplength && character < 256)
-	{
-		i += u8next(&utf8_map[i], &ch);
-		font->map[character] = u8decode(ch);
-		character++;
-	}
-}
-
-int BF_GetMapIndex(BitFont *font, Uint32 codepoint)
-{
-	if (!font)
-		return 0;
-
-	for (int i = 0; i < sizeof(font->map); i++)
-	{
-		if (font->map[i] == codepoint)
-			return i;
-	}
-	return 0;
-}
-
-BitFont *
-BF_OpenFont(const char *filename, SDL_PixelFormat *format)
-{
-	BitFont *NewFont;
-	SDL_Surface *Temp;
-
-	/* load the font bitmap */
-
-#ifdef HAVE_SDLIMAGE
-	Temp = IMG_Load(filename);
-#else
-	Temp = SDL_LoadBMP(filename);
-#endif
-
-	if (!Temp)
-	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Cannot load font file %s: %s", filename, SDL_GetError());
-		return NULL;
-	}
-
-	/* Add a font to the list */
-	NewFont = (BitFont *)malloc(sizeof(BitFont));
-
-	NewFont->FontSurface = SDL_ConvertSurface(Temp, format, 0);
-	SDL_FreeSurface(Temp);
-	if (!NewFont->FontSurface)
-	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Failed to convert font surface %s: %s", filename, SDL_GetError());
-		return NULL;
-	}
-
-	NewFont->CharWidth = NewFont->FontSurface->w / 32;
-	NewFont->CharHeight = NewFont->FontSurface->h / 8;
-
-	/* Set font transparency. The assumption we'll go on is that the first pixel of the font image
-	 *  will be the color we should treat as transparent.
-	 */
-	Uint8 r, g, b;
-	SDL_GetRGB(BF_GetPixel(NewFont->FontSurface, 0, 0), NewFont->FontSurface->format, &r, &g, &b);
-	SDL_SetColorKey(NewFont->FontSurface, SDL_TRUE, SDL_MapRGB(NewFont->FontSurface->format, r, g, b));
-
-	// load the default UTF8 translation map (for CP437)
-	const char *BitFontDefaultMap = " ☺☻♥♦♣♠•◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~⌂ÇüéâäàåçêëèïîìÄÅÉæÆôöòûùÿÖÜ¢£¥₧ƒáíóúñÑªº¿⌐¬½¼¡«»░▒▓│┤╡╢╖╕╣║╗╝╜╛┐└┴┬├─┼╞╟╚╔╩╦╠═╬╧╨╤╥╙╘╒╓╫╪┘┌█▄▌▐▀αßΓπΣσµτΦΘΩδ∞φε∩≡±≥≤⌠⌡÷≈°∙·√ⁿ²■";
-	BF_LoadMap(NewFont, BitFontDefaultMap);
-
-	return NewFont;
-}
-
-void BF_RenderText(BitFont *font, const char *text, SDL_Surface *surface, int x, int y)
-{
-	SDL_Rect SourceRect, DestRect;
-
-	if (!font)
-	{
-		SDL_LogError(SDL_LOG_CATEGORY_ERROR, "No font provided, cannot render text.");
-		return;
-	}
-
-	// don't draw if the area is outside of the surface. That was easy!
-	if (x > surface->w || y > surface->h)
-		return;
-
-	/*
-		int characters;
-		if (strlen(text) < (surface->w - x) / font->CharWidth)
-			characters = strlen(text);
-		else
-			characters = (surface->w - x) / font->CharWidth;
-	*/
-	DestRect.x = x;
-	DestRect.y = y;
-	DestRect.w = font->CharWidth;
-	DestRect.h = font->CharHeight;
-
-	SourceRect.y = 0;
-	SourceRect.w = font->CharWidth;
-	SourceRect.h = font->CharHeight;
-
-	/* see how many characters can fit on the screen */
-	int max_characters = (surface->w - x) / font->CharWidth;
-
-	/* Now draw it */
-	int text_length = strlen(text);
-
-	int loop = 0;
-	int character = 0;
-	while (loop < text_length && character < max_characters)
-	{
-		u8chr_t ch;
-		loop += u8next(&text[loop], &ch);
-		int current = BF_GetMapIndex(font, u8decode(ch));
-		character++;
-
-		SourceRect.x = (current % 32) * font->CharWidth;
-		SourceRect.y = (current / 32) * font->CharHeight;
-
-		SDL_BlitSurface(font->FontSurface, &SourceRect, surface, &DestRect);
-		DestRect.x += font->CharWidth;
-	}
-
-	/*
-		int loop;
-		int current;
-		for (loop = 0; loop < characters; loop++)
-		{
-			current = text[loop];
-			if (current < 0 || current > 255)
-			{
-				// SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Unknown character code: %i", current);
-				current = 0;
-			}
-			// SourceRect.x = string[loop] * CurrentFont->CharWidth;
-			SourceRect.x = (current % 32) * font->CharWidth;
-			SourceRect.y = (current / 32) * font->CharHeight;
-
-			SDL_BlitSurface(font->FontSurface, &SourceRect, surface, &DestRect);
-			DestRect.x += font->CharWidth;
-		}
-	*/
-}
-void BF_CloseFont(BitFont *font)
-{
-	if (!font)
-		return;
-	SDL_FreeSurface(font->FontSurface);
-	free(font);
 }

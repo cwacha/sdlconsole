@@ -54,7 +54,7 @@ install(FILES ${extra_dist}
 
 # hack to have build/example dir contain the extra files
 # taken from https://stackoverflow.com/questions/10671916/how-to-copy-dll-files-into-the-same-folder-as-the-executable-using-cmake
-file(GLOB extra_dist *.bmp *.gif *.jpg)
+file(GLOB extra_dist *.bmp *.gif *.jpg *.png)
 add_custom_command(TARGET ConsoleExample POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy
     ${extra_dist} $<TARGET_FILE_DIR:ConsoleExample>
 )

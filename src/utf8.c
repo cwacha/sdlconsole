@@ -21,6 +21,31 @@ int u8chrisvalid(u8chr_t c)
     return 0;
 }
 
+size_t u8offset(const char *s, size_t charnum)
+{
+    size_t i = 0;
+
+    while (charnum > 0)
+    {
+        if (s[i++] & 0x80)
+        {
+            (void)(isutf(s[++i]) || isutf(s[++i]) || ++i);
+        }
+        charnum--;
+    }
+    return i;
+}
+
+void u8_dec(const char *s, size_t *i)
+{
+    (void)(isutf(s[--(*i)]) || isutf(s[--(*i)]) || isutf(s[--(*i)]) || --(*i));
+}
+
+void u8_inc(const char *s, size_t *i)
+{
+    (void)(isutf(s[++(*i)]) || isutf(s[++(*i)]) || isutf(s[++(*i)]) || ++(*i));
+}
+
 int u8next(const char *txt, u8chr_t *ch)
 {
     int len;
@@ -47,7 +72,6 @@ int u8next(const char *txt, u8chr_t *ch)
     return encoding ? len : 0;
 }
 
-// from UTF-8 encoding to Unicode Codepoint
 uint32_t u8decode(u8chr_t c)
 {
     uint32_t mask;
@@ -64,7 +88,6 @@ uint32_t u8decode(u8chr_t c)
     return c;
 }
 
-// From Unicode Codepoint to UTF-8 encoding
 u8chr_t u8encode(uint32_t codepoint)
 {
     u8chr_t c = codepoint;
@@ -81,4 +104,14 @@ u8chr_t u8encode(uint32_t codepoint)
             c |= 0xF0808080;
     }
     return c;
+}
+
+size_t u8strlen(const char *s)
+{
+    size_t count = 0;
+    while (*s)
+    {
+        count += isutf(*s++);
+    }
+    return count;
 }

@@ -86,8 +86,8 @@ extern "C"
 		int BackX, BackY;															/*! Background image x and y coords */
 		char *Prompt;																/*! Prompt displayed in command line */
 		char Command[CON_CHARS_PER_LINE + 1];										/*! current command in command line = lcommand + rcommand (Get's updated in AssembleCommand())*/
-		char RCommand[CON_CHARS_PER_LINE + 1];										/*! left hand side of cursor */
-		char LCommand[CON_CHARS_PER_LINE + 1];										/*! right hand side of cursor */
+		char RCommand[CON_CHARS_PER_LINE + 1];										/*! text to the right of the cursor */
+		char LCommand[CON_CHARS_PER_LINE + 1];										/*! text to the left of the cursor */
 		char VCommand[CON_CHARS_PER_LINE + 1];										/*! current visible command line */
 		int CursorPos;																/*! Current cursor position relative to the currently typed in command */
 		int Offset;																	/*! First visible character relative to the currently typed in command (used if command is too long to fit into console) */
@@ -172,7 +172,7 @@ extern "C"
 	/*! Internal: makes a newline (same as printf("\n") or CON_Out(console, "\n") ) */
 	extern DECLSPEC void SDLCALL CON_NewLineConsole(ConsoleInformation *console);
 	/*! Internal: shift command history (the one you can switch with the up/down keys) */
-	extern DECLSPEC void SDLCALL CON_NewLineCommand(ConsoleInformation *console);
+	extern DECLSPEC void SDLCALL CON_AddHistoryCommand(ConsoleInformation *console, const char *command);
 	/*! Internal: updates console after resize, background image change, CON_Out() etc. This function draws the upper part of the console (that holds the history) */
 	extern DECLSPEC void SDLCALL CON_UpdateConsole(ConsoleInformation *console);
 

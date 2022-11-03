@@ -33,6 +33,7 @@
 #include <stdarg.h>
 #include "DT_drawtext.h"
 #include "internal.h"
+#include "utf8.h"
 
 #ifdef HAVE_SDLIMAGE
 #include "SDL_image.h"
@@ -164,10 +165,7 @@ SDL_Event *CON_Events(SDL_Event *event)
 			case SDLK_RETURN:
 				if (strlen(Topmost->Command) > 0)
 				{
-					CON_NewLineCommand(Topmost);
-
-					/* copy the input into the past commands strings */
-					strcpy(Topmost->CommandLines[0], Topmost->Command);
+					CON_AddHistoryCommand(Topmost, Topmost->Command);
 
 					/* display the command including the prompt */
 					CON_Out(Topmost, "%s%s", Topmost->Prompt, Topmost->Command);
@@ -417,10 +415,10 @@ ConsoleInformation *CON_Init(const char *FontName, SDL_Surface *OutputSurface, i
 		newinfo->ConsoleLines[loop] = (char *)calloc(CON_CHARS_PER_LINE + 1, sizeof(char));
 		newinfo->CommandLines[loop] = (char *)calloc(CON_CHARS_PER_LINE + 1, sizeof(char));
 	}
-	memset(newinfo->Command, 0, CON_CHARS_PER_LINE + 1);
-	memset(newinfo->LCommand, 0, CON_CHARS_PER_LINE + 1);
-	memset(newinfo->RCommand, 0, CON_CHARS_PER_LINE + 1);
-	memset(newinfo->VCommand, 0, CON_CHARS_PER_LINE + 1);
+	memset(newinfo->Command, 0, sizeof(newinfo->Command));
+	memset(newinfo->LCommand, 0, sizeof(newinfo->LCommand));
+	memset(newinfo->RCommand, 0, sizeof(newinfo->RCommand));
+	memset(newinfo->VCommand, 0, sizeof(newinfo->VCommand));
 
 	CON_Out(newinfo, "Console initialised.");
 	CON_NewLineConsole(newinfo);
@@ -510,22 +508,22 @@ void CON_NewLineConsole(ConsoleInformation *console)
 }
 
 /* Increments the command lines */
-void CON_NewLineCommand(ConsoleInformation *console)
+void CON_AddHistoryCommand(ConsoleInformation *console, const char *command)
 {
-	int loop;
-	char *temp;
-
 	if (!console)
 		return;
 
+	char *temp;
 	temp = console->CommandLines[console->LineBuffer - 1];
 
-	for (loop = console->LineBuffer - 1; loop > 0; loop--)
+	for (int loop = console->LineBuffer - 1; loop > 0; loop--)
 		console->CommandLines[loop] = console->CommandLines[loop - 1];
 
 	console->CommandLines[0] = temp;
 
 	memset(console->CommandLines[0], 0, CON_CHARS_PER_LINE + 1);
+	strncpy(Topmost->CommandLines[0], command, CON_CHARS_PER_LINE + 1);
+
 	if (console->TotalCommands < console->LineBuffer - 1)
 		console->TotalCommands++;
 }
@@ -535,7 +533,6 @@ void CON_NewLineCommand(ConsoleInformation *console)
 void DrawCommandLine()
 {
 	SDL_Rect rect;
-	int x;
 	int commandbuffer;
 	static Uint32 NextBlinkTime = 0; /* time the consoles cursor blinks again */
 	static int LastCursorPos = 0;	 /* Last Cursor Position */
@@ -544,7 +541,7 @@ void DrawCommandLine()
 	if (!Topmost)
 		return;
 
-	commandbuffer = Topmost->VChars - strlen(Topmost->Prompt) - 1; /*  -1 to make cursor visible */
+	commandbuffer = Topmost->VChars - u8strlen(Topmost->Prompt) - 1; /*  -1 to make cursor visible */
 
 	/* calculate display offset from current cursor position */
 	if (Topmost->Offset < Topmost->CursorPos - commandbuffer)
@@ -585,7 +582,8 @@ void DrawCommandLine()
 
 	if (Blink)
 	{
-		x = CON_CHAR_BORDER + Topmost->FontWidth * (Topmost->CursorPos - Topmost->Offset + strlen(Topmost->Prompt));
+		int logical_position = strlen(Topmost->Prompt) + Topmost->CursorPos - Topmost->Offset;
+		int x = CON_CHAR_BORDER + Topmost->FontWidth * logical_position;
 		if (Topmost->InsMode)
 			BF_RenderText(Topmost->Font, CON_INS_CURSOR, Topmost->ConsoleSurface, x, Topmost->ConsoleSurface->h - Topmost->FontHeight);
 		else
@@ -933,31 +931,40 @@ char *Default_TabFunction(char *command)
 
 void Cursor_Left(ConsoleInformation *console)
 {
-	char temp[CON_CHARS_PER_LINE + 1];
+	char temp[sizeof(Topmost->RCommand)];
 
 	if (Topmost->CursorPos > 0)
 	{
 		Topmost->CursorPos--;
 		strcpy(temp, Topmost->RCommand);
-		strcpy(Topmost->RCommand, &Topmost->LCommand[strlen(Topmost->LCommand) - 1]);
+		size_t last = strlen(Topmost->LCommand);
+		u8_dec(Topmost->LCommand, &last);
+		// strcpy(Topmost->RCommand, &Topmost->LCommand[strlen(Topmost->LCommand) - 1]);
+		strcpy(Topmost->RCommand, &Topmost->LCommand[last]);
 		strcat(Topmost->RCommand, temp);
-		Topmost->LCommand[strlen(Topmost->LCommand) - 1] = '\0';
+		Topmost->LCommand[last] = '\0';
 		// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 	}
 }
 
 void Cursor_Right(ConsoleInformation *console)
 {
-	char temp[CON_CHARS_PER_LINE + 1];
+	char temp[sizeof(Topmost->LCommand)];
 
-	if (Topmost->CursorPos < strlen(Topmost->Command))
+	if (Topmost->CursorPos < u8strlen(Topmost->Command))
 	{
 		Topmost->CursorPos++;
 		strcpy(temp, Topmost->LCommand);
-		snprintf(Topmost->LCommand, strlen(Topmost->LCommand) + 2, "%s%c", temp, Topmost->RCommand[0]);
+		size_t idx = 0;
+		u8_inc(Topmost->RCommand, &idx);
+		// FIXME: this is not yet good...
+		if (strlen(Topmost->LCommand) + idx < sizeof(Topmost->LCommand))
+			strncat(Topmost->LCommand, Topmost->RCommand, idx);
+		// snprintf(Topmost->LCommand, strlen(Topmost->LCommand) + idx + 1, "%s%s", temp, Topmost->RCommand);
+		//  snprintf(Topmost->LCommand, strlen(Topmost->LCommand) + 2, "%s%c", temp, Topmost->RCommand[0]);
 
 		strcpy(temp, Topmost->RCommand);
-		strcpy(Topmost->RCommand, &temp[1]);
+		strcpy(Topmost->RCommand, &temp[idx]);
 		// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 	}
 }
@@ -966,15 +973,15 @@ void Cursor_Home(ConsoleInformation *console)
 {
 	Topmost->CursorPos = 0;
 	strcpy(Topmost->RCommand, Topmost->Command);
-	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE + 1);
+	memset(Topmost->LCommand, 0, sizeof(Topmost->LCommand));
 	// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 }
 
 void Cursor_End(ConsoleInformation *console)
 {
-	Topmost->CursorPos = strlen(Topmost->Command);
+	Topmost->CursorPos = u8strlen(Topmost->Command);
 	strcpy(Topmost->LCommand, Topmost->Command);
-	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE + 1);
+	memset(Topmost->RCommand, 0, sizeof(Topmost->RCommand));
 	// CON_Out(Topmost, "L:%s | R:%s", Topmost->LCommand, Topmost->RCommand);
 }
 
@@ -984,8 +991,11 @@ void Cursor_Del(ConsoleInformation *console)
 
 	if (strlen(Topmost->RCommand) > 0)
 	{
+		size_t idx = 0;
+		u8_inc(Topmost->RCommand, &idx);
+		// int length = u8next(Topmost->RCommand, NULL);
 		strcpy(temp, Topmost->RCommand);
-		strcpy(Topmost->RCommand, &temp[1]);
+		strcpy(Topmost->RCommand, &temp[idx]);
 		Assemble_Command(console);
 	}
 }
@@ -998,7 +1008,9 @@ void Cursor_BSpace(ConsoleInformation *console)
 		Topmost->Offset--;
 		if (Topmost->Offset < 0)
 			Topmost->Offset = 0;
-		Topmost->LCommand[strlen(Topmost->LCommand) - 1] = '\0';
+		size_t idx = strlen(Topmost->LCommand);
+		u8_dec(Topmost->LCommand, &idx);
+		Topmost->LCommand[idx] = '\0';
 		Assemble_Command(console);
 	}
 }
@@ -1006,14 +1018,15 @@ void Cursor_BSpace(ConsoleInformation *console)
 void Cursor_Add(ConsoleInformation *console, SDL_TextInputEvent *event)
 {
 	char *text = event->text;
+	size_t text_length = u8strlen(text);
 
 	/* Again: the commandline has to hold the command and the cursor (+1) */
-	if (strlen(Topmost->Command) + 1 < CON_CHARS_PER_LINE && SDL_strlen(text) > 0)
+	if (strlen(Topmost->Command) + 1 < CON_CHARS_PER_LINE && text_length > 0)
 	{
-		Topmost->CursorPos += SDL_strlen(text);
+		Topmost->CursorPos += text_length;
 		// strcpy(temp, Topmost->LCommand);
 		// snprintf(Topmost->LCommand, strlen(Topmost->LCommand) + 2, "%s%s", temp, text);
-		SDL_strlcat(Topmost->LCommand, text, CON_CHARS_PER_LINE + 1);
+		strncat(Topmost->LCommand, text, sizeof(Topmost->LCommand) - strlen(Topmost->LCommand) - 1);
 		Assemble_Command(console);
 	}
 }
@@ -1021,16 +1034,16 @@ void Cursor_Add(ConsoleInformation *console, SDL_TextInputEvent *event)
 void Clear_Command(ConsoleInformation *console)
 {
 	Topmost->CursorPos = 0;
-	memset(Topmost->VCommand, 0, CON_CHARS_PER_LINE + 1);
-	memset(Topmost->Command, 0, CON_CHARS_PER_LINE + 1);
-	memset(Topmost->LCommand, 0, CON_CHARS_PER_LINE + 1);
-	memset(Topmost->RCommand, 0, CON_CHARS_PER_LINE + 1);
+	memset(Topmost->VCommand, 0, sizeof(Topmost->VCommand));
+	memset(Topmost->Command, 0, sizeof(Topmost->Command));
+	memset(Topmost->LCommand, 0, sizeof(Topmost->LCommand));
+	memset(Topmost->RCommand, 0, sizeof(Topmost->RCommand));
 }
 
 void Assemble_Command(ConsoleInformation *console)
 {
 	/* Concatenate the left and right side to command */
-	snprintf(Topmost->Command, CON_CHARS_PER_LINE + 1, "%s%s", Topmost->LCommand, Topmost->RCommand);
+	snprintf(Topmost->Command, sizeof(Topmost->Command), "%s%s", Topmost->LCommand, Topmost->RCommand);
 }
 
 void Clear_History(ConsoleInformation *console)
@@ -1055,7 +1068,7 @@ void Command_Up(ConsoleInformation *console)
 
 		console->Offset = 0;
 		strcpy(console->LCommand, console->CommandLines[console->CommandScrollBack]);
-		console->CursorPos = strlen(console->CommandLines[console->CommandScrollBack]);
+		console->CursorPos = u8strlen(console->CommandLines[console->CommandScrollBack]);
 		Assemble_Command(console);
 	}
 }
@@ -1075,7 +1088,7 @@ void Command_Down(ConsoleInformation *console)
 		console->Offset = 0;
 		if (console->CommandScrollBack > -1)
 			strcpy(console->LCommand, console->CommandLines[console->CommandScrollBack]);
-		console->CursorPos = strlen(console->LCommand);
+		console->CursorPos = u8strlen(console->LCommand);
 		Assemble_Command(console);
 	}
 }
